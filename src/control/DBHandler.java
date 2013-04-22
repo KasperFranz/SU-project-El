@@ -4,11 +4,13 @@
  */
 package control;
 
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Employee;
@@ -26,6 +28,7 @@ public class DBHandler {
     private String host;
     private String port;
     private String dbName;
+    private ArrayList<Employee> employeeList;
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
         this.conn = conn;
@@ -37,9 +40,18 @@ public class DBHandler {
         this.dbName = dbName;
 
     }
-    
-    public DBHandler(){
-        
+
+    public DBHandler() {
+    }
+
+    public DBHandler(String user, String pw, String host, String port, String dbName) throws SQLException {
+        this.user = user;
+        this.pw = pw;
+        this.host = host;
+        this.port = port;
+        this.dbName = dbName;
+        connect();
+
     }
 
     private boolean connect() throws SQLException {
@@ -50,24 +62,76 @@ public class DBHandler {
         try {
             conn = (Connection) DriverManager.getConnection(connString, user, pw);
             stmt = (Statement) conn.createStatement();
+
         } catch (Exception ex) {
             connected = false;
         }
-
+        System.out.println("Connected " + connected);
         return connected;
+
+    }
+
+    public boolean correctPassword(String username, String password) throws SQLException {
+        boolean correctPassword = false;
+        String query = "SELECT COUNT(*) as total FROM employee WHERE Username = '" + username + "' AND Password = '" + password + "'";
+        System.out.println(query);
+        ResultSet rs = stmt.executeQuery(query);
+
+        while (rs.next()) {
+            if (rs.getInt("total") == 1) {
+                correctPassword = true;
+            }
+        }
+        rs.close();
+        return correctPassword;
     }
 
     public Employee retrieveUser(String username) throws SQLException {
-
+        Employee user = null;
         String query = "SELECT * FROM employee WHERE Username = username;";
-        ResultSet rs = stmt.executeQuery(query);
-        String name = rs.getString("Fullname");
-        String pass = rs.getString("password");
-        int accessLevel = rs.getInt("accessLevel");
 
-        Employee user = new Employee(username, name, pass, accessLevel);
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            String name = rs.getString("Fullname");
+            String pass = rs.getString("password");
+            int accessLevel = rs.getInt("accessLevel");
+
+            user = new Employee(username, name, pass, accessLevel);
+
+        }
 
         return user;
+
+    }
+  
+    public boolean insertEmployee(Employee employee){
+        boolean inserted = false;
+        
+        String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
+                + "Values ('"+employee.getUsername()+"', '"+employee.getName()+"','"+employee.getAccessLevel()+"','"+employee.getPassword()+")";
+
+        ResultSet rs = stmt.executeQuery(query);
+        
+        
+        
+    }
+
+    public ArrayList<Employee> retrieveAllUsers() throws SQLException {
+        employeeList = new ArrayList<>();
+        String query = "SELECT * FROM employee";
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            String name = rs.getString("Fullname");
+            String username = rs.getString("Username");
+            String password = rs.getString("Password");
+            int al = rs.getInt("Accesslevel");
+
+            Employee user = new Employee(username, name, password, al);
+            System.out.println(name + username);
+
+            employeeList.add(user);
+        }
+        return employeeList;
 
     }
 

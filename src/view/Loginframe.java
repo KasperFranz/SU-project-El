@@ -1,30 +1,22 @@
 package view;
 
 import control.DBHandler;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import model.Employee;
 
 public class Loginframe extends javax.swing.JFrame {
 
-  
-    public Loginframe() {
+    private DBHandler dbhandler;
+
+    public Loginframe() throws SQLException {
+        dbhandler = new DBHandler("dat11-14_su_el", "aqR5FYEtt7q8V2HV", "hd-it.dk", "3306", "dat11-14_su_el");
         initComponents();
-        
-        
     }
 
- 
-    private boolean checkUser(Employee employee){
-        
-        // validerer de indtastede bruger oplysninger ud fra et DB kald
-        
-        
-       return true; 
-    }
-    
-    private void initiateHandlers(){
-        
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -96,14 +88,23 @@ public class Loginframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        final Employee HARDCODED_USER_FOR_TEST = new Employee("testUser", "TEST", "test", 1);
-        
-        // indsæt validering af bruger her
-        
-        Mainframe mf = new Mainframe(HARDCODED_USER_FOR_TEST);
-        mf.setVisible(true);
-    }//GEN-LAST:event_loginButtonActionPerformed
+        try {     
+            String username = usernameTextField.getText();
+            String password = passwordTextField.getText();
+            if (password.equals("") || username.equals("")) {
+              JOptionPane.showMessageDialog(this, "Udfyld venligt begge felter","Login fejl",JOptionPane.ERROR_MESSAGE);
+            }else if (dbhandler.correctPassword(username, password)) {
+               Employee login = dbhandler.retrieveUser(username); 
+                Mainframe mf = new Mainframe(login, dbhandler);
+                mf.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "YOU FAILED!","Login fejl",JOptionPane.ERROR_MESSAGE);
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(Loginframe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_loginButtonActionPerformed
 //    /**
 //     * @param args the command line arguments
 //     */

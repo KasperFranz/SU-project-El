@@ -4,6 +4,8 @@
  */
 package view;
 
+import control.DBHandler;
+import java.sql.SQLException;
 import model.Employee;
 
 /**
@@ -13,11 +15,12 @@ import model.Employee;
 public class Mainframe extends javax.swing.JFrame {
 
     private Employee activeUser;
+    private DBHandler dbhandler;
     /**
      * Creates new form Mainframe
      */
-    public Mainframe(Employee user) {
-        
+    public Mainframe(Employee user, DBHandler dbhandler) throws SQLException {
+        this.dbhandler = dbhandler;
         activeUser = user;
         
         initComponents();
@@ -25,7 +28,7 @@ public class Mainframe extends javax.swing.JFrame {
     }
 
     
-    private void initiateFrames(){
+    private void initiateFrames() throws SQLException{
         
         WelcomePanel welcome = new WelcomePanel();
         mainframeTabbedPane.addTab("   Forside   ", welcome);
@@ -33,7 +36,7 @@ public class Mainframe extends javax.swing.JFrame {
         SettingsPanel settings = new SettingsPanel();
         mainframeTabbedPane.addTab("   Indstillinger   "   , settings);
         
-        StaffPanel staff = new StaffPanel();
+        StaffPanel staff = new StaffPanel(dbhandler);
         mainframeTabbedPane.addTab("   Personale   "   , staff);
         
        

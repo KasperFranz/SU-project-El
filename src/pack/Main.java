@@ -4,6 +4,7 @@
  */
 package pack;
 
+import java.sql.SQLException;
 import view.Loginframe;
 import view.Mainframe;
 
@@ -16,7 +17,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         
         Loginframe login = new Loginframe();
         login.setVisible(true);

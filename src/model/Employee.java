@@ -6,13 +6,22 @@ public class Employee {
     private String name;
     private String password;
     private int accessLevel;
-
+/*
+ Access Level er 0-2
+ * 0 = ansat
+ * 1 = Overmontør
+ * 2 = Admin
+ 
+ */
     public Employee(String username, String name, String password, int accessLevel) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.accessLevel = accessLevel;
     }
+    
+
+         
 
     public String getUsername() {
         return username;
@@ -44,6 +53,11 @@ public class Employee {
 
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    @Override
+    public String toString() {
+        return username + ", " + name + ", " + accessLevel;
     }
     
     
