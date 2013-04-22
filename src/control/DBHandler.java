@@ -104,15 +104,18 @@ public class DBHandler {
 
     }
   
-    public boolean insertEmployee(Employee employee){
+    public boolean insertEmployee(Employee employee) throws SQLException{
         boolean inserted = false;
         
         String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
                 + "Values ('"+employee.getUsername()+"', '"+employee.getName()+"','"+employee.getAccessLevel()+"','"+employee.getPassword()+")";
 
-        ResultSet rs = stmt.executeQuery(query);
         
-        
+      int result = stmt.executeUpdate(query);
+      if(result != 0){
+          inserted = true;
+      }
+      return inserted;  
         
     }
 
