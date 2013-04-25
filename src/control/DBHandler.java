@@ -49,6 +49,7 @@ public class DBHandler {
         this.host = host;
         this.port = port;
         this.dbName = dbName;
+        connect();
         
 
     }
