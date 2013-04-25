@@ -14,7 +14,10 @@ public class Loginframe extends javax.swing.JFrame {
 
     public Loginframe() throws SQLException {
         dbhandler = new DBHandler("dat11-14_su_el", "aqR5FYEtt7q8V2HV", "hd-it.dk", "3306", "dat11-14_su_el");
+        
         initComponents();
+                checkDBHandler();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -147,4 +150,14 @@ public class Loginframe extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
+
+    private void checkDBHandler() {
+     if(!dbhandler.isConnected()){
+         System.out.println("ERROR!!!!!!!!!!!"); 
+         loginButton.setEnabled(false);
+        JOptionPane.showMessageDialog(this, "Du har ikke forbindelse til databasen,\n"
+                + "for at programmet virker ska du have internet adgang,\n"
+                + " hvis du har internetadgang og stadig får denne fejl kontakt venligst din mester.","Login fejl",JOptionPane.ERROR_MESSAGE);
+     }
+    }
 }

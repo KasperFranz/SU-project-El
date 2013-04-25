@@ -29,6 +29,7 @@ public class DBHandler {
     private String port;
     private String dbName;
     private ArrayList<Employee> employeeList;
+    private boolean connected;
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
         this.conn = conn;
@@ -41,8 +42,6 @@ public class DBHandler {
 
     }
 
-    public DBHandler() {
-    }
 
     public DBHandler(String user, String pw, String host, String port, String dbName) throws SQLException {
         this.user = user;
@@ -50,13 +49,13 @@ public class DBHandler {
         this.host = host;
         this.port = port;
         this.dbName = dbName;
-        connect();
+        
 
     }
 
     private boolean connect() throws SQLException {
 
-        boolean connected = true;
+         connected = true;
         String connString = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
 
         try {
@@ -192,5 +191,9 @@ public class DBHandler {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }
