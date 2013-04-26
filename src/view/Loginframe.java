@@ -4,7 +4,6 @@ import control.DBHandler;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import model.Employee;
 
@@ -41,6 +40,10 @@ public class Loginframe extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+
+        usernameTextField.setText("Test");
+
+        passwordTextField.setText("Test");
 
         jLabel1.setText("Brugernavn");
 
