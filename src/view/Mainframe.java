@@ -7,6 +7,7 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import model.Employee;
+import testPackage.CalendarPanelTest;
 
 /**
  *
@@ -38,6 +39,10 @@ public class Mainframe extends javax.swing.JFrame {
         
         StaffPanel staff = new StaffPanel(dbhandler);
         mainframeTabbedPane.addTab("   Personale   "   , staff);
+        
+//////////////////////////// FOR TEST PURPOSES //////////////////////////////////
+        CalendarPanelTest testCalendar = new CalendarPanelTest(dbhandler);
+        mainframeTabbedPane.addTab("   Calendar test   ", testCalendar);
         
        
     }
