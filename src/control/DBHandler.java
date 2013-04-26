@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CalendarItem;
 import model.Employee;
 
 /**
@@ -29,6 +30,7 @@ public class DBHandler {
     private String port;
     private String dbName;
     private ArrayList<Employee> employeeList;
+    private ArrayList<CalendarItem> calendarItemList;
     private boolean connected;
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
@@ -150,6 +152,21 @@ public class DBHandler {
             employeeList.add(user);
         }
         return employeeList;
+
+    }
+        public ArrayList<CalendarItem> retrieveAllCalendarItems() throws SQLException {
+        calendarItemList = new ArrayList<>();
+        String query = "SELECT * FROM worksheet";
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            long time = rs.getLong("");
+            String text = rs.getString("");
+            CalendarItem calendarItem = new CalendarItem(time, text);
+            System.out.println(time + " " + text); 
+            
+            calendarItemList.add(calendarItem);
+        }
+        return calendarItemList;
 
     }
 
