@@ -7,6 +7,8 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Employee;
 
@@ -16,30 +18,43 @@ import model.Employee;
  */
 public class StaffPanel extends javax.swing.JPanel {
 
-   private DBHandler dbHandler;
-   private DefaultListModel employeeListModel;
-    
+    private DBHandler dbHandler;
+    private DefaultListModel employeeListModel;
+    private final String UPDATEUSERBUTTONTEXT = "Opdater bruger";
+    private final String SAVEUSERBUTTONTEXT = "Gem bruger";
+
     /**
      * Creates new form Settings
      */
     public StaffPanel(DBHandler dbHandler) throws SQLException {
         this.dbHandler = dbHandler;
         employeeListModel = new DefaultListModel();
-        
+
         loadEmployee();
 
         initComponents();
     }
-    
-     private void loadEmployee() throws SQLException {
-         employeeListModel.clear();
-         ArrayList<Employee> employees = dbHandler.retrieveAllUsers();
-         for (int i = 0; i < employees.size(); i++) {
-             employeeListModel.addElement(employees.get(i));
-         }
-         
-  
+
+    private void loadEmployee() throws SQLException {
+        int oldSelection = -1;
+        try {
+            oldSelection = employeeList.getSelectedIndex();
+            employeeList.clearSelection();
+
+        } catch (NullPointerException ex) {
+            System.out.println("Vi ved der kommer en null point exception");
+        }
+        employeeListModel.clear();
+        ArrayList<Employee> employees = dbHandler.retrieveAllUsers();
+        for (int i = 0; i < employees.size(); i++) {
+            employeeListModel.addElement(employees.get(i));
+        }
+        if (oldSelection >= 0) {
+            employeeList.setSelectedIndex(oldSelection);
+        }
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,20 +75,20 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         oldEmployeeUsername = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        updateUserDetails = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         oldEmployeeAccesslevelBox = new javax.swing.JComboBox();
         oldEmployeePassword = new javax.swing.JPasswordField();
-        jPanel2 = new javax.swing.JPanel();
+        newUserPanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        newEmployeeName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        newEmployeeUsername = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        newEmployeePassword = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        newEmployeeAccesslevelBox = new javax.swing.JComboBox();
 
         jLabel1.setText("BorderTestLabel");
 
@@ -100,7 +115,12 @@ public class StaffPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Kodeord:");
 
-        jButton1.setText("Opdater bruger");
+        updateUserDetails.setText(UPDATEUSERBUTTONTEXT);
+        updateUserDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateUserDetailsActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Adgangsniveau:");
 
@@ -127,7 +147,7 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(oldEmployeePassword, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateUserDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(oldEmployeeUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -156,11 +176,11 @@ public class StaffPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(oldEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateUserDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(89, 89, 89))))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Opret ny bruger"));
+        newUserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Opret ny bruger"));
 
         jLabel7.setText("Navn:");
 
@@ -169,51 +189,58 @@ public class StaffPanel extends javax.swing.JPanel {
         jLabel9.setText("Kodeord:");
 
         jButton2.setText("Registrer bruger");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Adgangsniveau:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        newEmployeeAccesslevelBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ansat", "Overmontør", "Admin" }));
+
+        javax.swing.GroupLayout newUserPanelLayout = new javax.swing.GroupLayout(newUserPanel);
+        newUserPanel.setLayout(newUserPanelLayout);
+        newUserPanelLayout.setHorizontalGroup(
+            newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newUserPanelLayout.createSequentialGroup()
                 .addContainerGap(166, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(139, 139, 139))
+            .addGroup(newUserPanelLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newEmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addGroup(newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(newEmployeePassword, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(newEmployeeUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11)
+                    .addComponent(newEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        newUserPanelLayout.setVerticalGroup(
+            newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newUserPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newEmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newEmployeeUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newEmployeePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
+                .addGap(18, 18, 18)
+                .addComponent(newEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(90, Short.MAX_VALUE))
         );
@@ -233,7 +260,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addGap(38, 38, 38)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -243,7 +270,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -252,19 +279,38 @@ public class StaffPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void employeeListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_employeeListValueChanged
-
-        Employee g = (Employee) employeeList.getSelectedValue();
-       System.out.println(g.getPassword());
-       
-       oldEmployeeName.setText(g.getName());
-       oldEmployeePassword.setText(g.getPassword());
-       oldEmployeeUsername.setText(g.getUsername());
-       oldEmployeeAccesslevelBox.setSelectedIndex(g.getAccessLevel());
+        if (employeeList.getSelectedIndex() >= 0) {
+            Employee g = (Employee) employeeList.getSelectedValue();
+            oldEmployeeName.setText(g.getName());
+            oldEmployeePassword.setText(g.getPassword());
+            oldEmployeeUsername.setText(g.getUsername());
+            oldEmployeeAccesslevelBox.setSelectedIndex(g.getAccessLevel());
+            if (!updateUserDetails.getText().equals(UPDATEUSERBUTTONTEXT)) {
+                updateUserDetails.setText(UPDATEUSERBUTTONTEXT);
+                changeEmployeeButtonState(false);
+            }
+        }
     }//GEN-LAST:event_employeeListValueChanged
 
+    private void updateUserDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUserDetailsActionPerformed
+        boolean currentState;
+        if (updateUserDetails.getText().equals(UPDATEUSERBUTTONTEXT)) {
+            currentState = true;
+            updateUserDetails.setText(SAVEUSERBUTTONTEXT);
+        } else {
+            currentState = false;
+            updateUserDetails.setText(UPDATEUSERBUTTONTEXT);
+        }
+        updateUserDetails.setText(SAVEUSERBUTTONTEXT);
+
+        changeEmployeeButtonState(currentState);
+    }//GEN-LAST:event_updateUserDetailsActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        insertUser();
+    }//GEN-LAST:event_jButton2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList employeeList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -278,17 +324,71 @@ public class StaffPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JComboBox newEmployeeAccesslevelBox;
+    private javax.swing.JTextField newEmployeeName;
+    private javax.swing.JTextField newEmployeePassword;
+    private javax.swing.JTextField newEmployeeUsername;
+    private javax.swing.JPanel newUserPanel;
     private javax.swing.JComboBox oldEmployeeAccesslevelBox;
     private javax.swing.JTextField oldEmployeeName;
     private javax.swing.JPasswordField oldEmployeePassword;
     private javax.swing.JTextField oldEmployeeUsername;
+    private javax.swing.JButton updateUserDetails;
     // End of variables declaration//GEN-END:variables
 
-   
+    private void changeEmployeeButtonState(boolean StateNow) {
+
+
+        System.out.println("Changes to" + !StateNow);
+        oldEmployeeName.setEditable(StateNow);
+        oldEmployeeName.setEnabled(StateNow);
+        oldEmployeePassword.setEditable(StateNow);
+        oldEmployeePassword.setEnabled(StateNow);
+
+        oldEmployeeAccesslevelBox.setEnabled(StateNow);
+        if (!StateNow) {
+            UpdateUser();
+        }
+    }
+
+    private void UpdateUser() {
+        if (oldEmployeeName.getText().isEmpty() || oldEmployeePassword.getText().isEmpty() || oldEmployeeUsername.getText().isEmpty()) {
+            System.out.println("UDFYLD ALLE FELTER!");
+        } else {
+            try {
+                Employee oldEmployee = (Employee) employeeList.getSelectedValue();
+                oldEmployee.setPassword(oldEmployeePassword.getText());
+                oldEmployee.setName(oldEmployeeName.getText());
+                oldEmployee.setAccessLevel(oldEmployeeAccesslevelBox.getSelectedIndex());
+
+                dbHandler.updateEmployee(oldEmployee);
+                loadEmployee();
+            } catch (SQLException ex) {
+                System.out.println("WE GOT A ERROR ON THE UPDATE SCRIPT\n" + ex);
+            }
+        }
+    }
+
+    private void insertUser() {
+        if (newEmployeePassword.getText().isEmpty() || newEmployeeName.getText().isEmpty() || newEmployeeUsername.getText().isEmpty()) {
+            System.out.println("UDFYLD ALLE FELTER");
+        } else {
+            try {
+                Employee newEmployee = new Employee(newEmployeeUsername.getText(), newEmployeeName.getText(), newEmployeePassword.getText(), newEmployeeAccesslevelBox.getSelectedIndex());
+                dbHandler.insertEmployee(newEmployee);
+                loadEmployee();
+                clearNewEmployee();
+            } catch (SQLException ex) {
+                System.out.println("WE GOT A ERROR ON THE INSERT SCRIPT\n" + ex);
+            }
+        }
+    }
+
+    private void clearNewEmployee() {
+        newEmployeeAccesslevelBox.setSelectedIndex(0);
+        newEmployeeName.setText("");
+        newEmployeePassword.setText("");
+        newEmployeeUsername.setText("");
+    }
 }

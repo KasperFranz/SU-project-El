@@ -108,7 +108,9 @@ public class DBHandler {
         boolean inserted = false;
         
         String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
-                + "Values ('"+employee.getUsername()+"', '"+employee.getName()+"','"+employee.getAccessLevel()+"','"+employee.getPassword()+")";
+                + "Values ('"+employee.getUsername()+"', '"+employee.getName()+"','"+employee.getAccessLevel()+"','"+employee.getPassword()+"')";
+        
+        System.out.println(query);
 
         
       int result = stmt.executeUpdate(query);
@@ -116,6 +118,19 @@ public class DBHandler {
           inserted = true;
       }
       return inserted;  
+        
+    } 
+    
+    public boolean updateEmployee(Employee employee) throws SQLException{
+        boolean updated = false;
+        
+        String query = "Update employee SET Password = '"+employee.getPassword()+ "', Fullname = '"+employee.getName()+"', Accesslevel = '"+employee.getAccessLevel()+"' WHERE username = '"+ employee.getUsername() + "'";
+        
+        int result = stmt.executeUpdate(query);
+        if(result != 0){
+           updated = true;
+        }
+        return updated;
         
     }
 
