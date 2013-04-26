@@ -42,7 +42,7 @@ public class StaffPanel extends javax.swing.JPanel {
             employeeList.clearSelection();
 
         } catch (NullPointerException ex) {
-            System.out.println("Vi ved der kommer en null point exception");
+            System.out.println("Vi ved der kommer en null point exception ved EmployeeList");
         }
         employeeListModel.clear();
         ArrayList<Employee> employees = dbHandler.retrieveAllUsers();

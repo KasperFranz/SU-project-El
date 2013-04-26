@@ -33,14 +33,19 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             calendarItemList.clearSelection();
 
         } catch (NullPointerException ex) {
-            System.out.println("Vi ved der kommer en null point exception");
+            System.out.println("Vi ved der kommer en null point exception ved CalendarItem");
         }
         calendarItemListModel.clear();
+        System.out.println("1!");
         ArrayList<CalendarItem> calendarItems = dbHandler.retrieveAllCalendarItems();
+        System.out.println("size = " +calendarItems.size());
+        
         for (int i = 0; i < calendarItems.size(); i++) {
             calendarItemListModel.addElement(calendarItems.get(i));
+            System.out.println("2!");
         }
         if (oldSelection >= 0) {
+            System.out.println("3!");
             calendarItemList.setSelectedIndex(oldSelection);
         }
     }
