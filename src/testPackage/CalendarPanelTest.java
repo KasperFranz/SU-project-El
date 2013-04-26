@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package testPackage;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,13 +12,13 @@ import model.CalendarItem;
  *
  * @author Nikolaj
  */
-public class CalendarPanel extends javax.swing.JPanel {
+public class CalendarPanelTest extends javax.swing.JPanel {
     private DBHandler dbHandler;
     private DefaultListModel calendarItemListModel;
     /**
-     * Creates new form CalendarPanel
+     * Creates new form CalendarPanelTest
      */
-    public CalendarPanel(DBHandler dbHandler) throws SQLException{
+    public CalendarPanelTest(DBHandler dbHandler) throws SQLException{
         calendarItemListModel = new DefaultListModel();
         this.dbHandler = dbHandler;
         loadCalendarItems();
