@@ -6,7 +6,6 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -15,17 +14,20 @@ import java.util.Date;
 public class CalendarItem {
 
     long time;
-    String text;
+    String customerName, customerAdress, customerPhone, jobDescription;
     Employee employee;
 
-    public CalendarItem(long time, String text, Employee employee) {
-        this.employee = employee;
-        this.text = text;
+    public CalendarItem(long time, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee) {
         this.time = time;
+        this.customerName = customerName;
+        this.customerAdress = customerAdress;
+        this.customerPhone = customerPhone;
+        this.jobDescription = jobDescription;
+        this.employee = employee;
     }
-
-    public CalendarItem(long time, String text) {
-        this.text = text;
+    
+    public CalendarItem(long time, String jobDescription) {
+        this.jobDescription = jobDescription;
         this.time = time;
     }
 
@@ -45,7 +47,7 @@ public class CalendarItem {
         } else {
             tempEmployee = employee.toString();
         }
-        return getTimeTxt() + " " + text + " - " + tempEmployee;
+        return getTimeTxt() + " " + jobDescription + " - " + tempEmployee;
     }
 
     public long getTime() {
@@ -56,15 +58,15 @@ public class CalendarItem {
         this.time = time;
     }
 
-    public String getText() {
-        return text;
+    public String getJobDescription() {
+        return jobDescription;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 
-    public Employee getEmployee() {
+      public Employee getEmployee() {
         return employee;
     }
 
