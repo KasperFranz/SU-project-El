@@ -6,19 +6,21 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  * @author Kasper
  */
 public class CalendarItem {
+    private int orderId;
+    private Date timeOfJob;
+    private String customerName, customerAdress, customerPhone, jobDescription;
+    private Employee employee;
 
-    long time;
-    String customerName, customerAdress, customerPhone, jobDescription;
-    Employee employee;
-
-    public CalendarItem(long time, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee) {
-        this.time = time;
+    public CalendarItem(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee) {
+        this.orderId = orderId;
+        this.timeOfJob = timeOfJob;
         this.customerName = customerName;
         this.customerAdress = customerAdress;
         this.customerPhone = customerPhone;
@@ -26,9 +28,18 @@ public class CalendarItem {
         this.employee = employee;
     }
     
-    public CalendarItem(long time, String jobDescription) {
+        public CalendarItem(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription) {
+        this.orderId = orderId;
+        this.timeOfJob = timeOfJob;
+        this.customerName = customerName;
+        this.customerAdress = customerAdress;
+        this.customerPhone = customerPhone;
         this.jobDescription = jobDescription;
-        this.time = time;
+    }
+
+    public CalendarItem(Date timeOfJob, String jobDescription) {
+        this.jobDescription = jobDescription;
+        this.timeOfJob = timeOfJob;
     }
 
     private String getTimeTxt() {
@@ -50,13 +61,46 @@ public class CalendarItem {
         return getTimeTxt() + " " + jobDescription + " - " + tempEmployee;
     }
 
-    public long getTime() {
-        return time;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
+
+    public Date getTimeOfJob() {
+        return timeOfJob;
+    }
+
+    public void setTimeOfJob(Date timeOfJob) {
+        this.timeOfJob = timeOfJob;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerAdress() {
+        return customerAdress;
+    }
+
+    public void setCustomerAdress(String customerAdress) {
+        this.customerAdress = customerAdress;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
 
     public String getJobDescription() {
         return jobDescription;
@@ -66,13 +110,11 @@ public class CalendarItem {
         this.jobDescription = jobDescription;
     }
 
-      public Employee getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-    
-    
 }
