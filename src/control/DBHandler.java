@@ -4,15 +4,15 @@
  */
 package control;
 
-
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
+import java.util.Date;
 import model.CalendarItem;
 import model.Employee;
 
@@ -30,7 +30,6 @@ public class DBHandler {
     private String port;
     private String dbName;
     private ArrayList<Employee> employeeList;
-    private ArrayList<CalendarItem> calendarItemList;
     private boolean connected;
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
@@ -44,7 +43,6 @@ public class DBHandler {
 
     }
 
-
     public DBHandler(String user, String pw, String host, String port, String dbName) throws SQLException {
         this.user = user;
         this.pw = pw;
@@ -52,13 +50,13 @@ public class DBHandler {
         this.port = port;
         this.dbName = dbName;
         connect();
-        
+
 
     }
 
     private boolean connect() throws SQLException {
 
-         connected = true;
+        connected = true;
         String connString = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
 
         try {
@@ -105,35 +103,35 @@ public class DBHandler {
         return user;
 
     }
-  
-    public boolean insertEmployee(Employee employee) throws SQLException{
+
+    public boolean insertEmployee(Employee employee) throws SQLException {
         boolean inserted = false;
-        
+
         String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
-                + "Values ('"+employee.getUsername()+"', '"+employee.getName()+"','"+employee.getAccessLevel()+"','"+employee.getPassword()+"')";
-        
+                + "Values ('" + employee.getUsername() + "', '" + employee.getName() + "','" + employee.getAccessLevel() + "','" + employee.getPassword() + "')";
+
         System.out.println(query);
 
-        
-      int result = stmt.executeUpdate(query);
-      if(result != 0){
-          inserted = true;
-      }
-      return inserted;  
-        
-    } 
-    
-    public boolean updateEmployee(Employee employee) throws SQLException{
-        boolean updated = false;
-        
-        String query = "Update employee SET Password = '"+employee.getPassword()+ "', Fullname = '"+employee.getName()+"', Accesslevel = '"+employee.getAccessLevel()+"' WHERE username = '"+ employee.getUsername() + "'";
-        
+
         int result = stmt.executeUpdate(query);
-        if(result != 0){
-           updated = true;
+        if (result != 0) {
+            inserted = true;
+        }
+        return inserted;
+
+    }
+
+    public boolean updateEmployee(Employee employee) throws SQLException {
+        boolean updated = false;
+
+        String query = "Update employee SET Password = '" + employee.getPassword() + "', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE username = '" + employee.getUsername() + "'";
+
+        int result = stmt.executeUpdate(query);
+        if (result != 0) {
+            updated = true;
         }
         return updated;
-        
+
     }
 
     public ArrayList<Employee> retrieveAllUsers() throws SQLException {
@@ -154,20 +152,71 @@ public class DBHandler {
         return employeeList;
 
     }
-        public ArrayList<CalendarItem> retrieveAllCalendarItems() throws SQLException {
-        calendarItemList = new ArrayList<>();
+
+    /**
+     *
+     * @param month måneden start på 0 (januar 0 osv.)
+     * @param year som normalt (2000 er 2000 osv.)
+     * @return returnere en liste med de calendarItems der er i den pågældende
+     * måned.
+     * @throws SQLException
+     */
+    public ArrayList<CalendarItem> retriveCalendarItems(int month, int year) throws SQLException {
+        // vi starter op med at hente calendar instancen for at kunne arbejde med det.
+        Calendar cal = Calendar.getInstance();
+        // Vi starter med at sætte kalenderen til den måned og år vi ønsker at finde på.
+        cal.set(year, month, cal.getActualMinimum(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        Date start = cal.getTime();
+        // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
+        cal.set(year, month, cal.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        Date slut = cal.getTime();
+
+        String query = "SELECT * FROM worksheet WHERE "
+                + "TimeOfJob between '" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
+                + "' AND '" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "'";
+      
+        ArrayList<CalendarItem> calendarItemList = retriveCalendarItems(query);
+
+        return calendarItemList;
+    }
+
+    public ArrayList<CalendarItem> retrieveAllCalendarItems() throws SQLException {
+
         String query = "SELECT * FROM worksheet";
+        ArrayList<CalendarItem> calendarItemList = retriveCalendarItems(query);
+        return calendarItemList;
+
+    }
+
+    /**
+     * Lokal hjælpemetode til at hente CalendarItems ud med
+     *
+     * @param query Den query der skal sendes til databasen.
+     * @return returnere et array af CalendarItems
+     * @throws SQLException
+     */
+    private ArrayList<CalendarItem> retriveCalendarItems(String query) throws SQLException {
+        ArrayList<CalendarItem> calendarItemList = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
-            long time = rs.getLong("");
-            String text = rs.getString("");
-            CalendarItem calendarItem = new CalendarItem(time, text);
-            System.out.println(time + " " + text); 
+            int orderId = rs.getInt("OrdreNr");
+            String customerName = rs.getString("CustomerName");
+            String customerAddress = rs.getString("CustomerAddress");
+            String customerPhone = rs.getString("CustomerPhone");
+            Date timeOfJob = rs.getDate("timeOfJob");
+            String jobDescription = rs.getString("JobDescription");
+            CalendarItem calendarItem = new CalendarItem(orderId,timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
             
             calendarItemList.add(calendarItem);
         }
         return calendarItemList;
+    }
 
+    private String dateFormatter(String format, Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String rtnDate = sdf.format(date);
+
+        return rtnDate;
     }
 
     public Connection getConn() {

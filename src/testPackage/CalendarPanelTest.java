@@ -33,7 +33,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             calendarItemList.clearSelection();
 
         } catch (NullPointerException ex) {
-            System.out.println("Vi ved der kommer en null point exception ved CalendarItem");
+            System.out.println("Vi ved der kommer en null point exception ved CalendarItem første gang den kører.");
         }
         calendarItemListModel.clear();
         System.out.println("1!");
@@ -59,7 +59,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        calendarItemList = new javax.swing.JList();
+        calendarItemList = new javax.swing.JList(calendarItemListModel);
 
         jScrollPane1.setViewportView(calendarItemList);
 

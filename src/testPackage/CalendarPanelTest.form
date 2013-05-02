@@ -47,6 +47,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JList(calendarItemListModel)"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
