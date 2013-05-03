@@ -88,15 +88,35 @@ public class DBHandler {
 
     public Employee retrieveUser(String username) throws SQLException {
         Employee user = null;
-        String query = "SELECT * FROM employee WHERE Username = username;";
+        String query = "SELECT * FROM employee WHERE Username = '" + username + "'";
+
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            int userID = rs.getInt("UserID");
+            String name = rs.getString("Fullname");
+            String pass = rs.getString("password");
+            int accessLevel = rs.getInt("accessLevel");
+
+            user = new Employee(userID,username, name, pass, accessLevel);
+
+        }
+
+        return user;
+
+    }
+
+    public Employee retrieveUser(int userID) throws SQLException {
+        Employee user = null;
+        String query = "SELECT * FROM employee WHERE UserID = '" + userID + "'";
 
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             String name = rs.getString("Fullname");
             String pass = rs.getString("password");
+            String username = rs.getString("Username");
             int accessLevel = rs.getInt("accessLevel");
 
-            user = new Employee(username, name, pass, accessLevel);
+            user = new Employee(userID,username, name, pass, accessLevel);
 
         }
 
@@ -120,11 +140,16 @@ public class DBHandler {
         return inserted;
 
     }
-
+/**
+ * Opdater en employee udfra hans userID.
+ * @param employee den employee der skal opdateres.
+ * @return retrunere true/false an på om det er opdateret eller ej, dette burde kun give false hvis den ikke kan fidne brugeren.
+ * @throws SQLException 
+ */
     public boolean updateEmployee(Employee employee) throws SQLException {
         boolean updated = false;
 
-        String query = "Update employee SET Password = '" + employee.getPassword() + "', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE username = '" + employee.getUsername() + "'";
+        String query = "Update employee SET Password = '" + employee.getPassword() + "', Username = '"+employee.getUsername()+"', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE UserID = '" + employee.getUserID() + "'";
 
         int result = stmt.executeUpdate(query);
         if (result != 0) {
@@ -133,18 +158,23 @@ public class DBHandler {
         return updated;
 
     }
-
+/**
+ * Henter alle Employees ud fra databasen og udfylder ham med alle parameterne.
+ * @return listen over alle brugere i systemet.
+ * @throws SQLException 
+ */
     public ArrayList<Employee> retrieveAllUsers() throws SQLException {
         employeeList = new ArrayList<>();
         String query = "SELECT * FROM employee";
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
+            int userID = rs.getInt("UserID");
             String name = rs.getString("Fullname");
             String username = rs.getString("Username");
             String password = rs.getString("Password");
             int al = rs.getInt("Accesslevel");
 
-            Employee user = new Employee(username, name, password, al);
+            Employee user = new Employee(userID,username, name, password, al);
             System.out.println(name + username);
 
             employeeList.add(user);
@@ -174,7 +204,7 @@ public class DBHandler {
         String query = "SELECT * FROM worksheet WHERE "
                 + "TimeOfJob between '" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "' AND '" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "'";
-      
+
         ArrayList<CalendarItem> calendarItemList = retriveCalendarItems(query);
 
         return calendarItemList;
@@ -189,7 +219,7 @@ public class DBHandler {
     }
 
     /**
-     * Lokal hjælpemetode til at hente CalendarItems ud med
+     * Lokal hjælpemetode til at hente CalendarItems/Worksheets ud med
      *
      * @param query Den query der skal sendes til databasen.
      * @return returnere et array af CalendarItems
@@ -205,11 +235,31 @@ public class DBHandler {
             String customerPhone = rs.getString("CustomerPhone");
             Date timeOfJob = rs.getDate("timeOfJob");
             String jobDescription = rs.getString("JobDescription");
-            CalendarItem calendarItem = new CalendarItem(orderId,timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
-            
+            CalendarItem calendarItem = new CalendarItem(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
+
             calendarItemList.add(calendarItem);
         }
         return calendarItemList;
+    }
+/**
+ * Indsæt et worksheet udfra et CalendarItem
+ * @param item det calendarItem objekt vi ønsker skal indsættes i databasen.
+ * @return returnerer true/false an på om det er indsat i databasen.
+ * @throws SQLException 
+ */
+    public boolean insertWorksheet(CalendarItem item) throws SQLException {
+        boolean inserted = false;
+
+        String query = "Insert into Worksheet "
+                + "(CustomerName,CustomerAddress, CustomerPhone,timeOfJob,JobDescription)"
+                + "Values "
+                + "('" + item.getCustomerName() + "', '" + item.getCustomerAdress() + "','" + item.getCustomerPhone() + "','" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "','" + item.getJobDescription() + "')";
+        int result = stmt.executeUpdate(query);
+        if (result != 0) {
+            inserted = true;
+        }
+        return inserted;
+
     }
 
     private String dateFormatter(String format, Date date) {
