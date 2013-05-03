@@ -70,7 +70,7 @@ public class DBHandler {
         return connected;
 
     }
-
+    
     public boolean correctPassword(String username, String password) throws SQLException {
         boolean correctPassword = false;
         String query = "SELECT COUNT(*) as total FROM employee WHERE Username = '" + username + "' AND Password = '" + password + "'";
@@ -261,7 +261,6 @@ public class DBHandler {
         return inserted;
 
     }
-
     private String dateFormatter(String format, Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         String rtnDate = sdf.format(date);
@@ -280,45 +279,20 @@ public class DBHandler {
     public Statement getStmt() {
         return stmt;
     }
-
-    public void setStmt(Statement stmt) {
-        this.stmt = stmt;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
     public void setUser(String user) {
         this.user = user;
     }
 
-    public String getPw() {
-        return pw;
-    }
 
     public void setPw(String pw) {
         this.pw = pw;
     }
 
-    public String getHost() {
-        return host;
-    }
-
     public void setHost(String host) {
         this.host = host;
     }
-
-    public String getPort() {
-        return port;
-    }
-
     public void setPort(String port) {
         this.port = port;
-    }
-
-    public String getDbName() {
-        return dbName;
     }
 
     public void setDbName(String dbName) {
@@ -328,4 +302,10 @@ public class DBHandler {
     public boolean isConnected() {
         return connected;
     }
+
+    @Override
+    public String toString() {
+        return "DBHANDLER connected: "+ connected;
+    }
+    
 }
