@@ -70,7 +70,7 @@ public class DBHandler {
         return connected;
 
     }
-    
+
     public boolean correctPassword(String username, String password) throws SQLException {
         boolean correctPassword = false;
         String query = "SELECT COUNT(*) as total FROM employee WHERE Username = '" + username + "' AND Password = '" + password + "'";
@@ -97,7 +97,7 @@ public class DBHandler {
             String pass = rs.getString("password");
             int accessLevel = rs.getInt("accessLevel");
 
-            user = new Employee(userID,username, name, pass, accessLevel);
+            user = new Employee(userID, username, name, pass, accessLevel);
 
         }
 
@@ -116,7 +116,7 @@ public class DBHandler {
             String username = rs.getString("Username");
             int accessLevel = rs.getInt("accessLevel");
 
-            user = new Employee(userID,username, name, pass, accessLevel);
+            user = new Employee(userID, username, name, pass, accessLevel);
 
         }
 
@@ -140,16 +140,19 @@ public class DBHandler {
         return inserted;
 
     }
-/**
- * Opdater en employee udfra hans userID.
- * @param employee den employee der skal opdateres.
- * @return retrunere true/false an på om det er opdateret eller ej, dette burde kun give false hvis den ikke kan fidne brugeren.
- * @throws SQLException 
- */
+
+    /**
+     * Opdater en employee udfra hans userID.
+     *
+     * @param employee den employee der skal opdateres.
+     * @return retrunere true/false an på om det er opdateret eller ej, dette
+     * burde kun give false hvis den ikke kan fidne brugeren.
+     * @throws SQLException
+     */
     public boolean updateEmployee(Employee employee) throws SQLException {
         boolean updated = false;
 
-        String query = "Update employee SET Password = '" + employee.getPassword() + "', Username = '"+employee.getUsername()+"', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE UserID = '" + employee.getUserID() + "'";
+        String query = "Update employee SET Password = '" + employee.getPassword() + "', Username = '" + employee.getUsername() + "', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE UserID = '" + employee.getUserID() + "'";
 
         int result = stmt.executeUpdate(query);
         if (result != 0) {
@@ -158,11 +161,14 @@ public class DBHandler {
         return updated;
 
     }
-/**
- * Henter alle Employees ud fra databasen og udfylder ham med alle parameterne.
- * @return listen over alle brugere i systemet.
- * @throws SQLException 
- */
+
+    /**
+     * Henter alle Employees ud fra databasen og udfylder ham med alle
+     * parameterne.
+     *
+     * @return listen over alle brugere i systemet.
+     * @throws SQLException
+     */
     public ArrayList<Employee> retrieveAllUsers() throws SQLException {
         employeeList = new ArrayList<>();
         String query = "SELECT * FROM employee";
@@ -174,7 +180,7 @@ public class DBHandler {
             String password = rs.getString("Password");
             int al = rs.getInt("Accesslevel");
 
-            Employee user = new Employee(userID,username, name, password, al);
+            Employee user = new Employee(userID, username, name, password, al);
             System.out.println(name + username);
 
             employeeList.add(user);
@@ -241,12 +247,14 @@ public class DBHandler {
         }
         return calendarItemList;
     }
-/**
- * Indsæt et worksheet udfra et CalendarItem
- * @param item det calendarItem objekt vi ønsker skal indsættes i databasen.
- * @return returnerer true/false an på om det er indsat i databasen.
- * @throws SQLException 
- */
+
+    /**
+     * Indsæt et worksheet udfra et CalendarItem
+     *
+     * @param item det calendarItem objekt vi ønsker skal indsættes i databasen.
+     * @return returnerer true/false an på om det er indsat i databasen.
+     * @throws SQLException
+     */
     public boolean insertWorksheet(CalendarItem item) throws SQLException {
         boolean inserted = false;
 
@@ -261,6 +269,26 @@ public class DBHandler {
         return inserted;
 
     }
+/***
+ * Opdater et worksheet med data (opdatere udfra orderID).
+ * @param item det CalendarItem der skal opdateres (skal indeholde et ID der er større end 0);
+ * @return returnere om det er opdateret eller ej.
+ * @throws SQLException 
+ */
+    public boolean updateWorksheet(CalendarItem item) throws SQLException {
+        boolean updated = false;
+        if(item.getOrderId() > 0){
+        String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" +  dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',jobdescription = '" + item.getJobDescription() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
+        int result = stmt.executeUpdate(query);
+        if (result != 0) {
+            updated = true;
+        }
+        }   
+       
+        return updated;
+
+    }
+
     private String dateFormatter(String format, Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         String rtnDate = sdf.format(date);
@@ -279,10 +307,10 @@ public class DBHandler {
     public Statement getStmt() {
         return stmt;
     }
+
     public void setUser(String user) {
         this.user = user;
     }
-
 
     public void setPw(String pw) {
         this.pw = pw;
@@ -291,6 +319,7 @@ public class DBHandler {
     public void setHost(String host) {
         this.host = host;
     }
+
     public void setPort(String port) {
         this.port = port;
     }
@@ -305,7 +334,6 @@ public class DBHandler {
 
     @Override
     public String toString() {
-        return "DBHANDLER connected: "+ connected;
+        return "DBHANDLER connected: " + connected;
     }
-    
 }
