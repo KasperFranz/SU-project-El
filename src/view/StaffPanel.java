@@ -345,7 +345,8 @@ public class StaffPanel extends javax.swing.JPanel {
         oldEmployeeName.setEnabled(StateNow);
         oldEmployeePassword.setEditable(StateNow);
         oldEmployeePassword.setEnabled(StateNow);
-
+        oldEmployeeUsername.setEnabled(StateNow);
+        oldEmployeeUsername.setEditable(StateNow);
         oldEmployeeAccesslevelBox.setEnabled(StateNow);
         if (!StateNow) {
             UpdateUser();
@@ -353,7 +354,7 @@ public class StaffPanel extends javax.swing.JPanel {
     }
 
     private void UpdateUser() {
-        if (oldEmployeeName.getText().isEmpty() || oldEmployeePassword.getText().isEmpty() || oldEmployeeUsername.getText().isEmpty()) {
+        if (oldEmployeeName.getText().isEmpty() || oldEmployeePassword.getText().isEmpty() || oldEmployeeUsername.getText().isEmpty() || oldEmployeeUsername.getText().isEmpty()) {
             System.out.println("UDFYLD ALLE FELTER!");
         } else {
             try {
@@ -361,7 +362,7 @@ public class StaffPanel extends javax.swing.JPanel {
                 oldEmployee.setPassword(oldEmployeePassword.getText());
                 oldEmployee.setName(oldEmployeeName.getText());
                 oldEmployee.setAccessLevel(oldEmployeeAccesslevelBox.getSelectedIndex());
-
+                oldEmployee.setUsername(oldEmployeeUsername.getText());
                 dbHandler.updateEmployee(oldEmployee);
                 loadEmployee();
             } catch (SQLException ex) {

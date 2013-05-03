@@ -1,7 +1,7 @@
 package model;
 
 public class Employee {
-
+    private int userID;
     private String username;
     private String name;
     private String password;
@@ -13,15 +13,22 @@ public class Employee {
  * 2 = Admin
  
  */
-    public Employee(String username, String name, String password, int accessLevel) {
+    public Employee(int userID,String username, String name, String password, int accessLevel) {
+        this.userID = userID;
         this.username = username;
         this.name = name;
         this.password = password;
         this.accessLevel = accessLevel;
     }
-    
 
-         
+    public Employee(String username, String name, String password, int accessLevel) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.accessLevel = accessLevel;
+        userID = -1;
+    }
+             
 
     public String getUsername() {
         return username;
@@ -55,12 +62,20 @@ public class Employee {
         this.accessLevel = accessLevel;
     }
 
-    @Override
-    public String toString() {
-        return username + ", " + name + ", " + accessLevel;
+public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
     
-    
+    @Override
+    public String toString() {
+        return "("+userID +") "+ username + ", " + name + ", " + accessLevel;
+    }
+
+   
     
     
 }
