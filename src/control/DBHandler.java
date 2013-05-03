@@ -29,7 +29,6 @@ public class DBHandler {
     private String host;
     private String port;
     private String dbName;
-    private ArrayList<Employee> employeeList;
     private boolean connected;
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
@@ -170,7 +169,7 @@ public class DBHandler {
      * @throws SQLException
      */
     public ArrayList<Employee> retrieveAllUsers() throws SQLException {
-        employeeList = new ArrayList<>();
+        ArrayList<Employee> employeeList = new ArrayList<>();
         String query = "SELECT * FROM employee";
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
