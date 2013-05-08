@@ -7,11 +7,11 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Employee;
 
-public class Loginframe extends javax.swing.JFrame {
+public class LoginFrame extends javax.swing.JFrame {
 
     private DBHandler dbhandler;
 
-    public Loginframe() throws SQLException {
+    public LoginFrame() throws SQLException {
         dbhandler = new DBHandler("dat11-14_su_el", "aqR5FYEtt7q8V2HV", "hd-it.dk", "3306", "dat11-14_su_el");
         
         initComponents();
@@ -101,14 +101,14 @@ public class Loginframe extends javax.swing.JFrame {
               JOptionPane.showMessageDialog(this, "Udfyld venligt begge felter","Login fejl",JOptionPane.ERROR_MESSAGE);
             }else if (dbhandler.correctPassword(username, password)) {
                Employee login = dbhandler.retrieveUser(username); 
-                Mainframe mf = new Mainframe(login, dbhandler);
+                MainFrame mf = new MainFrame(login, dbhandler);
                 mf.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(this, "YOU FAILED!","Login fejl",JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Loginframe.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 //    /**
@@ -128,20 +128,20 @@ public class Loginframe extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Loginframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new Loginframe().setVisible(true);
+//                new LoginFrame().setVisible(true);
 //            }
 //        });
 //    }

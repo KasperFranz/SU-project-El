@@ -4,6 +4,8 @@
  */
 package view;
 
+import util.Calendar;
+
 /**
  *
  * @author Marc
@@ -15,6 +17,13 @@ public class WelcomePanel extends javax.swing.JPanel {
      */
     public WelcomePanel() {
         initComponents();
+        
+        Calendar cal = new Calendar();
+        this.add(cal);
+        cal.setVisible(true);
+        cal.setBounds(300, 30, 500, 450);
+               
+        
     }
 
     /**
@@ -56,7 +65,7 @@ public class WelcomePanel extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(114, 114, 114)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userLabel)
                     .addComponent(jLabel8))
@@ -66,11 +75,11 @@ public class WelcomePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(77, 77, 77)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 424, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)))

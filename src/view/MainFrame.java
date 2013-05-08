@@ -8,19 +8,20 @@ import control.DBHandler;
 import java.sql.SQLException;
 import model.Employee;
 import testPackage.CalendarPanelTest;
+import util.Calendar;
 
 /**
  *
  * @author Marc
  */
-public class Mainframe extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
     private Employee activeUser;
     private DBHandler dbhandler;
     /**
-     * Creates new form Mainframe
+     * Creates new form MainFrame
      */
-    public Mainframe(Employee user, DBHandler dbhandler) throws SQLException {
+    public MainFrame(Employee user, DBHandler dbhandler) throws SQLException {
         this.dbhandler = dbhandler;
         activeUser = user;
         
@@ -33,6 +34,9 @@ public class Mainframe extends javax.swing.JFrame {
         
         WelcomePanel welcome = new WelcomePanel();
         mainframeTabbedPane.addTab("   Forside   ", welcome);
+  
+        
+        
         
         SettingsPanel settings = new SettingsPanel();
         mainframeTabbedPane.addTab("   Indstillinger   "   , settings);
@@ -104,20 +108,20 @@ public class Mainframe extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Mainframe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new Mainframe().setVisible(true);
+//                new MainFrame().setVisible(true);
 //            }
 //        });
 //    }
