@@ -5,8 +5,8 @@
 package main;
 
 import java.sql.SQLException;
-import view.Loginframe;
-import view.Mainframe;
+import view.LoginFrame;
+import view.MainFrame;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException {
         
-        Loginframe login = new Loginframe();
+        LoginFrame login = new LoginFrame();
         login.setVisible(true);
         
     }
