@@ -99,8 +99,8 @@ public class LoginFrame extends javax.swing.JFrame {
             String password = passwordTextField.getText();
             if (password.equals("") || username.equals("")) {
               JOptionPane.showMessageDialog(this, "Udfyld venligt begge felter","Login fejl",JOptionPane.ERROR_MESSAGE);
-            }else if (dbhandler.correctPassword(username, password)) {
-               Employee login = dbhandler.retrieveUser(username); 
+            }else if (dbhandler.isUserCorrectPassword(username, password)) {
+               Employee login = dbhandler.retrieveEmployee(username); 
                 MainFrame mf = new MainFrame(login, dbhandler);
                 mf.setVisible(true);
             }else{

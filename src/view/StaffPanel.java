@@ -45,7 +45,7 @@ public class StaffPanel extends javax.swing.JPanel {
             System.out.println("Vi ved der kommer en null point exception ved EmployeeList");
         }
         employeeListModel.clear();
-        ArrayList<Employee> employees = dbHandler.retrieveAllUsers();
+        ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             employeeListModel.addElement(employees.get(i));
         }

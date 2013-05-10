@@ -70,7 +70,7 @@ public class DBHandler {
 
     }
 
-    public boolean correctPassword(String username, String password) throws SQLException {
+    public boolean isUserCorrectPassword(String username, String password) throws SQLException {
         boolean correctPassword = false;
         String query = "SELECT COUNT(*) as total FROM employee WHERE Username = '" + username + "' AND Password = '" + password + "'";
         System.out.println(query);
@@ -85,7 +85,7 @@ public class DBHandler {
         return correctPassword;
     }
 
-    public Employee retrieveUser(String username) throws SQLException {
+    public Employee retrieveEmployee(String username) throws SQLException {
         Employee user = null;
         String query = "SELECT * FROM employee WHERE Username = '" + username + "'";
 
@@ -104,7 +104,7 @@ public class DBHandler {
 
     }
 
-    public Employee retrieveUser(int userID) throws SQLException {
+    public Employee retrieveEmployee(int userID) throws SQLException {
         Employee user = null;
         String query = "SELECT * FROM employee WHERE UserID = '" + userID + "'";
 
@@ -161,32 +161,7 @@ public class DBHandler {
 
     }
 
-    /**
-     * Henter alle Employees ud fra databasen og udfylder ham med alle
-     * parameterne.
-     *
-     * @return listen over alle brugere i systemet.
-     * @throws SQLException
-     */
-    public ArrayList<Employee> retrieveAllUsers() throws SQLException {
-        ArrayList<Employee> employeeList = new ArrayList<>();
-        String query = "SELECT * FROM employee";
-        ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            int userID = rs.getInt("UserID");
-            String name = rs.getString("Fullname");
-            String username = rs.getString("Username");
-            String password = rs.getString("Password");
-            int al = rs.getInt("Accesslevel");
 
-            Employee user = new Employee(userID, username, name, password, al);
-            System.out.println(name + username);
-
-            employeeList.add(user);
-        }
-        return employeeList;
-
-    }
 
     /**
      *
@@ -196,7 +171,7 @@ public class DBHandler {
      * måned.
      * @throws SQLException
      */
-    public ArrayList<Worksheet> retriveCalendarItems(int month, int year) throws SQLException {
+    public ArrayList<Worksheet> retriveWorksheets(int month, int year) throws SQLException {
         // vi starter op med at hente calendar instancen for at kunne arbejde med det.
         Calendar cal = Calendar.getInstance();
         // Vi starter med at sætte kalenderen til den måned og år vi ønsker at finde på.
@@ -210,15 +185,15 @@ public class DBHandler {
                 + "TimeOfJob between '" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "' AND '" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "'";
 
-        ArrayList<Worksheet> calendarItemList = retriveCalendarItems(query);
+        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query);
 
         return calendarItemList;
     }
 
-    public ArrayList<Worksheet> retrieveAllCalendarItems() throws SQLException {
+    public ArrayList<Worksheet> retrieveAllWorksheets() throws SQLException {
 
         String query = "SELECT * FROM worksheet";
-        ArrayList<Worksheet> calendarItemList = retriveCalendarItems(query);
+        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query);
         return calendarItemList;
 
     }
@@ -230,11 +205,11 @@ public class DBHandler {
      * @return returnere et array af CalendarItems
      * @throws SQLException
      */
-    private ArrayList<Worksheet> retriveCalendarItems(String query) throws SQLException {
+    private ArrayList<Worksheet> retriveWorksheets(String query) throws SQLException {
         ArrayList<Worksheet> calendarItemList = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {
-            int orderId = rs.getInt("OrdreNr");
+        while (rs.next()) { 
+           int orderId = rs.getInt("OrdreNr");
             String customerName = rs.getString("CustomerName");
             String customerAddress = rs.getString("CustomerAddress");
             String customerPhone = rs.getString("CustomerPhone");

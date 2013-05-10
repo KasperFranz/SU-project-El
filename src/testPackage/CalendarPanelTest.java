@@ -43,7 +43,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         }
         calendarItemListModel.clear();
         System.out.println("1!");
-        ArrayList<Worksheet> calendarItems = dbHandler.retrieveAllCalendarItems();
+        ArrayList<Worksheet> calendarItems = dbHandler.retrieveAllWorksheets();
         System.out.println("size = " + calendarItems.size());
 
         for (int i = 0; i < calendarItems.size(); i++) {
