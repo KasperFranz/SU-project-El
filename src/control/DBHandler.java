@@ -268,24 +268,51 @@ public class DBHandler {
         return inserted;
 
     }
-/***
- * Opdater et worksheet med data (opdatere udfra orderID).
- * @param item det CalendarItem der skal opdateres (skal indeholde et ID der er større end 0);
- * @return returnere om det er opdateret eller ej.
- * @throws SQLException 
- */
+
+    /**
+     * *
+     * Opdater et worksheet med data (opdatere udfra orderID).
+     *
+     * @param item det CalendarItem der skal opdateres (skal indeholde et ID der
+     * er større end 0);
+     * @return returnere om det er opdateret eller ej.
+     * @throws SQLException
+     */
     public boolean updateWorksheet(CalendarItem item) throws SQLException {
         boolean updated = false;
-        if(item.getOrderId() > 0){
-        String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" +  dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',jobdescription = '" + item.getJobDescription() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
-        int result = stmt.executeUpdate(query);
-        if (result != 0) {
-            updated = true;
+        if (item.getOrderId() > 0) {
+            String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',jobdescription = '" + item.getJobDescription() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
+            int result = stmt.executeUpdate(query);
+            if (result != 0) {
+                updated = true;
+            }
         }
-        }   
-       
+
         return updated;
 
+    }
+
+    public ArrayList<Employee> retrieveAllEmployees() throws SQLException {
+
+        String query = "SELECT * FROM employee";
+        ArrayList<Employee> employeeList = retriveEmployees(query);
+        return employeeList;
+    }
+
+    private ArrayList<Employee> retriveEmployees(String query) throws SQLException {
+        ArrayList<Employee> employeeList = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            int userID = rs.getInt("UserID");
+            String username = rs.getString("Username");
+            String employeeName = rs.getString("Fullname");
+            int employeeAccesslevel = rs.getInt("Accesslevel");
+            String emplyeePassword = rs.getString("Password");
+            Employee employee = new Employee(userID, username, employeeName, emplyeePassword, employeeAccesslevel);
+
+            employeeList.add(employee);
+        }
+        return employeeList;
     }
 
     private String dateFormatter(String format, Date date) {
