@@ -12,13 +12,13 @@ import java.util.Date;
  *
  * @author Kasper
  */
-public class CalendarItem {
+public class Worksheet {
     private int orderId;
     private Date timeOfJob;
     private String customerName, customerAdress, customerPhone, jobDescription,comment;
     private Employee employee;
 
-    public CalendarItem(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee, String comment) {
+    public Worksheet(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee, String comment) {
         this.orderId = orderId;
         this.timeOfJob = timeOfJob;
         this.customerName = customerName;
@@ -29,7 +29,7 @@ public class CalendarItem {
         this.comment = comment;
     }
     
-        public CalendarItem(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription) {
+        public Worksheet(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription) {
         this.orderId = orderId;
         this.timeOfJob = timeOfJob;
         this.customerName = customerName;
@@ -38,7 +38,7 @@ public class CalendarItem {
         this.jobDescription = jobDescription;
     }
 
-    public CalendarItem(Date timeOfJob, String jobDescription) {
+    public Worksheet(Date timeOfJob, String jobDescription) {
         this.jobDescription = jobDescription;
         this.timeOfJob = timeOfJob;
     }

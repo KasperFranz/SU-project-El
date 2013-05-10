@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import model.CalendarItem;
+import model.Worksheet;
 import model.Employee;
 
 /**
@@ -196,7 +196,7 @@ public class DBHandler {
      * måned.
      * @throws SQLException
      */
-    public ArrayList<CalendarItem> retriveCalendarItems(int month, int year) throws SQLException {
+    public ArrayList<Worksheet> retriveCalendarItems(int month, int year) throws SQLException {
         // vi starter op med at hente calendar instancen for at kunne arbejde med det.
         Calendar cal = Calendar.getInstance();
         // Vi starter med at sætte kalenderen til den måned og år vi ønsker at finde på.
@@ -210,15 +210,15 @@ public class DBHandler {
                 + "TimeOfJob between '" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "' AND '" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "'";
 
-        ArrayList<CalendarItem> calendarItemList = retriveCalendarItems(query);
+        ArrayList<Worksheet> calendarItemList = retriveCalendarItems(query);
 
         return calendarItemList;
     }
 
-    public ArrayList<CalendarItem> retrieveAllCalendarItems() throws SQLException {
+    public ArrayList<Worksheet> retrieveAllCalendarItems() throws SQLException {
 
         String query = "SELECT * FROM worksheet";
-        ArrayList<CalendarItem> calendarItemList = retriveCalendarItems(query);
+        ArrayList<Worksheet> calendarItemList = retriveCalendarItems(query);
         return calendarItemList;
 
     }
@@ -230,8 +230,8 @@ public class DBHandler {
      * @return returnere et array af CalendarItems
      * @throws SQLException
      */
-    private ArrayList<CalendarItem> retriveCalendarItems(String query) throws SQLException {
-        ArrayList<CalendarItem> calendarItemList = new ArrayList<>();
+    private ArrayList<Worksheet> retriveCalendarItems(String query) throws SQLException {
+        ArrayList<Worksheet> calendarItemList = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             int orderId = rs.getInt("OrdreNr");
@@ -240,7 +240,7 @@ public class DBHandler {
             String customerPhone = rs.getString("CustomerPhone");
             Date timeOfJob = rs.getDate("timeOfJob");
             String jobDescription = rs.getString("JobDescription");
-            CalendarItem calendarItem = new CalendarItem(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
+            Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
 
             calendarItemList.add(calendarItem);
         }
@@ -248,13 +248,13 @@ public class DBHandler {
     }
 
     /**
-     * Indsæt et worksheet udfra et CalendarItem
+     * Indsæt et worksheet udfra et Worksheet
      *
      * @param item det calendarItem objekt vi ønsker skal indsættes i databasen.
      * @return returnerer true/false an på om det er indsat i databasen.
      * @throws SQLException
      */
-    public boolean insertWorksheet(CalendarItem item) throws SQLException {
+    public boolean insertWorksheet(Worksheet item) throws SQLException {
         boolean inserted = false;
 
         String query = "Insert into Worksheet "
@@ -273,12 +273,12 @@ public class DBHandler {
      * *
      * Opdater et worksheet med data (opdatere udfra orderID).
      *
-     * @param item det CalendarItem der skal opdateres (skal indeholde et ID der
+     * @param item det Worksheet der skal opdateres (skal indeholde et ID der
      * er større end 0);
      * @return returnere om det er opdateret eller ej.
      * @throws SQLException
      */
-    public boolean updateWorksheet(CalendarItem item) throws SQLException {
+    public boolean updateWorksheet(Worksheet item) throws SQLException {
         boolean updated = false;
         if (item.getOrderId() > 0) {
             String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',jobdescription = '" + item.getJobDescription() + "', comments = '" + item.getComment() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";

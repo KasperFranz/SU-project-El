@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import model.CalendarItem;
+import model.Worksheet;
 import model.Employee;
 
 /**
@@ -43,7 +43,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         }
         calendarItemListModel.clear();
         System.out.println("1!");
-        ArrayList<CalendarItem> calendarItems = dbHandler.retrieveAllCalendarItems();
+        ArrayList<Worksheet> calendarItems = dbHandler.retrieveAllCalendarItems();
         System.out.println("size = " + calendarItems.size());
 
         for (int i = 0; i < calendarItems.size(); i++) {
@@ -224,7 +224,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
 
     private void calendarItemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_calendarItemListValueChanged
         if (calendarItemList.getSelectedIndex() >= 0) {
-            CalendarItem ci = (CalendarItem) calendarItemList.getSelectedValue();
+            Worksheet ci = (Worksheet) calendarItemList.getSelectedValue();
             dateTextField.setText(ci.getTimeOfJob().toString());
             descriptionTextArea.setText(ci.getJobDescription());
             if (ci.getEmployee() == null) {
