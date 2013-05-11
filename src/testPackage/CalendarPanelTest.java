@@ -7,7 +7,6 @@ package testPackage;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -29,12 +28,13 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     public CalendarPanelTest(DBHandler dbHandler) throws SQLException {
         calendarItemListModel = new DefaultListModel();
         this.dbHandler = dbHandler;
-       initComponents();
-       fillAssignedEmployeeCombo();
-       fillEmployeeCombo();
+        initComponents();
+        fillAssignedEmployeeCombo();
+        fillEmployeeCombo();
     }
 
-    private void loadCalendarItems() throws SQLException {
+    
+    private void loadCalendarItems(ArrayList<Worksheet> calendarItems){
         int oldSelection = -1;
         try {
             oldSelection = calendarItemList.getSelectedIndex();
@@ -45,7 +45,6 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         }
         calendarItemListModel.clear();
         System.out.println("1!");
-        ArrayList<Worksheet> calendarItems = dbHandler.retrieveAllWorksheets();
         System.out.println("size = " + calendarItems.size());
 
         for (int i = 0; i < calendarItems.size(); i++) {
@@ -59,22 +58,40 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     }
 
     private void fillEmployeeCombo() throws SQLException {
-        employeeComboBox.addItem("Alle"); 
+        employeeComboBox.addItem("Alle");
         ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             employeeComboBox.addItem(employees.get(i));
         }
     }
-    
-    
+
     private void fillAssignedEmployeeCombo() throws SQLException {
-           assignedEmployee.addItem("Ingen tilknyttet"); 
+        assignedEmployee.addItem("Ingen tilknyttet");
         ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             assignedEmployee.addItem(employees.get(i));
-        }  
+        }
+
+    }
+    
+    private void changeEmployeeButtonState(boolean StateNow) {
+
+
+        System.out.println("Changes to" + !StateNow);
+        dateTextField.setEditable(StateNow);
+        dateTextField.setEnabled(StateNow);
+        descriptionTextArea.setEditable(StateNow);
+        descriptionTextArea.setEnabled(StateNow);
+        customerAddressTextField.setEnabled(StateNow);
+        customerAddressTextField.setEditable(StateNow);
+        customerNameTextField.setEditable(StateNow);
+        customerNameTextField.setEnabled(StateNow);
+        customerPhoneTextField.setEditable(StateNow);
+        customerPhoneTextField.setEnabled(StateNow);
+        assignedEmployee.setEnabled(StateNow);
         
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -144,7 +161,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
 
         jLabel7.setText("Vælg medarbejder:");
 
-        employeeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Test!" }));
+        employeeComboBox.setModel(new javax.swing.DefaultComboBoxModel());
         employeeComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 employeeComboBoxItemStateChanged(evt);
@@ -169,21 +186,24 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                     .addComponent(jScrollPane2)
                     .addComponent(dateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                     .addComponent(assignedEmployee, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel4)
-                        .addComponent(customerAddressTextField)
-                        .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel4)
+                                .addComponent(customerAddressTextField)
+                                .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(159, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(83, 83, 83))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,22 +233,22 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                         .addGap(0, 11, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(customerAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton4))))
+                        .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(customerAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)
+                        .addGap(4, 4, 4)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -242,6 +262,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                 assignedEmployee.setSelectedIndex(0);
             } else {
                 assignedEmployee.setSelectedItem(ci.getEmployee());
+                System.out.println("Vi sætter selected:"+ci.getEmployee()+ "fgff" + assignedEmployee.getSelectedIndex());
             }
             customerNameTextField.setText(ci.getCustomerName());
             customerAddressTextField.setText(ci.getCustomerAdress());
@@ -259,32 +280,36 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             worksheet.setCustomerPhone(customerPhoneTextField.getText());
             worksheet.setJobDescription(descriptionTextArea.getText());
             worksheet.setEmployee((Employee) assignedEmployee.getSelectedItem());
-            
+
 //            Date date = new Date(dateTextField.getText());
 //            worksheet.setTimeOfJob(date);
             dbHandler.updateWorksheet(worksheet);
+            fillEmployeeCombo();
         } catch (SQLException ex) {
-            System.out.println("ERROR WITH SAVING"+ex);
+            System.out.println("ERROR WITH SAVING" + ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
-        
-        
-        if(employeeComboBox.getSelectedItem().equals("Alle")){
+        calendarItemListModel.clear();
+
+        if (employeeComboBox.getSelectedItem().equals("Alle")) {
             try {
-                loadCalendarItems();
+                loadCalendarItems(dbHandler.retrieveAllWorksheets());
             } catch (SQLException ex) {
                 Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            calendarItemListModel.clear();
-            
+            try {
+                loadCalendarItems(dbHandler.retrieveWorksheets((Employee) employeeComboBox.getSelectedItem()));
+            } catch (SQLException ex) {
+                Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             System.out.println(employeeComboBox.getSelectedItem());
-            
+
         }
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox assignedEmployee;
     private javax.swing.JList calendarItemList;

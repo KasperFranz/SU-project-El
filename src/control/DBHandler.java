@@ -161,8 +161,6 @@ public class DBHandler {
 
     }
 
-
-
     /**
      *
      * @param month måneden start på 0 (januar 0 osv.)
@@ -185,7 +183,7 @@ public class DBHandler {
                 + "TimeOfJob between \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "\" AND \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "\"";
 
-        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query);
+        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query,true);
 
         return calendarItemList;
     }
@@ -193,7 +191,7 @@ public class DBHandler {
     public ArrayList<Worksheet> retrieveAllWorksheets() throws SQLException {
 
         String query = "SELECT * FROM worksheet";
-        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query);
+        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query, true);
         return calendarItemList;
 
     }
@@ -205,19 +203,31 @@ public class DBHandler {
      * @return returnere et array af CalendarItems
      * @throws SQLException
      */
-    private ArrayList<Worksheet> retriveWorksheets(String query) throws SQLException {
+    private ArrayList<Worksheet> retriveWorksheets(String query, boolean getUserInfo) throws SQLException {
         ArrayList<Worksheet> calendarItemList = new ArrayList<>();
+        ArrayList<Integer> tempEmployee = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) { 
-           int orderId = rs.getInt("OrdreNr");
+        while (rs.next()) {
+            int orderId = rs.getInt("OrdreNr");
             String customerName = rs.getString("CustomerName");
             String customerAddress = rs.getString("CustomerAddress");
             String customerPhone = rs.getString("CustomerPhone");
             Date timeOfJob = rs.getDate("timeOfJob");
             String jobDescription = rs.getString("JobDescription");
-            Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription);
+            String comment = rs.getString("Comments");
+            tempEmployee.add(rs.getInt("Employee"));
+            Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription, comment);
 
             calendarItemList.add(calendarItem);
+        }
+        rs.close();
+        if (getUserInfo) {
+            for (int i = 0; i < tempEmployee.size(); i++) {
+                if (tempEmployee.get(i) != null) {
+                    calendarItemList.get(i).setEmployee(retrieveEmployee(tempEmployee.get(i)));
+                    System.out.println("EmPLOYEE:"+tempEmployee.get(i));
+                }
+            }
         }
         return calendarItemList;
     }
@@ -248,15 +258,15 @@ public class DBHandler {
      * *
      * Opdater et worksheet med data (opdatere udfra orderID).
      *
-     * @param item det Worksheet der skal opdateres (skal indeholde et ID der
-     * er større end 0);
+     * @param item det Worksheet der skal opdateres (skal indeholde et ID der er
+     * større end 0);
      * @return returnere om det er opdateret eller ej.
      * @throws SQLException
      */
     public boolean updateWorksheet(Worksheet item) throws SQLException {
         boolean updated = false;
         if (item.getOrderId() > 0) {
-            String query = "Update worksheet SET CustomerName = \"" + item.getCustomerName() + "\", CustomerAddress = \"" + item.getCustomerAdress() + "\", CustomerPhone = \"" + item.getCustomerPhone() + "\", TimeOfJob = \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "\",Jobdescription = \"" + item.getJobDescription() + "\", Comments = \"" + item.getComment() + "\" WHERE OrdreNr = \"" + item.getOrderId() + "\"";
+            String query = "Update worksheet SET CustomerName = \"" + item.getCustomerName() + "\", CustomerAddress = \"" + item.getCustomerAdress() + "\", CustomerPhone = \"" + item.getCustomerPhone() + "\", TimeOfJob = \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "\",Jobdescription = \"" + item.getJobDescription() + "\", Comments = \"" + item.getComment() + "\", Employee = \"" + item.getEmployee().getUserID() + "\" WHERE OrdreNr = \"" + item.getOrderId() + "\"";
             System.out.println(query);
             int result = stmt.executeUpdate(query);
             if (result != 0) {
@@ -337,5 +347,17 @@ public class DBHandler {
     @Override
     public String toString() {
         return "DBHANDLER connected: " + connected;
+    }
+
+    public ArrayList<Worksheet> retrieveWorksheets(Employee employee) throws SQLException {
+
+        String query = "SELECT * FROM worksheet WHERE Employee = " + employee.getUserID();
+        ArrayList<Worksheet> calendarItemList = retriveWorksheets(query,false);
+        for (int i = 0; i < calendarItemList.size(); i++) {
+            calendarItemList.get(i).setEmployee(employee);
+        }
+        System.out.println("I: "+calendarItemList.size() +" "+ query);
+        return calendarItemList;
+
     }
 }
