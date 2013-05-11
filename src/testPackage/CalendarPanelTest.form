@@ -28,9 +28,9 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="EmployeeTextField" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" max="32767" attributes="0"/>
-                  <Component id="dateTextField" min="-2" pref="226" max="-2" attributes="0"/>
+                  <Component id="dateTextField" pref="226" max="32767" attributes="0"/>
+                  <Component id="assignedEmployee" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -49,7 +49,7 @@
                       <Component id="customerPhoneTextField" alignment="0" min="-2" pref="237" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -77,7 +77,7 @@
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="EmployeeTextField" min="-2" max="-2" attributes="0"/>
+                              <Component id="assignedEmployee" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                       </Group>
@@ -166,8 +166,6 @@
         <Property name="text" type="java.lang.String" value="Medarbejder:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="EmployeeTextField">
-    </Component>
     <Component class="javax.swing.JTextField" name="customerNameTextField">
     </Component>
     <Component class="javax.swing.JTextField" name="customerAddressTextField">
@@ -211,7 +209,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tilf&#xf8;j Kommentar"/>
+        <Property name="text" type="java.lang.String" value="Opdater arbejdsseddel"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
@@ -233,6 +231,8 @@
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="employeeComboBoxItemStateChanged"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="assignedEmployee">
     </Component>
   </SubComponents>
 </Form>

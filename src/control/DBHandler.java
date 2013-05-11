@@ -256,7 +256,8 @@ public class DBHandler {
     public boolean updateWorksheet(Worksheet item) throws SQLException {
         boolean updated = false;
         if (item.getOrderId() > 0) {
-            String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',jobdescription = '" + item.getJobDescription() + "', comments = '" + item.getComment() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
+            String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',Jobdescription = '" + item.getJobDescription() + "', Comments = '" + item.getComment() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
+            System.out.println(query);
             int result = stmt.executeUpdate(query);
             if (result != 0) {
                 updated = true;

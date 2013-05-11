@@ -7,6 +7,7 @@ package testPackage;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -28,8 +29,9 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     public CalendarPanelTest(DBHandler dbHandler) throws SQLException {
         calendarItemListModel = new DefaultListModel();
         this.dbHandler = dbHandler;
-        initComponents();
-        fillEmployeeCombo();
+       initComponents();
+       fillAssignedEmployeeCombo();
+       fillEmployeeCombo();
     }
 
     private void loadCalendarItems() throws SQLException {
@@ -63,7 +65,16 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             employeeComboBox.addItem(employees.get(i));
         }
     }
-
+    
+    
+    private void fillAssignedEmployeeCombo() throws SQLException {
+           assignedEmployee.addItem("Ingen tilknyttet"); 
+        ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
+        for (int i = 0; i < employees.size(); i++) {
+            assignedEmployee.addItem(employees.get(i));
+        }  
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,7 +92,6 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        EmployeeTextField = new javax.swing.JTextField();
         customerNameTextField = new javax.swing.JTextField();
         customerAddressTextField = new javax.swing.JTextField();
         customerPhoneTextField = new javax.swing.JTextField();
@@ -94,6 +104,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         employeeComboBox = new javax.swing.JComboBox();
+        assignedEmployee = new javax.swing.JComboBox();
 
         calendarItemList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -124,7 +135,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         commentTextArea.setRows(5);
         jScrollPane3.setViewportView(commentTextArea);
 
-        jButton4.setText("Tilføj Kommentar");
+        jButton4.setText("Opdater arbejdsseddel");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -155,9 +166,9 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(EmployeeTextField)
                     .addComponent(jScrollPane2)
-                    .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(assignedEmployee, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -172,7 +183,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                         .addComponent(jLabel4)
                         .addComponent(customerAddressTextField)
                         .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +207,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                                 .addGap(15, 15, 15)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(EmployeeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(assignedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 11, Short.MAX_VALUE)
@@ -228,19 +239,33 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             dateTextField.setText(ci.getTimeOfJob().toString());
             descriptionTextArea.setText(ci.getJobDescription());
             if (ci.getEmployee() == null) {
-                EmployeeTextField.setText("Ingen medarbejder er tilknyttet denne sag");
+                assignedEmployee.setSelectedIndex(0);
             } else {
-                EmployeeTextField.setText(ci.getEmployee().getName());
+                assignedEmployee.setSelectedItem(ci.getEmployee());
             }
             customerNameTextField.setText(ci.getCustomerName());
             customerAddressTextField.setText(ci.getCustomerAdress());
             customerPhoneTextField.setText(ci.getCustomerPhone());
-            //commentTextArea.setText(ci.getComment);
+            commentTextArea.setText(ci.getComment());
         }
     }//GEN-LAST:event_calendarItemListValueChanged
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Worksheet worksheet = (Worksheet) calendarItemList.getSelectedValue();
+            worksheet.setComment(commentTextArea.getText());
+            worksheet.setCustomerAdress(customerAddressTextField.getText());
+            worksheet.setCustomerName(customerNameTextField.getText());
+            worksheet.setCustomerPhone(customerPhoneTextField.getText());
+            worksheet.setJobDescription(descriptionTextArea.getText());
+            worksheet.setEmployee((Employee) assignedEmployee.getSelectedItem());
+            
+//            Date date = new Date(dateTextField.getText());
+//            worksheet.setTimeOfJob(date);
+            dbHandler.updateWorksheet(worksheet);
+        } catch (SQLException ex) {
+            System.out.println("ERROR WITH SAVING"+ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
@@ -261,7 +286,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField EmployeeTextField;
+    private javax.swing.JComboBox assignedEmployee;
     private javax.swing.JList calendarItemList;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField customerAddressTextField;
