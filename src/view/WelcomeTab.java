@@ -4,18 +4,18 @@
  */
 package view;
 
-import util.Calendar;
+import util.CalendarPanel;
 
 /**
  *
  * @author Marc
  */
-public class WelcomePanel extends javax.swing.JPanel {
+public class WelcomeTab extends javax.swing.JPanel {
 
     /**
      * Creates new form SettingsPanel
      */
-    public WelcomePanel() {
+    public WelcomeTab() {
         initComponents();
         
    

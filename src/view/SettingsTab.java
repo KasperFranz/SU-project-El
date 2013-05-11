@@ -8,12 +8,12 @@ package view;
  *
  * @author Marc
  */
-public class SettingsPanel extends javax.swing.JPanel {
+public class SettingsTab extends javax.swing.JPanel {
 
     /**
-     * Creates new form SettingsPanel
+     * Creates new form SettingsTab
      */
-    public SettingsPanel() {
+    public SettingsTab() {
         initComponents();
     }
 

@@ -4,28 +4,31 @@ package util;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Date; // SQL.DATE BECAUSE IT DOES NOT CONTAIN TIME ONLY DATE! UNLIKE UTIL.DATE WHICH ALSO CONTAINS TIME
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.Worksheet;
 
 public class DatePanel extends JPanel implements MouseListener {
     
-    private int date;
+    private Date date;
+    private int time;
     private int xLocation;
     private int yLocation;
     private int width;
     private int height;
     private Worksheet worksheet;
     
-    public DatePanel(int date, int xLocation, int yLocation,int width, int height, Worksheet worksheet){
+    public DatePanel(Date date, int time, int xLocation, int yLocation,int width, int height, Worksheet worksheet){
         this.date = date;
+        this.time = time;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
         this.height = height;
         this.width = width;
         this.worksheet = worksheet;
         
-        this.add(new JLabel(date + ""));
+        this.add(new JLabel(this.time + ""));
         this.setBounds(xLocation, yLocation, width, height);
         this.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         addMouseListener(this);
@@ -34,7 +37,8 @@ public class DatePanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent me) {
-        System.out.println(date);
+        System.out.println("Dato: " + date + " and time:" + time);
+        
     }
 
 

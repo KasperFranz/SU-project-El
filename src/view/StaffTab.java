@@ -16,7 +16,7 @@ import model.Employee;
  *
  * @author Marc
  */
-public class StaffPanel extends javax.swing.JPanel {
+public class StaffTab extends javax.swing.JPanel {
 
     private DBHandler dbHandler;
     private DefaultListModel employeeListModel;
@@ -26,7 +26,7 @@ public class StaffPanel extends javax.swing.JPanel {
     /**
      * Creates new form Settings
      */
-    public StaffPanel(DBHandler dbHandler) throws SQLException {
+    public StaffTab(DBHandler dbHandler) throws SQLException {
         this.dbHandler = dbHandler;
         employeeListModel = new DefaultListModel();
 

@@ -7,6 +7,7 @@ package util;
 import control.DBHandler;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,37 +16,26 @@ import javax.swing.JPanel;
  *
  * @author Marc
  */
-public class Calendar extends javax.swing.JPanel {
+public class CalendarPanel extends javax.swing.JPanel {
 
-    private java.util.Calendar calendar;
-    private Date date;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("d");
-    private SimpleDateFormat monthFormat = new SimpleDateFormat("mm");
-    private int startWeek;
-    private int currentWeek;
-    private int selectedWeek;
-    private int currentMonth;
-    private int selectedMonth;
-    private int selectedYear;
+    private Calendar calendar;
     private final int PANELS_WIDTH = 80;
     private final int PANELS_HEIGHT = 30;
     private final int HOURS = 11;
     private final int DAYS = 5;
     private DBHandler dbhandler;
 
-    public Calendar(DBHandler dbhandler) {
+    public CalendarPanel(DBHandler dbhandler) {
 
         this.dbhandler = dbhandler;
-        
-        this.calendar = calendar.getInstance();
-        this.startWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
-        this.selectedYear = calendar.get(java.util.Calendar.YEAR);
-        this.currentWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
-        this.selectedWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
+
+        this.calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
 
         initComponents();
         generateDayBar();
-        generateTopBar(currentWeek);
+        generateTopBar();
         generateContentContainer();
 
 
@@ -56,11 +46,12 @@ public class Calendar extends javax.swing.JPanel {
      * Generates the top panel showing the current month and year being shown
      * *************************************************************************
      */
-    private void generateTopBar(int week) {
+    private void generateTopBar() {
 
         monthContainer.removeAll();
         monthContainer.repaint();
-        JLabel monthLabel = new JLabel("Uge " + selectedWeek + " " + selectedYear);
+        JLabel monthLabel = new JLabel("Uge " + calendar.get(Calendar.WEEK_OF_YEAR) + " " + calendar.get(Calendar.YEAR));
+        
         monthLabel.setBounds(200, 5, 150, 20);
         monthContainer.add(monthLabel);
         System.out.println(monthLabel.getText());
@@ -94,8 +85,6 @@ public class Calendar extends javax.swing.JPanel {
 
     }
 
-    
-
     /**
      * *************************************************************************
      * GENERATES THE SIDE PANELS SHOWING THE WEEK NUMBERS
@@ -122,8 +111,6 @@ public class Calendar extends javax.swing.JPanel {
         }
     }
 
-    
-
     /**
      * *************************************************************************
      * GENERATES THE CONTAINER RESPONSIBLE FOR THE WEEKPANELS CONTAINER AND FOR
@@ -131,7 +118,7 @@ public class Calendar extends javax.swing.JPanel {
      * *************************************************************************
      */
     private void generateContentContainer() {
-        System.out.println("all clear - vi fylder op");
+        contentContainer.removeAll();
         contentContainer.validate();
         JPanel timeContainer = new JPanel();
         timeContainer.setLayout(null);
@@ -148,7 +135,6 @@ public class Calendar extends javax.swing.JPanel {
         generateDatePanels(datePanelsContainer);
         contentContainer.revalidate();
         contentContainer.repaint();
-        System.out.println("så er der fyldt indhold i - så tegner vi");
     }
 
     /**
@@ -158,17 +144,28 @@ public class Calendar extends javax.swing.JPanel {
      */
     private void generateDatePanels(JPanel panel) {
 
+        
+        
+        
         int dateCount = 1;
         int xLocation = 0;
         int yLocation = 0;
-
+        System.out.println("CAL: " + calendar.getTime().toString());
         for (int i = 0; i < DAYS; i++) {
+            
+            if(i != 0){
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            Date date = calendar.getTime();
+            System.out.println(date.toString());
+
             for (int j = 0; j < HOURS; j++) {
 
                 xLocation = PANELS_WIDTH * i;
                 yLocation = PANELS_HEIGHT * j;
 
-                DatePanel datePanel = new DatePanel(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
+
+                DatePanel datePanel = new DatePanel(date, dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
                 panel.add(datePanel);
 
                 dateCount++;
@@ -222,7 +219,7 @@ public class Calendar extends javax.swing.JPanel {
 
         return formattedTime;
     }
-    
+
     /**
      * *************************************************************************
      * A helping method for the generateDayBar method that returns a string with
@@ -264,17 +261,17 @@ public class Calendar extends javax.swing.JPanel {
         }
         return dayOfWeek;
     }
-    
-    private int firstDayInMonth() {
 
-        int firstDay;
-        java.util.Calendar tempCal = calendar;
-//        tempCal.setFirstDayOfWeek(1);
-        tempCal.set(selectedYear, selectedMonth, 0); // Sets the Year, Month, current day of Month (0 for first day)
-        firstDay = tempCal.get(java.util.Calendar.DAY_OF_WEEK);
-        System.out.println("FirstDayInMonth: " + firstDay);
-        return firstDay;
-    }
+//    private int firstDayInMonth() {
+//
+//        int firstDay;
+//        java.util.Calendar tempCal = (java.util.Calendar) calendar.clone();
+////        tempCal.setFirstDayOfWeek(1);
+//        tempCal.set(selectedYear, selectedMonth, 0); // Sets the Year, Month, current day of Month (0 for first day)
+//        firstDay = tempCal.get(java.util.Calendar.DAY_OF_WEEK);
+//        System.out.println("FirstDayInMonth: " + firstDay);
+//        return firstDay;
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -338,11 +335,11 @@ public class Calendar extends javax.swing.JPanel {
         backButtonPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         backButtonPanel.setPreferredSize(new java.awt.Dimension(30, 30));
         backButtonPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                backButtonPanelMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backButtonPanelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backButtonPanelMouseExited(evt);
             }
         });
         backButtonPanel.setLayout(null);
@@ -351,11 +348,11 @@ public class Calendar extends javax.swing.JPanel {
         backButtonLabel.setFocusable(false);
         backButtonLabel.setOpaque(true);
         backButtonLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                backButtonLabelMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backButtonLabelMouseEntered(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonLabelMouseClicked(evt);
             }
         });
         backButtonPanel.add(backButtonLabel);
@@ -384,6 +381,9 @@ public class Calendar extends javax.swing.JPanel {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 forwardButtonLabelMouseEntered(evt);
             }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forwardButtonLabelMouseClicked(evt);
+            }
         });
         forwardButtonPanel.add(forwardButtonLabel);
         forwardButtonLabel.setBounds(10, 10, 16, 14);
@@ -392,36 +392,13 @@ public class Calendar extends javax.swing.JPanel {
         forwardButtonPanel.setBounds(440, 0, 40, 30);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonLabelMouseClicked
-        if (selectedWeek == 1) {
-            selectedWeek = 52;
-            selectedYear -= 1;
-        } else {
-            selectedWeek -= 1;
-        }
-        generateTopBar(selectedWeek);
-        generateContentContainer();
-    }//GEN-LAST:event_backButtonLabelMouseClicked
-
     private void forwardButtonPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonPanelMouseClicked
-        generateContentContainer();
-        if (selectedWeek == 52) {
-            selectedWeek = 1;
-            selectedYear += 1;
-        } else {
-            selectedWeek += 1;
-        }
-
-        generateTopBar(selectedWeek);
-        contentContainer.removeAll();
-        // Når der trykkes skal contentContainer RYDDES og de to panels skal oprettes igen
-        generateContentContainer();
+     
 
     }//GEN-LAST:event_forwardButtonPanelMouseClicked
 
     private void backButtonPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonPanelMouseEntered
         backButtonSetBackground(1);
-        
     }//GEN-LAST:event_backButtonPanelMouseEntered
 
     private void backButtonPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonPanelMouseExited
@@ -444,29 +421,47 @@ public class Calendar extends javax.swing.JPanel {
         forwardButtonSetBackground(1);
     }//GEN-LAST:event_forwardButtonLabelMouseEntered
 
-    private void backButtonSetBackground(int param){
-        if(param == 0){
-            backButtonPanel.setBackground(new Color(240,240,240));
-            backButtonLabel.setBackground(new Color(240,240,240));
+    private void backButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonLabelMouseClicked
+        System.out.println("DEBUG");
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        System.out.println("DEBUG: " + calendar.getTime().toString());
+        calendar.add(Calendar.WEEK_OF_YEAR, -1);
+        generateTopBar();
+        generateContentContainer();
+    }//GEN-LAST:event_backButtonLabelMouseClicked
+
+    private void forwardButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseClicked
+   
+        System.out.println("DEBUG");
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        System.out.println("DEBUG: " + calendar.getTime().toString());
+        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        generateTopBar();
+        generateContentContainer();
+
+    }//GEN-LAST:event_forwardButtonLabelMouseClicked
+
+    private void backButtonSetBackground(int param) {
+        if (param == 0) {
+            backButtonPanel.setBackground(new Color(240, 240, 240));
+            backButtonLabel.setBackground(new Color(240, 240, 240));
         }
-        if(param == 1){
-            backButtonPanel.setBackground(new Color(200,200,200));
-            backButtonLabel.setBackground(new Color(200,200,200));
+        if (param == 1) {
+            backButtonPanel.setBackground(new Color(200, 200, 200));
+            backButtonLabel.setBackground(new Color(200, 200, 200));
         }
     }
-    
-    private void forwardButtonSetBackground(int param){
-            if(param == 0){
-            forwardButtonPanel.setBackground(new Color(240,240,240));
-            forwardButtonLabel.setBackground(new Color(240,240,240));
+
+    private void forwardButtonSetBackground(int param) {
+        if (param == 0) {
+            forwardButtonPanel.setBackground(new Color(240, 240, 240));
+            forwardButtonLabel.setBackground(new Color(240, 240, 240));
         }
-        if(param == 1){
-            forwardButtonPanel.setBackground(new Color(200,200,200));
-            forwardButtonLabel.setBackground(new Color(200,200,200));
+        if (param == 1) {
+            forwardButtonPanel.setBackground(new Color(200, 200, 200));
+            forwardButtonLabel.setBackground(new Color(200, 200, 200));
         }
     }
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backButtonLabel;
     private javax.swing.JPanel backButtonPanel;

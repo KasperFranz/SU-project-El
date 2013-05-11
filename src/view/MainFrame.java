@@ -8,7 +8,7 @@ import control.DBHandler;
 import java.sql.SQLException;
 import model.Employee;
 import testPackage.CalendarPanelTest;
-import util.Calendar;
+
 
 /**
  *
@@ -32,20 +32,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void initiateFrames() throws SQLException {
 
-        WelcomePanel welcome = new WelcomePanel();
+        WelcomeTab welcome = new WelcomeTab();
         mainframeTabbedPane.addTab("   Forside   ", welcome);
         
-        CalendarPanel calendar = new CalendarPanel(dbhandler);
+        CalendarTab calendar = new CalendarTab(dbhandler);
         mainframeTabbedPane.addTab(" Arbejdskalender ", calendar);
 
         if (activeUser.getAccessLevel() == 0) {
-            StaffPanel staff = new StaffPanel(dbhandler);
+            StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
             
             
             
         } else if (activeUser.getAccessLevel() == 1) {
-            StaffPanel staff = new StaffPanel(dbhandler);
+            StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
 
         }
