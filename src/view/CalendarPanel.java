@@ -4,16 +4,30 @@
  */
 package view;
 
+import control.DBHandler;
+import util.Calendar;
+
 /**
  *
  * @author Marc
  */
 public class CalendarPanel extends javax.swing.JPanel {
 
+    private DBHandler dbhandler;
+    private Calendar cal;
+    
     /**
      * Creates new form SettingsPanel
      */
-    public CalendarPanel() {
+    public CalendarPanel(DBHandler handler) {
+      
+        this.dbhandler = handler;
+        
+        cal = new Calendar();
+        cal.setVisible(true);
+        cal.setBounds(0, 0, 480, 400);
+        this.add(cal);
+        
         initComponents();
     }
 

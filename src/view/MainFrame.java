@@ -18,41 +18,55 @@ public class MainFrame extends javax.swing.JFrame {
 
     private Employee activeUser;
     private DBHandler dbhandler;
+
     /**
      * Creates new form MainFrame
      */
     public MainFrame(Employee user, DBHandler dbhandler) throws SQLException {
         this.dbhandler = dbhandler;
         activeUser = user;
-        
+
         initComponents();
         initiateFrames();
     }
 
-    
-    private void initiateFrames() throws SQLException{
-        
+    private void initiateFrames() throws SQLException {
+
         WelcomePanel welcome = new WelcomePanel();
         mainframeTabbedPane.addTab("   Forside   ", welcome);
-  
         
+        CalendarPanel calendar = new CalendarPanel(dbhandler);
+        mainframeTabbedPane.addTab(" Arbejdskalender ", calendar);
+
+        if (activeUser.getAccessLevel() == 0) {
+            StaffPanel staff = new StaffPanel(dbhandler);
+            mainframeTabbedPane.addTab("   Personale   ", staff);
+            
+            
+            
+        } else if (activeUser.getAccessLevel() == 1) {
+            StaffPanel staff = new StaffPanel(dbhandler);
+            mainframeTabbedPane.addTab("   Personale   ", staff);
+
+        }
+
+
+
+
+
+
+
         
-        
-        SettingsPanel settings = new SettingsPanel();
-        mainframeTabbedPane.addTab("   Indstillinger   "   , settings);
-        
-        StaffPanel staff = new StaffPanel(dbhandler);
-        mainframeTabbedPane.addTab("   Personale   "   , staff);
-        
+
+
+
 //////////////////////////// FOR TEST PURPOSES //////////////////////////////////
         CalendarPanelTest testCalendar = new CalendarPanelTest(dbhandler);
         mainframeTabbedPane.addTab("   Calendar test   ", testCalendar);
-        
-       
+
+
     }
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,7 +104,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 //    /**
 //     * @param args the command line arguments
 //     */

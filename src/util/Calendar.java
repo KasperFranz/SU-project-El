@@ -199,6 +199,9 @@ public class Calendar extends javax.swing.JPanel {
             case 9:
                 formattedTime = "16.00";
                 break;
+            case 10:
+                formattedTime = "17.00";
+                break;
             default:
                 formattedTime = "??.??";
                 break;
@@ -248,7 +251,7 @@ public class Calendar extends javax.swing.JPanel {
 //        System.out.println("Første dag i måneden: " + (firstDayInMonth()-1) + " *30 = " + xLocation );
 //        int dateCount = 1;
 //        for (int i = 0; i < DAYS_IN_MONTH; i++) {
-//                DatePanel datePanel = new DatePanel(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
+//                DatePanelOrig datePanel = new DatePanelOrig(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
 //                panel.add(datePanel);
 //                
 //                xLocation += PANELS_WIDTH;
@@ -305,10 +308,10 @@ public class Calendar extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         monthContainer = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        backButtonPanel = new javax.swing.JPanel();
+        backButtonLabel = new javax.swing.JLabel();
+        forwardButtonPanel = new javax.swing.JPanel();
+        forwardButtonLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(480, 416));
         setMinimumSize(new java.awt.Dimension(480, 416));
@@ -349,40 +352,64 @@ public class Calendar extends javax.swing.JPanel {
         add(monthContainer);
         monthContainer.setBounds(40, 0, 400, 30);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.setPreferredSize(new java.awt.Dimension(30, 30));
-        jPanel2.setLayout(null);
-
-        jLabel3.setText("<< ");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+        backButtonPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        backButtonPanel.setPreferredSize(new java.awt.Dimension(30, 30));
+        backButtonPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backButtonPanelMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backButtonPanelMouseEntered(evt);
             }
         });
-        jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 10, 19, 14);
+        backButtonPanel.setLayout(null);
 
-        add(jPanel2);
-        jPanel2.setBounds(0, 0, 40, 30);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setMinimumSize(new java.awt.Dimension(30, 30));
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        backButtonLabel.setText("<< ");
+        backButtonLabel.setFocusable(false);
+        backButtonLabel.setOpaque(true);
+        backButtonLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
+                backButtonLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backButtonLabelMouseEntered(evt);
             }
         });
-        jPanel1.setLayout(null);
+        backButtonPanel.add(backButtonLabel);
+        backButtonLabel.setBounds(10, 10, 19, 14);
 
-        jLabel4.setText(">>");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(10, 10, 16, 14);
+        add(backButtonPanel);
+        backButtonPanel.setBounds(0, 0, 40, 30);
 
-        add(jPanel1);
-        jPanel1.setBounds(440, 0, 40, 30);
+        forwardButtonPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        forwardButtonPanel.setMinimumSize(new java.awt.Dimension(30, 30));
+        forwardButtonPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forwardButtonPanelMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                forwardButtonPanelMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                forwardButtonPanelMouseEntered(evt);
+            }
+        });
+        forwardButtonPanel.setLayout(null);
+
+        forwardButtonLabel.setText(">>");
+        forwardButtonLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                forwardButtonLabelMouseEntered(evt);
+            }
+        });
+        forwardButtonPanel.add(forwardButtonLabel);
+        forwardButtonLabel.setBounds(10, 10, 16, 14);
+
+        add(forwardButtonPanel);
+        forwardButtonPanel.setBounds(440, 0, 40, 30);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void backButtonLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonLabelMouseClicked
         if (selectedWeek == 1) {
             selectedWeek = 52;
             selectedYear -= 1;
@@ -391,9 +418,9 @@ public class Calendar extends javax.swing.JPanel {
         }
         generateTopBar(selectedWeek);
         generateContentContainer();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_backButtonLabelMouseClicked
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+    private void forwardButtonPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonPanelMouseClicked
         generateContentContainer();
         if (selectedWeek == 52) {
             selectedWeek = 1;
@@ -407,16 +434,65 @@ public class Calendar extends javax.swing.JPanel {
         // Når der trykkes skal contentContainer RYDDES og de to panels skal oprettes igen
         generateContentContainer();
 
-    }//GEN-LAST:event_jPanel1MouseClicked
+    }//GEN-LAST:event_forwardButtonPanelMouseClicked
+
+    private void backButtonPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonPanelMouseEntered
+        backButtonSetBackground(1);
+        
+    }//GEN-LAST:event_backButtonPanelMouseEntered
+
+    private void backButtonPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonPanelMouseExited
+        backButtonSetBackground(0);
+    }//GEN-LAST:event_backButtonPanelMouseExited
+
+    private void backButtonLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonLabelMouseEntered
+        backButtonSetBackground(1);
+    }//GEN-LAST:event_backButtonLabelMouseEntered
+
+    private void forwardButtonPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonPanelMouseEntered
+        forwardButtonSetBackground(1);
+    }//GEN-LAST:event_forwardButtonPanelMouseEntered
+
+    private void forwardButtonPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonPanelMouseExited
+        forwardButtonSetBackground(0);
+    }//GEN-LAST:event_forwardButtonPanelMouseExited
+
+    private void forwardButtonLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forwardButtonLabelMouseEntered
+        forwardButtonSetBackground(1);
+    }//GEN-LAST:event_forwardButtonLabelMouseEntered
+
+    private void backButtonSetBackground(int param){
+        if(param == 0){
+            backButtonPanel.setBackground(new Color(240,240,240));
+            backButtonLabel.setBackground(new Color(240,240,240));
+        }
+        if(param == 1){
+            backButtonPanel.setBackground(new Color(200,200,200));
+            backButtonLabel.setBackground(new Color(200,200,200));
+        }
+    }
+    
+    private void forwardButtonSetBackground(int param){
+            if(param == 0){
+            forwardButtonPanel.setBackground(new Color(240,240,240));
+            forwardButtonLabel.setBackground(new Color(240,240,240));
+        }
+        if(param == 1){
+            forwardButtonPanel.setBackground(new Color(200,200,200));
+            forwardButtonLabel.setBackground(new Color(200,200,200));
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel backButtonLabel;
+    private javax.swing.JPanel backButtonPanel;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JPanel dayContainer;
+    private javax.swing.JLabel forwardButtonLabel;
+    private javax.swing.JPanel forwardButtonPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel monthContainer;
     private javax.swing.JPanel topCornerContainer;
     // End of variables declaration//GEN-END:variables
