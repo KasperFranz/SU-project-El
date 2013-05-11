@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import model.Worksheet;
 
 public class DatePanel extends JPanel implements MouseListener {
     
@@ -14,14 +15,15 @@ public class DatePanel extends JPanel implements MouseListener {
     private int yLocation;
     private int width;
     private int height;
-  
+    private Worksheet worksheet;
     
-    public DatePanel(int date, int xLocation, int yLocation,int width, int height){
+    public DatePanel(int date, int xLocation, int yLocation,int width, int height, Worksheet worksheet){
         this.date = date;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
         this.height = height;
         this.width = width;
+        this.worksheet = worksheet;
         
         this.add(new JLabel(date + ""));
         this.setBounds(xLocation, yLocation, width, height);

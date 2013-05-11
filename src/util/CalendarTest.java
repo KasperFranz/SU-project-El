@@ -16,7 +16,7 @@ public class CalendarTest extends javax.swing.JFrame {
     public CalendarTest() {
         initComponents();
         
-        Calendar cal = new Calendar();
+        Calendar cal = new Calendar(null);
         this.add(cal);
         cal.setVisible(true);
         cal.setBounds(0, 0, 480, 400);

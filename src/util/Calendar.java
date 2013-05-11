@@ -4,6 +4,7 @@
  */
 package util;
 
+import control.DBHandler;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,20 +31,17 @@ public class Calendar extends javax.swing.JPanel {
     private final int PANELS_HEIGHT = 30;
     private final int HOURS = 11;
     private final int DAYS = 5;
+    private DBHandler dbhandler;
 
-    public Calendar() {
+    public Calendar(DBHandler dbhandler) {
 
-        calendar = calendar.getInstance();
-        // calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        startWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
-        selectedYear = calendar.get(java.util.Calendar.YEAR);
-        currentWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
-        selectedWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
-
-        // String dato = dateFormat.format(date);
-        System.out.println(calendar);
-        System.out.println(currentMonth);
-
+        this.dbhandler = dbhandler;
+        
+        this.calendar = calendar.getInstance();
+        this.startWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
+        this.selectedYear = calendar.get(java.util.Calendar.YEAR);
+        this.currentWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
+        this.selectedWeek = calendar.get(java.util.Calendar.WEEK_OF_YEAR);
 
         initComponents();
         generateDayBar();
@@ -96,47 +94,7 @@ public class Calendar extends javax.swing.JPanel {
 
     }
 
-    /**
-     * *************************************************************************
-     * A helping method for the generateDayBar method that returns a string with
-     * the name of the day to be put on the jPanel.
-     *
-     * @param day
-     * @return dayOfWeek
-     * ************************************************************************
-     */
-    private String defineDay(int day) {
-
-        String dayOfWeek;
-
-        switch (day) {
-            case 0:
-                dayOfWeek = "Mon";
-                break;
-            case 1:
-                dayOfWeek = "Tue";
-                break;
-            case 2:
-                dayOfWeek = "Wed";
-                break;
-            case 3:
-                dayOfWeek = "Thu";
-                break;
-            case 4:
-                dayOfWeek = "Fri";
-                break;
-//            case 5:
-//                dayOfWeek = "Sat";
-//                break;
-//            case 6:
-//                dayOfWeek = "Sun";
-//                break;
-            default:
-                dayOfWeek = "Unknown";
-                break;
-        }
-        return dayOfWeek;
-    }
+    
 
     /**
      * *************************************************************************
@@ -161,6 +119,61 @@ public class Calendar extends javax.swing.JPanel {
             panel.add(weekPanel);
 
             yLocation += PANELS_HEIGHT;
+        }
+    }
+
+    
+
+    /**
+     * *************************************************************************
+     * GENERATES THE CONTAINER RESPONSIBLE FOR THE WEEKPANELS CONTAINER AND FOR
+     * THE DATE PANELS CONTAINER
+     * *************************************************************************
+     */
+    private void generateContentContainer() {
+        System.out.println("all clear - vi fylder op");
+        contentContainer.validate();
+        JPanel timeContainer = new JPanel();
+        timeContainer.setLayout(null);
+        timeContainer.setBounds(0, 0, PANELS_WIDTH, PANELS_HEIGHT * HOURS);
+        timeContainer.setVisible(true);
+        contentContainer.add(timeContainer);
+        generateTimeBar(timeContainer);
+
+        JPanel datePanelsContainer = new JPanel();
+        datePanelsContainer.setLayout(null);
+        datePanelsContainer.setBounds(PANELS_WIDTH, 0, PANELS_WIDTH * HOURS, PANELS_HEIGHT * HOURS);
+        datePanelsContainer.setVisible(true);
+        contentContainer.add(datePanelsContainer);
+        generateDatePanels(datePanelsContainer);
+        contentContainer.revalidate();
+        contentContainer.repaint();
+        System.out.println("så er der fyldt indhold i - så tegner vi");
+    }
+
+    /**
+     * *************************************************************************
+     * GENERATES THE DATE PANELS FOR THE SELECTED MONTH
+     * *************************************************************************
+     */
+    private void generateDatePanels(JPanel panel) {
+
+        int dateCount = 1;
+        int xLocation = 0;
+        int yLocation = 0;
+
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < HOURS; j++) {
+
+                xLocation = PANELS_WIDTH * i;
+                yLocation = PANELS_HEIGHT * j;
+
+                DatePanel datePanel = new DatePanel(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
+                panel.add(datePanel);
+
+                dateCount++;
+
+            }
         }
     }
 
@@ -209,79 +222,49 @@ public class Calendar extends javax.swing.JPanel {
 
         return formattedTime;
     }
-
+    
     /**
      * *************************************************************************
-     * GENERATES THE CONTAINER RESPONSIBLE FOR THE WEEKPANELS CONTAINER AND FOR
-     * THE DATE PANELS CONTAINER
-     * *************************************************************************
+     * A helping method for the generateDayBar method that returns a string with
+     * the name of the day to be put on the jPanel.
+     *
+     * @param day
+     * @return dayOfWeek
+     * ************************************************************************
      */
-    private void generateContentContainer() {
-        System.out.println("all clear - vi fylder op");
-        contentContainer.validate();
-        JPanel timeContainer = new JPanel();
-        timeContainer.setLayout(null);
-        timeContainer.setBounds(0, 0, PANELS_WIDTH, PANELS_HEIGHT * HOURS);
-        timeContainer.setVisible(true);
-        contentContainer.add(timeContainer);
-        generateTimeBar(timeContainer);
+    private String defineDay(int day) {
 
-        JPanel datePanelsContainer = new JPanel();
-        datePanelsContainer.setLayout(null);
-        datePanelsContainer.setBounds(PANELS_WIDTH, 0, PANELS_WIDTH * HOURS, PANELS_HEIGHT * HOURS);
-        datePanelsContainer.setVisible(true);
-        contentContainer.add(datePanelsContainer);
-        generateDatePanels(datePanelsContainer);
-        contentContainer.revalidate();
-        contentContainer.repaint();
-        System.out.println("så er der fyldt indhold i - så tegner vi");
-    }
+        String dayOfWeek;
 
-    /**
-     * *************************************************************************
-     * GENERATES THE DATE PANELS FOR THE SELECTED MONTH
-     * *************************************************************************
-     */
-    private void generateDatePanels(JPanel panel) {
-
-//        final int DAYS_IN_MONTH = daysInMonth(selectedMonth);
-//        
-//        int xLocation = (firstDayInMonth()-1)*PANELS_WIDTH; // The location on the x-axis of the panel, the starting location is defined by the starting day of the month
-//        int yLocation = 0; // The location on the y-axis of the next panel
-//        System.out.println("Første dag i måneden: " + (firstDayInMonth()-1) + " *30 = " + xLocation );
-//        int dateCount = 1;
-//        for (int i = 0; i < DAYS_IN_MONTH; i++) {
-//                DatePanelOrig datePanel = new DatePanelOrig(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
-//                panel.add(datePanel);
-//                
-//                xLocation += PANELS_WIDTH;
-//                dateCount++;
-//                
-//                if(xLocation == 210){
-//                    xLocation = 0;
-//                    yLocation += PANELS_WIDTH;
-//                }
-//        }
-
-        int dateCount = 1;
-        int xLocation = 0;
-        int yLocation = 0;
-
-        for (int i = 0; i < DAYS; i++) {
-            for (int j = 0; j < HOURS; j++) {
-
-                xLocation = PANELS_WIDTH * i;
-                yLocation = PANELS_HEIGHT * j;
-
-                DatePanel datePanel = new DatePanel(dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
-                panel.add(datePanel);
-
-                dateCount++;
-
-            }
+        switch (day) {
+            case 0:
+                dayOfWeek = "Mon";
+                break;
+            case 1:
+                dayOfWeek = "Tue";
+                break;
+            case 2:
+                dayOfWeek = "Wed";
+                break;
+            case 3:
+                dayOfWeek = "Thu";
+                break;
+            case 4:
+                dayOfWeek = "Fri";
+                break;
+//            case 5:
+//                dayOfWeek = "Sat";
+//                break;
+//            case 6:
+//                dayOfWeek = "Sun";
+//                break;
+            default:
+                dayOfWeek = "Unknown";
+                break;
         }
+        return dayOfWeek;
     }
-
+    
     private int firstDayInMonth() {
 
         int firstDay;

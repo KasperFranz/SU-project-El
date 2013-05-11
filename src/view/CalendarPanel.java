@@ -23,7 +23,7 @@ public class CalendarPanel extends javax.swing.JPanel {
       
         this.dbhandler = handler;
         
-        cal = new Calendar();
+        cal = new Calendar(dbhandler);
         cal.setVisible(true);
         cal.setBounds(0, 0, 480, 400);
         this.add(cal);

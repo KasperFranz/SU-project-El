@@ -18,10 +18,7 @@ public class WelcomePanel extends javax.swing.JPanel {
     public WelcomePanel() {
         initComponents();
         
-        Calendar cal = new Calendar();
-        this.add(cal);
-        cal.setVisible(true);
-        cal.setBounds(300, 30, 500, 450);
+   
                
         
     }
