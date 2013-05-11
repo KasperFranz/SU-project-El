@@ -72,7 +72,7 @@ public class DBHandler {
 
     public boolean isUserCorrectPassword(String username, String password) throws SQLException {
         boolean correctPassword = false;
-        String query = "SELECT COUNT(*) as total FROM employee WHERE Username = '" + username + "' AND Password = '" + password + "'";
+        String query = "SELECT COUNT(*) as total FROM employee WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"";
         System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
 
@@ -87,7 +87,7 @@ public class DBHandler {
 
     public Employee retrieveEmployee(String username) throws SQLException {
         Employee user = null;
-        String query = "SELECT * FROM employee WHERE Username = '" + username + "'";
+        String query = "SELECT * FROM employee WHERE Username = \"" + username + "\"";
 
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
@@ -106,7 +106,7 @@ public class DBHandler {
 
     public Employee retrieveEmployee(int userID) throws SQLException {
         Employee user = null;
-        String query = "SELECT * FROM employee WHERE UserID = '" + userID + "'";
+        String query = "SELECT * FROM employee WHERE UserID = \"" + userID + "\"";
 
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
@@ -127,7 +127,7 @@ public class DBHandler {
         boolean inserted = false;
 
         String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
-                + "Values ('" + employee.getUsername() + "', '" + employee.getName() + "','" + employee.getAccessLevel() + "','" + employee.getPassword() + "')";
+                + "Values (\"" + employee.getUsername() + "\", \"" + employee.getName() + "\",\"" + employee.getAccessLevel() + "\",\"" + employee.getPassword() + "\")";
 
         System.out.println(query);
 
@@ -151,7 +151,7 @@ public class DBHandler {
     public boolean updateEmployee(Employee employee) throws SQLException {
         boolean updated = false;
 
-        String query = "Update employee SET Password = '" + employee.getPassword() + "', Username = '" + employee.getUsername() + "', Fullname = '" + employee.getName() + "', Accesslevel = '" + employee.getAccessLevel() + "' WHERE UserID = '" + employee.getUserID() + "'";
+        String query = "Update employee SET Password = \"" + employee.getPassword() + "\", Username = \"" + employee.getUsername() + "\", Fullname = \"" + employee.getName() + "\", Accesslevel = \"" + employee.getAccessLevel() + "\" WHERE UserID = \"" + employee.getUserID() + "\"";
 
         int result = stmt.executeUpdate(query);
         if (result != 0) {
@@ -182,8 +182,8 @@ public class DBHandler {
         Date slut = cal.getTime();
 
         String query = "SELECT * FROM worksheet WHERE "
-                + "TimeOfJob between '" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
-                + "' AND '" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "'";
+                + "TimeOfJob between \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
+                + "\" AND \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "\"";
 
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query);
 
@@ -235,7 +235,7 @@ public class DBHandler {
         String query = "Insert into Worksheet "
                 + "(CustomerName,CustomerAddress, CustomerPhone,timeOfJob,JobDescription)"
                 + "Values "
-                + "('" + item.getCustomerName() + "', '" + item.getCustomerAdress() + "','" + item.getCustomerPhone() + "','" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "','" + item.getJobDescription() + "')";
+                + "(\"" + item.getCustomerName() + "\", \"" + item.getCustomerAdress() + "\",\"" + item.getCustomerPhone() + "\",\"" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "\",\"" + item.getJobDescription() + "\")";
         int result = stmt.executeUpdate(query);
         if (result != 0) {
             inserted = true;
@@ -256,7 +256,7 @@ public class DBHandler {
     public boolean updateWorksheet(Worksheet item) throws SQLException {
         boolean updated = false;
         if (item.getOrderId() > 0) {
-            String query = "Update worksheet SET CustomerName = '" + item.getCustomerName() + "', CustomerAddress = '" + item.getCustomerAdress() + "', CustomerPhone = '" + item.getCustomerPhone() + "', TimeOfJob = '" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "',Jobdescription = '" + item.getJobDescription() + "', Comments = '" + item.getComment() + "' WHERE OrdreNr = '" + item.getOrderId() + "'";
+            String query = "Update worksheet SET CustomerName = \"" + item.getCustomerName() + "\", CustomerAddress = \"" + item.getCustomerAdress() + "\", CustomerPhone = \"" + item.getCustomerPhone() + "\", TimeOfJob = \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", item.getTimeOfJob()) + "\",Jobdescription = \"" + item.getJobDescription() + "\", Comments = \"" + item.getComment() + "\" WHERE OrdreNr = \"" + item.getOrderId() + "\"";
             System.out.println(query);
             int result = stmt.executeUpdate(query);
             if (result != 0) {
