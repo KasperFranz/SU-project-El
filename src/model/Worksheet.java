@@ -28,15 +28,17 @@ public class Worksheet {
         this.employee = employee;
         this.comment = comment;
     }
-    
-        public Worksheet(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription) {
+
+    public Worksheet(int orderId, Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, String comment) {
         this.orderId = orderId;
         this.timeOfJob = timeOfJob;
         this.customerName = customerName;
         this.customerAdress = customerAdress;
         this.customerPhone = customerPhone;
         this.jobDescription = jobDescription;
+        this.comment = comment;
     }
+    
 
     public Worksheet(Date timeOfJob, String jobDescription) {
         this.jobDescription = jobDescription;
