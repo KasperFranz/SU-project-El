@@ -215,7 +215,6 @@ public class DBHandler {
             Date timeOfJob = rs.getDate("timeOfJob");
             String jobDescription = rs.getString("JobDescription");
             String comment = rs.getString("Comments");
-            tempEmployee.add(rs.getInt("Employee"));
             Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription, comment);
 
             calendarItemList.add(calendarItem);
@@ -351,7 +350,7 @@ public class DBHandler {
 
     public ArrayList<Worksheet> retrieveWorksheets(Employee employee) throws SQLException {
 
-        String query = "SELECT * FROM worksheet WHERE Employee = " + employee.getUserID();
+        String query = "SELECT * FROM (worksheet join onWorksheet on worksheet.OrdreNR = onWorksheet.Employee) WHERE Employee = " + employee.getUserID();
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query,false);
         for (int i = 0; i < calendarItemList.size(); i++) {
             calendarItemList.get(i).setEmployee(employee);
