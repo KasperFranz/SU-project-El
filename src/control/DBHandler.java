@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import model.Worksheet;
 import model.Employee;
+import util.DatePanel;
 
 /**
  *
@@ -29,7 +30,9 @@ public class DBHandler {
     private String host;
     private String port;
     private String dbName;
+    private DatePanel dp;
     private boolean connected;
+    
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
         this.conn = conn;
@@ -195,7 +198,7 @@ public class DBHandler {
         return calendarItemList;
 
     }
-
+    
     /**
      * Lokal hjælpemetode til at hente CalendarItems/Worksheets ud med
      *

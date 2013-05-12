@@ -34,6 +34,10 @@ public class DatePanel extends JPanel implements MouseListener {
         addMouseListener(this);
         
     }
+    
+    public DatePanel(){
+        
+    }
 
     @Override
     public void mouseClicked(MouseEvent me) {
@@ -68,6 +72,10 @@ public class DatePanel extends JPanel implements MouseListener {
     }
     @Override
     public void mouseReleased(MouseEvent me) {
+    }
+
+    public int getTime() {
+        return time;
     }
   
 
