@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import util.PlanningDatePanel;
 
 /**
  *
@@ -165,7 +166,7 @@ public class PlanningCalendarPanel extends javax.swing.JPanel {
                 yLocation = PANELS_HEIGHT * j;
 
 
-                DatePanel datePanel = new DatePanel(date, dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
+                PlanningDatePanel datePanel = new PlanningDatePanel(date, dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
                 panel.add(datePanel);
 
                 dateCount++;

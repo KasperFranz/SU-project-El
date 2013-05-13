@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.Worksheet;
 
-public class DatePanel extends JPanel implements MouseListener {
+public class PlanningDatePanel extends JPanel implements MouseListener {
     
     private Date date;
     private int time;
@@ -19,7 +19,7 @@ public class DatePanel extends JPanel implements MouseListener {
     private int height;
     private Worksheet worksheet;
     
-    public DatePanel(Date date, int time, int xLocation, int yLocation,int width, int height, Worksheet worksheet){
+    public PlanningDatePanel(Date date, int time, int xLocation, int yLocation,int width, int height, Worksheet worksheet){
         this.date = date;
         this.time = time;
         this.xLocation = xLocation;
@@ -35,7 +35,7 @@ public class DatePanel extends JPanel implements MouseListener {
         
     }
     
-    public DatePanel(){
+    public PlanningDatePanel(){
         
     }
 
