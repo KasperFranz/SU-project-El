@@ -10,77 +10,93 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import model.Worksheet;
 import model.Employee;
 
 /**
  *
- * @author Nikolaj
+ * @author Nikolaj & Kasper
  */
-public class CalendarPanelTest extends javax.swing.JPanel {
-    
+public class CalendarPanelTest extends JPanel {
+
     private DBHandler dbHandler;
-    private DefaultListModel calendarItemListModel;
+    private DefaultListModel worksheetListModel;
 
     /**
      * Creates new form CalendarPanelTest
      */
     public CalendarPanelTest(DBHandler dbHandler) throws SQLException {
-        calendarItemListModel = new DefaultListModel();
+        worksheetListModel = new DefaultListModel();
         this.dbHandler = dbHandler;
         initComponents();
         fillEmployeeCombo();
     }
-    
-    private void loadCalendarItems(ArrayList<Worksheet> calendarItems) {
+/**
+ * Clear and load the worksheets!
+ * @param worksheets the new worksheets we gonna add to the worksheet list.
+ */
+    private void LoadWorksheets(ArrayList<Worksheet> worksheets) {
         int oldSelection = -1;
         try {
-            oldSelection = calendarItemList.getSelectedIndex();
-            calendarItemList.clearSelection();
-            
+            oldSelection = worksheetList.getSelectedIndex();
+            worksheetList.clearSelection();
         } catch (NullPointerException ex) {
+            // there are comming a exception first time this method is calling because we cant get a selected item when there are none in the list.
             System.out.println("Vi ved der kommer en null point exception ved CalendarItem første gang den kører.");
         }
-        calendarItemListModel.clear();
-        System.out.println("1!");
-        System.out.println("size = " + calendarItems.size());
-        
-        for (int i = 0; i < calendarItems.size(); i++) {
-            calendarItemListModel.addElement(calendarItems.get(i));
-            System.out.println("2!");
+        // clearing the worksheetList Model!
+        worksheetListModel.clear();
+        // For each worksheet we add it to the worksheet list!
+        for (int i = 0; i < worksheets.size(); i++) {
+            worksheetListModel.addElement(worksheets.get(i));
         }
+       // if the oldSelection is 0 or larger we gonna set it as the selected index.
         if (oldSelection >= 0) {
             System.out.println("3!");
-            calendarItemList.setSelectedIndex(oldSelection);
+            worksheetList.setSelectedIndex(oldSelection);
         }
     }
-    
+/**
+ * Fill the employee combo box with all employees from the database.
+ * @throws SQLException throws a SQLException.
+ */
     private void fillEmployeeCombo() throws SQLException {
+        // First we gonna remove all items from the combobox (so we allways got all the employees)
+        employeeComboBox.setSelectedIndex(-1);
+        employeeComboBox.removeAllItems();
+        // first we gonna add a all item (there gonna show all the worksheets.
         employeeComboBox.addItem("Alle");
+        // we gonna grab all the employees from the database and add it in the combobox.
         ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             employeeComboBox.addItem(employees.get(i));
         }
     }
-    
-    private void fillAssignedEmployeeCombo(Worksheet worksheet) throws SQLException {
+/**
+ * Fill the combobox with all the assigned Employees.
+ * @param worksheet the worksheet you gonna take the employees from
+ */
+    private void fillAssignedEmployeeCombo(Worksheet worksheet){
+        //First we gonna remove all the items (so we allways got fresh data)
         assignedEmployee.setSelectedIndex(-1);
         assignedEmployee.removeAllItems();
-        ArrayList<Employee> employees = worksheet.getEmployees();
-        for (int i = 0; i < employees.size(); i++) {
-            assignedEmployee.addItem(employees.get(i));
+        // foreach employee we gonna add the employee to the assigned employees combobox
+        for (int i = 0; i < worksheet.getEmployees().size(); i++) {
+            assignedEmployee.addItem(worksheet.getEmployees().get(i));
         }
         
-        if (employees.isEmpty()) {
+        // IF there are no employees added to the worksheet we gonna add a text to say this.
+        if (worksheet.getEmployees().isEmpty()) {
             assignedEmployee.addItem("Ingen tilknyttet");
         }
-        
     }
-    
+/**
+ * Gonna change the button/text fields to disable or enabled 
+ * @param StateNow the state you want it changed to.
+ */
     private void changeEmployeeButtonState(boolean StateNow) {
-        
-        
-        System.out.println("Changes to" + !StateNow);
         dateTextField.setEditable(StateNow);
         dateTextField.setEnabled(StateNow);
         descriptionTextArea.setEditable(StateNow);
@@ -92,7 +108,20 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         customerPhoneTextField.setEditable(StateNow);
         customerPhoneTextField.setEnabled(StateNow);
         assignedEmployee.setEnabled(StateNow);
-        
+    }
+
+    /**
+     * Removing all the text from the fields and assigning assignedEmployees to no worksheet.
+     */
+    private void clearFields() {
+        assignedEmployee.setSelectedIndex(-1);
+        assignedEmployee.removeAllItems();
+        commentTextArea.setText("");
+        customerAddressTextField.setText("");
+        customerNameTextField.setText("");
+        customerPhoneTextField.setText("");
+        descriptionTextArea.setText("");
+        assignedEmployee.addItem("Ingen arbejdsseddel");
     }
 
     /**
@@ -104,8 +133,6 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        calendarItemList = new javax.swing.JList(calendarItemListModel);
         dateTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -122,16 +149,13 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         commentTextArea = new javax.swing.JTextArea();
         jButton4 = new javax.swing.JButton();
+        assignedEmployee = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         employeeComboBox = new javax.swing.JComboBox();
-        assignedEmployee = new javax.swing.JComboBox();
-
-        calendarItemList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                calendarItemListValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(calendarItemList);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        worksheetList = new javax.swing.JList(worksheetListModel);
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setText("Dato/tid:");
 
@@ -141,7 +165,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         descriptionTextArea.setRows(5);
         jScrollPane2.setViewportView(descriptionTextArea);
 
-        jLabel3.setText("Medarbejder:");
+        jLabel3.setText("Medarbejdere:");
 
         jLabel4.setText("Kundens navn:");
 
@@ -162,6 +186,8 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jLabel7.setText("Vælg medarbejder:");
 
         employeeComboBox.setModel(new javax.swing.DefaultComboBoxModel());
@@ -171,16 +197,58 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             }
         });
 
+        worksheetList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                worksheetListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(worksheetList);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 256, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addComponent(employeeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel7)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(employeeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jButton1.setText("Slet");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                    .addComponent(jLabel7)
-                    .addComponent(employeeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
@@ -199,35 +267,19 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                         .addComponent(jLabel4)
                         .addComponent(customerAddressTextField)
                         .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton4)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4))
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(employeeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2)
-                                .addGap(15, 15, 15)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(assignedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 11, Short.MAX_VALUE)
                         .addComponent(jLabel4)
@@ -246,40 +298,56 @@ public class CalendarPanelTest extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addGap(9, 9, 9)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton1))
+                        .addGap(9, 9, 9))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(assignedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void calendarItemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_calendarItemListValueChanged
-        if (calendarItemList.getSelectedIndex() >= 0) {
-            try {
-                Worksheet ci = (Worksheet) calendarItemList.getSelectedValue();
-                dateTextField.setText(ci.getTimeOfJob().toString());
-                descriptionTextArea.setText(ci.getJobDescription());
+    private void worksheetListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_worksheetListValueChanged
+        if (worksheetList.getSelectedIndex() >= 0 && worksheetList.getSelectedValue() instanceof Worksheet){
+                Worksheet ci = (Worksheet) worksheetList.getSelectedValue();
+                
                 fillAssignedEmployeeCombo(ci);
+                changeEmployeeButtonState(true);
+                // TODO here we gonna set the calendar/time picker
+                descriptionTextArea.setText(ci.getJobDescription());
                 customerNameTextField.setText(ci.getCustomerName());
                 customerAddressTextField.setText(ci.getCustomerAdress());
                 customerPhoneTextField.setText(ci.getCustomerPhone());
                 commentTextArea.setText(ci.getComment());
-            } catch (SQLException ex) {
-                Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
-    }//GEN-LAST:event_calendarItemListValueChanged
-    
+    }//GEN-LAST:event_worksheetListValueChanged
+
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            Worksheet worksheet = (Worksheet) calendarItemList.getSelectedValue();
+            Worksheet worksheet = (Worksheet) worksheetList.getSelectedValue();
             worksheet.setComment(commentTextArea.getText());
             worksheet.setCustomerAdress(customerAddressTextField.getText());
             worksheet.setCustomerName(customerNameTextField.getText());
             worksheet.setCustomerPhone(customerPhoneTextField.getText());
             worksheet.setJobDescription(descriptionTextArea.getText());
-
-
-//            Date date = new Date(dateTextField.getText());
+            clearFields();
+            changeEmployeeButtonState(false);
+//          TODO  Date date = SetTimeOfJob HERE!!!!!!
 //            worksheet.setTimeOfJob(date);
             dbHandler.updateWorksheet(worksheet);
             fillEmployeeCombo();
@@ -287,30 +355,46 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             System.out.println("ERROR WITH SAVING" + ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-    
+
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
-        calendarItemListModel.clear();
-        
-        if (employeeComboBox.getSelectedItem().equals("Alle")) {
-            try {
-                loadCalendarItems(dbHandler.retrieveAllWorksheets());
-            } catch (SQLException ex) {
-                Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        worksheetListModel.clear();
+        clearFields();
+        changeEmployeeButtonState(false);
+        try{ 
+            if (employeeComboBox.getSelectedItem().equals("Alle")) {
+            
+                LoadWorksheets(dbHandler.retrieveAllWorksheets());
+            
         } else {
-            try {
-                loadCalendarItems(dbHandler.retrieveWorksheets((Employee) employeeComboBox.getSelectedItem()));
-            } catch (SQLException ex) {
-                Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
             
-            System.out.println(employeeComboBox.getSelectedItem());
-            
+                LoadWorksheets(dbHandler.retrieveWorksheets((Employee) employeeComboBox.getSelectedItem()));
+        }
+        }catch(SQLException ex){
+            System.out.println("We got a retrieve worksheet ERROR");
         }
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            int delete = JOptionPane.showConfirmDialog(this, "Er du sikker på du vil slette denne arbejdsseddel?");
+
+
+            if (delete == JOptionPane.YES_OPTION) {
+                Worksheet worksheet = (Worksheet) worksheetList.getSelectedValue();
+                if (worksheet != null) {
+                    dbHandler.deleteWorksheet(worksheet);
+                    fillEmployeeCombo();
+                    clearFields();
+                    changeEmployeeButtonState(false);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox assignedEmployee;
-    private javax.swing.JList calendarItemList;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField customerAddressTextField;
     private javax.swing.JTextField customerNameTextField;
@@ -318,6 +402,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     private javax.swing.JTextField dateTextField;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JComboBox employeeComboBox;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -327,8 +412,10 @@ public class CalendarPanelTest extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList worksheetList;
     // End of variables declaration//GEN-END:variables
 }
