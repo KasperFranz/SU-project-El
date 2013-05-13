@@ -164,9 +164,9 @@ public class CalendarPanel extends javax.swing.JPanel {
                 xLocation = PANELS_WIDTH * i;
                 yLocation = PANELS_HEIGHT * j;
 
-
-                DatePanel datePanel = new DatePanel(date, dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
-                panel.add(datePanel);
+//
+//                DatePanel datePanel = new DatePanel(date, dateCount, xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT, null);
+//                panel.add(datePanel);
 
                 dateCount++;
 
