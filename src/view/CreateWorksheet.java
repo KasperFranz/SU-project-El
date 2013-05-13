@@ -7,9 +7,9 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.DefaultListModel;
 import model.Employee;
+import model.Worksheet;
 
 /**
  *
@@ -28,7 +28,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
         this.dbHandler = dbHandler;
         initComponents();
         fillEmployeeCombo();
-        createDates();
     }
 
     private void fillEmployeeCombo() throws SQLException {
@@ -37,65 +36,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
         for (int i = 0; i < employees.size(); i++) {
             employeeComboBox.addItem(employees.get(i));
         }
-    }
-
-    private void createDates() {
-        Calendar cal = Calendar.getInstance();
-        yearCombo.addItem("År");
-        int startyear = cal.get(Calendar.YEAR);
-        for (int i = 0; i < 5; i++) {
-            int curryear = startyear + i;
-            yearCombo.addItem(curryear + "");
-
-        }
-
-    }
-
-    private void setMonths(int year) {
-        clearMonth();
-// starts clearing it
-        Calendar cal = Calendar.getInstance();
-        int start = 0;
-        if (year == cal.get(Calendar.YEAR)) {
-            start = cal.get(Calendar.MONTH);
-        }
-        for (int i = start; i < 12; i++) {
-            monthCombo.addItem(i + 1);
-        }
-    }
-
-    private void clearMonth() {
-        while (0 != monthCombo.getItemCount()) {
-            monthCombo.removeItemAt(0);
-        }
-        monthCombo.addItem("måned");
-    }
-
-    private void setDays() {
-        if (yearCombo.getSelectedIndex() != 0 && monthCombo.getSelectedIndex() != 0) {
-            int year = Integer.parseInt((String) yearCombo.getSelectedItem());
-            int month = Integer.parseInt((String) monthCombo.getSelectedItem());
-            Calendar cal = Calendar.getInstance();
-            if (cal.get(Calendar.MONTH) != month && cal.get(Calendar.YEAR) != year) {
-                cal.set(year, month, 1);
-            }
-
-
-            clearDays();
-            int maxdate = cal.getMaximum(Calendar.DAY_OF_MONTH);
-
-            for (int i = cal.get(Calendar.DAY_OF_MONTH); i < maxdate; i++) {
-                dayCombo.addItem(i);
-
-            }
-        }
-    }
-
-    private void clearDays() {
-        while (0 != dayCombo.getItemCount()) {
-            dayCombo.removeItemAt(0);
-        }
-        dayCombo.addItem("dag");
     }
 
     /**
@@ -109,7 +49,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         assignedEmployees = new javax.swing.JList(assignedEmployeesList);
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
@@ -126,15 +65,8 @@ public class CreateWorksheet extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         employeeComboBox = new javax.swing.JComboBox();
         addEmployeeButton = new javax.swing.JButton();
-        yearCombo = new javax.swing.JComboBox();
-        monthCombo = new javax.swing.JComboBox();
-        dayCombo = new javax.swing.JComboBox();
-        hourCombo = new javax.swing.JComboBox();
-        minuteCombo = new javax.swing.JComboBox();
 
         jScrollPane1.setViewportView(assignedEmployees);
-
-        jLabel1.setText("Dato/tid:");
 
         jLabel2.setText("Beskrivelse:");
 
@@ -172,27 +104,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
             }
         });
 
-        yearCombo.setModel(new javax.swing.DefaultComboBoxModel());
-        yearCombo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                yearComboItemStateChanged(evt);
-            }
-        });
-
-        monthCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Måned" }));
-        monthCombo.setSelectedIndex(-1);
-        monthCombo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                monthComboItemStateChanged(evt);
-            }
-        });
-
-        dayCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Dag" }));
-
-        hourCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        minuteCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -209,23 +120,12 @@ public class CreateWorksheet extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(yearCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(1, 1, 1)
-                        .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(hourCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(minuteCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel8)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -244,53 +144,46 @@ public class CreateWorksheet extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7))
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(employeeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(yearCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(monthCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dayCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hourCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(minuteCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(employeeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(addEmployeeButton))
+                        .addComponent(addEmployeeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2)
-                                .addGap(46, 46, 46))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 11, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(customerAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(createWorksheet)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(customerAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createWorksheet)
                 .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void createWorksheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createWorksheetActionPerformed
+            Worksheet worksheet = new Worksheet
+               dbHandler.insertWorksheet(worksheet);
     }//GEN-LAST:event_createWorksheetActionPerformed
 
     private void addEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeButtonActionPerformed
@@ -302,26 +195,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addEmployeeButtonActionPerformed
 
-    private void yearComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_yearComboItemStateChanged
-        if (yearCombo.getSelectedIndex() != 0) {
-            setMonths(Integer.parseInt((String) yearCombo.getSelectedItem()));
-        } else {
-            clearMonth();
-        }
-    }//GEN-LAST:event_yearComboItemStateChanged
-
-    private void monthComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_monthComboItemStateChanged
-        if (monthCombo.getSelectedIndex() >= 1 && yearCombo.getSelectedIndex() >= 1) {
-            try{
-           
-            setDays();
-            }catch(Exception ex){
-                System.out.println("Ex"+ex);
-            }
-        }else{
-            clearDays();
-        }
-    }//GEN-LAST:event_monthComboItemStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEmployeeButton;
     private javax.swing.JList assignedEmployees;
@@ -330,11 +203,8 @@ public class CreateWorksheet extends javax.swing.JPanel {
     private javax.swing.JTextField customerAddressTextField;
     private javax.swing.JTextField customerNameTextField;
     private javax.swing.JTextField customerPhoneTextField;
-    private javax.swing.JComboBox dayCombo;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JComboBox employeeComboBox;
-    private javax.swing.JComboBox hourCombo;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -344,8 +214,5 @@ public class CreateWorksheet extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JComboBox minuteCombo;
-    private javax.swing.JComboBox monthCombo;
-    private javax.swing.JComboBox yearCombo;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import model.Worksheet;
 import model.Employee;
+import util.DatePanel;
 
 /**
  *
@@ -29,7 +30,9 @@ public class DBHandler {
     private String host;
     private String port;
     private String dbName;
+    private DatePanel dp;
     private boolean connected;
+    
 
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
         this.conn = conn;
@@ -169,20 +172,27 @@ public class DBHandler {
      * måned.
      * @throws SQLException
      */
-    public ArrayList<Worksheet> retriveWorksheets(int month, int year) throws SQLException {
+    public ArrayList<Worksheet> retrieveWorksheets(int week, int year) throws SQLException {
         // vi starter op med at hente calendar instancen for at kunne arbejde med det.
         Calendar cal = Calendar.getInstance();
         // Vi starter med at sætte kalenderen til den måned og år vi ønsker at finde på.
-        cal.set(year, month, cal.getActualMinimum(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.HOUR, 00);
+        cal.set(Calendar.MINUTE, 00);
+        cal.set(Calendar.SECOND, 00);
+        cal.set(Calendar.WEEK_OF_YEAR, week);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+     
         Date start = cal.getTime();
         // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
-        cal.set(year, month, cal.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        cal.add(Calendar.DAY_OF_MONTH, 7);
+        // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
         Date slut = cal.getTime();
-
+        
         String query = "SELECT * FROM worksheet WHERE "
                 + "TimeOfJob between \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "\" AND \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "\"";
-
+        System.out.println(query);
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query,true);
 
         return calendarItemList;
@@ -195,7 +205,7 @@ public class DBHandler {
         return calendarItemList;
 
     }
-
+    
     /**
      * Lokal hjælpemetode til at hente CalendarItems/Worksheets ud med
      *
@@ -215,7 +225,6 @@ public class DBHandler {
             Date timeOfJob = rs.getDate("timeOfJob");
             String jobDescription = rs.getString("JobDescription");
             String comment = rs.getString("Comments");
-            tempEmployee.add(rs.getInt("Employee"));
             Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription, comment);
 
             calendarItemList.add(calendarItem);
@@ -351,7 +360,7 @@ public class DBHandler {
 
     public ArrayList<Worksheet> retrieveWorksheets(Employee employee) throws SQLException {
 
-        String query = "SELECT * FROM worksheet WHERE Employee = " + employee.getUserID();
+        String query = "SELECT * FROM (worksheet join onWorksheet on worksheet.OrdreNR = onWorksheet.Employee) WHERE Employee = " + employee.getUserID();
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query,false);
         for (int i = 0; i < calendarItemList.size(); i++) {
             calendarItemList.get(i).setEmployee(employee);
