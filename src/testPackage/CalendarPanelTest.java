@@ -134,59 +134,59 @@ public class CalendarPanelTest extends JPanel {
     private void initComponents() {
 
         dateTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        dateLabel = new javax.swing.JLabel();
+        jobDescriptionLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
+        assignedEmployeesLabel = new javax.swing.JLabel();
+        customerNameLabel = new javax.swing.JLabel();
         customerNameTextField = new javax.swing.JTextField();
         customerAddressTextField = new javax.swing.JTextField();
         customerPhoneTextField = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        CustomerAddressLabel = new javax.swing.JLabel();
+        CustomerPhoneLabel = new javax.swing.JLabel();
+        CommentLabel = new javax.swing.JLabel();
+        CommentScroll = new javax.swing.JScrollPane();
         commentTextArea = new javax.swing.JTextArea();
-        jButton4 = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         assignedEmployee = new javax.swing.JComboBox();
-        jPanel1 = new javax.swing.JPanel();
+        employeeList = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         employeeComboBox = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         worksheetList = new javax.swing.JList(worksheetListModel);
-        jButton1 = new javax.swing.JButton();
+        deleteWorksheet = new javax.swing.JButton();
 
-        jLabel1.setText("Dato/tid:");
+        dateLabel.setText("Dato/tid:");
 
-        jLabel2.setText("Beskrivelse:");
+        jobDescriptionLabel.setText("Beskrivelse:");
 
         descriptionTextArea.setColumns(20);
         descriptionTextArea.setRows(5);
         jScrollPane2.setViewportView(descriptionTextArea);
 
-        jLabel3.setText("Medarbejdere:");
+        assignedEmployeesLabel.setText("Medarbejdere:");
 
-        jLabel4.setText("Kundens navn:");
+        customerNameLabel.setText("Kundens navn:");
 
-        jLabel5.setText("Kundens Adresse:");
+        CustomerAddressLabel.setText("Kundens Adresse:");
 
-        jLabel6.setText("Kundens telefon nummer:");
+        CustomerPhoneLabel.setText("Kundens telefon nummer:");
 
-        jLabel8.setText("Kommentar:");
+        CommentLabel.setText("Kommentar:");
 
         commentTextArea.setColumns(20);
         commentTextArea.setRows(5);
-        jScrollPane3.setViewportView(commentTextArea);
+        CommentScroll.setViewportView(commentTextArea);
 
-        jButton4.setText("Opdater arbejdsseddel");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setText("Opdater arbejdsseddel");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        employeeList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel7.setText("Vælg medarbejder:");
 
@@ -204,25 +204,25 @@ public class CalendarPanelTest extends JPanel {
         });
         jScrollPane1.setViewportView(worksheetList);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout employeeListLayout = new javax.swing.GroupLayout(employeeList);
+        employeeList.setLayout(employeeListLayout);
+        employeeListLayout.setHorizontalGroup(
+            employeeListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 256, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(employeeListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(employeeListLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(employeeListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addComponent(employeeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap()))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        employeeListLayout.setVerticalGroup(
+            employeeListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(employeeListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(employeeListLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jLabel7)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -232,13 +232,13 @@ public class CalendarPanelTest extends JPanel {
                     .addContainerGap()))
         );
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 0, 0));
-        jButton1.setText("Slet");
-        jButton1.setToolTipText("");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        deleteWorksheet.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        deleteWorksheet.setForeground(new java.awt.Color(255, 0, 0));
+        deleteWorksheet.setText("Slet");
+        deleteWorksheet.setToolTipText("");
+        deleteWorksheet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteWorksheetActionPerformed(evt);
             }
         });
 
@@ -248,32 +248,32 @@ public class CalendarPanelTest extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(employeeList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(dateLabel)
+                    .addComponent(jobDescriptionLabel)
+                    .addComponent(assignedEmployeesLabel)
                     .addComponent(jScrollPane2)
                     .addComponent(dateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
                     .addComponent(assignedEmployee, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
+                    .addComponent(CustomerAddressLabel)
                     .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
+                    .addComponent(CommentLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel4)
+                        .addComponent(CustomerPhoneLabel)
+                        .addComponent(customerNameLabel)
                         .addComponent(customerAddressTextField)
                         .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(10, 10, 10)
-                            .addComponent(jButton1)
+                            .addComponent(deleteWorksheet)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(updateButton))
+                        .addComponent(CommentScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -282,42 +282,42 @@ public class CalendarPanelTest extends JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 11, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
+                        .addComponent(customerNameLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(customerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
+                        .addComponent(CustomerAddressLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(customerAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
+                        .addComponent(CustomerPhoneLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(customerPhoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8)
+                        .addComponent(CommentLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CommentScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton1))
+                            .addComponent(updateButton)
+                            .addComponent(deleteWorksheet))
                         .addGap(9, 9, 9))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(dateLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
+                                .addComponent(jobDescriptionLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
+                                .addComponent(assignedEmployeesLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(assignedEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(employeeList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -337,7 +337,7 @@ public class CalendarPanelTest extends JPanel {
         }
     }//GEN-LAST:event_worksheetListValueChanged
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         try {
             Worksheet worksheet = (Worksheet) worksheetList.getSelectedValue();
             worksheet.setComment(commentTextArea.getText());
@@ -354,7 +354,7 @@ public class CalendarPanelTest extends JPanel {
         } catch (SQLException ex) {
             System.out.println("ERROR WITH SAVING" + ex);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
         worksheetListModel.clear();
@@ -374,7 +374,7 @@ public class CalendarPanelTest extends JPanel {
         }
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void deleteWorksheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteWorksheetActionPerformed
         try {
             int delete = JOptionPane.showConfirmDialog(this, "Er du sikker på du vil slette denne arbejdsseddel?");
 
@@ -391,31 +391,31 @@ public class CalendarPanelTest extends JPanel {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_deleteWorksheetActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CommentLabel;
+    private javax.swing.JScrollPane CommentScroll;
+    private javax.swing.JLabel CustomerAddressLabel;
+    private javax.swing.JLabel CustomerPhoneLabel;
     private javax.swing.JComboBox assignedEmployee;
+    private javax.swing.JLabel assignedEmployeesLabel;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JTextField customerAddressTextField;
+    private javax.swing.JLabel customerNameLabel;
     private javax.swing.JTextField customerNameTextField;
     private javax.swing.JTextField customerPhoneTextField;
+    private javax.swing.JLabel dateLabel;
     private javax.swing.JTextField dateTextField;
+    private javax.swing.JButton deleteWorksheet;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JComboBox employeeComboBox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel employeeList;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel jobDescriptionLabel;
+    private javax.swing.JButton updateButton;
     private javax.swing.JList worksheetList;
     // End of variables declaration//GEN-END:variables
 }
