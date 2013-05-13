@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Employee;
 
 /**
@@ -373,7 +374,7 @@ public class StaffTab extends javax.swing.JPanel {
 
     private void insertUser() {
         if (newEmployeePassword.getText().isEmpty() || newEmployeeName.getText().isEmpty() || newEmployeeUsername.getText().isEmpty()) {
-            System.out.println("UDFYLD ALLE FELTER");
+            JOptionPane.showMessageDialog(this, "Udfyld alle felterne!");
         } else {
             try {
                 Employee newEmployee = new Employee(newEmployeeUsername.getText(), newEmployeeName.getText(), newEmployeePassword.getText(), newEmployeeAccesslevelBox.getSelectedIndex());
