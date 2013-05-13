@@ -382,6 +382,7 @@ public class StaffTab extends javax.swing.JPanel {
                 loadEmployee();
                 clearNewEmployee();
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Indsæt kun gyldige tegn og tal!");
                 System.out.println("WE GOT A ERROR ON THE INSERT SCRIPT\n" + ex);
             }
         }
