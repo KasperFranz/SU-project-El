@@ -182,8 +182,8 @@ public class CreateWorksheet extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createWorksheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createWorksheetActionPerformed
-//            Worksheet worksheet = new Worksheet
-//               dbHandler.insertWorksheet(worksheet);
+            Worksheet worksheet = new Worksheet
+               dbHandler.insertWorksheet(worksheet);
     }//GEN-LAST:event_createWorksheetActionPerformed
 
     private void addEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeButtonActionPerformed

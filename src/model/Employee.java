@@ -72,7 +72,7 @@ public int getUserID() {
     
     @Override
     public String toString() {
-        return username + ", " + name ;
+        return "("+userID +") "+ username + ", " + name ;
     }
 
    

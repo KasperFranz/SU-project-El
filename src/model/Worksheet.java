@@ -5,7 +5,6 @@
 package model;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,9 +16,9 @@ public class Worksheet {
     private int orderId;
     private Date timeOfJob;
     private String customerName, customerAdress, customerPhone, jobDescription,comment;
-    private ArrayList<Employee> employee;
+    private Employee employee;
 
-    public Worksheet(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, ArrayList<Employee> employee, String comment) {
+    public Worksheet(int orderId,Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, Employee employee, String comment) {
         this.orderId = orderId;
         this.timeOfJob = timeOfJob;
         this.customerName = customerName;
@@ -38,9 +37,13 @@ public class Worksheet {
         this.customerPhone = customerPhone;
         this.jobDescription = jobDescription;
         this.comment = comment;
-        employee = new ArrayList<>();
     }
-   
+    
+
+    public Worksheet(Date timeOfJob, String jobDescription) {
+        this.jobDescription = jobDescription;
+        this.timeOfJob = timeOfJob;
+    }
 
     private String getTimeTxt() {
 
@@ -50,15 +53,11 @@ public class Worksheet {
         return sdf.format(cal.getTime());
     }
 
-    public void setEmployee(ArrayList<Employee> employee) {
-        this.employee = employee;
-    }
-
     @Override
     public String toString() {
         String tempEmployee;
-        if (employee.isEmpty()) {
-            tempEmployee = "[Ingen medarbejdere]";
+        if (employee == null) {
+            tempEmployee = "No Employee";
         } else {
             tempEmployee = employee.toString();
         }
@@ -114,16 +113,12 @@ public class Worksheet {
         this.jobDescription = jobDescription;
     }
 
-    public ArrayList<Employee> getEmployees() {
+    public Employee getEmployee() {
         return employee;
     }
-    
-    public Employee getEmplyeeAt(int i){
-        return employee.get(i);
-    }
 
-    public void addEmployee(Employee employee){
-        this.employee.add(employee);
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getComment() {
