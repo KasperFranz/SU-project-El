@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package util.planningCalendar;
 
 /**
  *
@@ -16,7 +16,7 @@ public class CalendarTest extends javax.swing.JFrame {
     public CalendarTest() {
         initComponents();
         
-        CalendarPanel cal = new CalendarPanel(null);
+        PlanningCalendarPanel cal = new PlanningCalendarPanel(null);
         this.add(cal);
         cal.setVisible(true);
         cal.setBounds(0, 0, 480, 400);
@@ -35,9 +35,7 @@ public class CalendarTest extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 0, 204));
         setForeground(new java.awt.Color(204, 0, 153));
-        setMaximumSize(new java.awt.Dimension(480, 416));
         setMinimumSize(new java.awt.Dimension(480, 416));
-        setPreferredSize(new java.awt.Dimension(480, 416));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

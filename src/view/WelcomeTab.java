@@ -4,7 +4,7 @@
  */
 package view;
 
-import util.CalendarPanel;
+import util.planningCalendar.PlanningCalendarPanel;
 
 /**
  *
