@@ -40,8 +40,17 @@ public class Worksheet {
         this.comment = comment;
         employee = new ArrayList<>();
     }
-   
 
+    public Worksheet(Date timeOfJob, String customerName, String customerAdress, String customerPhone, String jobDescription, String comment, ArrayList<Employee> employee) {
+        this.timeOfJob = timeOfJob;
+        this.customerName = customerName;
+        this.customerAdress = customerAdress;
+        this.customerPhone = customerPhone;
+        this.jobDescription = jobDescription;
+        this.comment = comment;
+        this.employee = employee;
+    }
+   
     private String getTimeTxt() {
 
         String dateFormat = "dd/MM-yyyy HH:mm";
