@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package util.planningCalendar;
 
 import control.DBHandler;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  *
  * @author Marc
  */
-public class CalendarPanel extends javax.swing.JPanel {
+public class PlanningCalendarPanel extends javax.swing.JPanel {
 
     private Calendar calendar;
     private final int PANELS_WIDTH = 80;
@@ -25,7 +25,7 @@ public class CalendarPanel extends javax.swing.JPanel {
     private final int DAYS = 5;
     private DBHandler dbhandler;
 
-    public CalendarPanel(DBHandler dbhandler) {
+    public PlanningCalendarPanel(DBHandler dbhandler) {
 
         this.dbhandler = dbhandler;
 

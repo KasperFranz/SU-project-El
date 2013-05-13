@@ -13,7 +13,7 @@ import control.DBHandler;
 public class CalendarTab extends javax.swing.JPanel {
 
     private DBHandler dbhandler;
-    private util.CalendarPanel cal;
+    private util.planningCalendar.PlanningCalendarPanel cal;
     
     /**
      * Creates new form SettingsPanel
@@ -22,7 +22,7 @@ public class CalendarTab extends javax.swing.JPanel {
       
         this.dbhandler = handler;
         
-        cal = new util.CalendarPanel(dbhandler);
+        cal = new util.planningCalendar.PlanningCalendarPanel(dbhandler);
         cal.setVisible(true);
         cal.setBounds(0, 0, 480, 400);
         this.add(cal);
