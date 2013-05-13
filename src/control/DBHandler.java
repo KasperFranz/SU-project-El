@@ -172,22 +172,21 @@ public class DBHandler {
      * måned.
      * @throws SQLException
      */
-    public ArrayList<Worksheet> retriveWorksheets(int week, int year) throws SQLException {
+    public ArrayList<Worksheet> retrieveWorksheets(int week, int year) throws SQLException {
         // vi starter op med at hente calendar instancen for at kunne arbejde med det.
         Calendar cal = Calendar.getInstance();
         // Vi starter med at sætte kalenderen til den måned og år vi ønsker at finde på.
-//        cal.set(year, week, cal.getActualMinimum(Calendar.DAY_OF_MONTH), 0, 0, 0);
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.HOUR, 00);
         cal.set(Calendar.MINUTE, 00);
-        cal.set(Calendar.SECOND, 01);
+        cal.set(Calendar.SECOND, 00);
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
      
         Date start = cal.getTime();
         // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
-//       cal.set(year, week, cal.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
         cal.add(Calendar.DAY_OF_MONTH, 7);
+        // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
         Date slut = cal.getTime();
         
         String query = "SELECT * FROM worksheet WHERE "
