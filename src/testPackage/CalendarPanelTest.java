@@ -18,7 +18,7 @@ import model.Employee;
  * @author Nikolaj
  */
 public class CalendarPanelTest extends javax.swing.JPanel {
-
+    
     private DBHandler dbHandler;
     private DefaultListModel calendarItemListModel;
 
@@ -29,24 +29,22 @@ public class CalendarPanelTest extends javax.swing.JPanel {
         calendarItemListModel = new DefaultListModel();
         this.dbHandler = dbHandler;
         initComponents();
-        fillAssignedEmployeeCombo();
         fillEmployeeCombo();
     }
-
     
-    private void loadCalendarItems(ArrayList<Worksheet> calendarItems){
+    private void loadCalendarItems(ArrayList<Worksheet> calendarItems) {
         int oldSelection = -1;
         try {
             oldSelection = calendarItemList.getSelectedIndex();
             calendarItemList.clearSelection();
-
+            
         } catch (NullPointerException ex) {
             System.out.println("Vi ved der kommer en null point exception ved CalendarItem første gang den kører.");
         }
         calendarItemListModel.clear();
         System.out.println("1!");
         System.out.println("size = " + calendarItems.size());
-
+        
         for (int i = 0; i < calendarItems.size(); i++) {
             calendarItemListModel.addElement(calendarItems.get(i));
             System.out.println("2!");
@@ -56,7 +54,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             calendarItemList.setSelectedIndex(oldSelection);
         }
     }
-
+    
     private void fillEmployeeCombo() throws SQLException {
         employeeComboBox.addItem("Alle");
         ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
@@ -64,19 +62,24 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             employeeComboBox.addItem(employees.get(i));
         }
     }
-
-    private void fillAssignedEmployeeCombo() throws SQLException {
-        assignedEmployee.addItem("Ingen tilknyttet");
-        ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
+    
+    private void fillAssignedEmployeeCombo(Worksheet worksheet) throws SQLException {
+        assignedEmployee.setSelectedIndex(-1);
+        assignedEmployee.removeAllItems();
+        ArrayList<Employee> employees = worksheet.getEmployees();
         for (int i = 0; i < employees.size(); i++) {
             assignedEmployee.addItem(employees.get(i));
         }
-
+        
+        if (employees.isEmpty()) {
+            assignedEmployee.addItem("Ingen tilknyttet");
+        }
+        
     }
     
     private void changeEmployeeButtonState(boolean StateNow) {
-
-
+        
+        
         System.out.println("Changes to" + !StateNow);
         dateTextField.setEditable(StateNow);
         dateTextField.setEnabled(StateNow);
@@ -251,22 +254,21 @@ public class CalendarPanelTest extends javax.swing.JPanel {
 
     private void calendarItemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_calendarItemListValueChanged
         if (calendarItemList.getSelectedIndex() >= 0) {
-            Worksheet ci = (Worksheet) calendarItemList.getSelectedValue();
-            dateTextField.setText(ci.getTimeOfJob().toString());
-            descriptionTextArea.setText(ci.getJobDescription());
-            if (ci.getEmployee() == null) {
-                assignedEmployee.setSelectedIndex(0);
-            } else {
-                assignedEmployee.setSelectedItem(ci.getEmployee());
-                System.out.println("Vi sætter selected:"+ci.getEmployee()+ "fgff" + assignedEmployee.getSelectedIndex());
+            try {
+                Worksheet ci = (Worksheet) calendarItemList.getSelectedValue();
+                dateTextField.setText(ci.getTimeOfJob().toString());
+                descriptionTextArea.setText(ci.getJobDescription());
+                fillAssignedEmployeeCombo(ci);
+                customerNameTextField.setText(ci.getCustomerName());
+                customerAddressTextField.setText(ci.getCustomerAdress());
+                customerPhoneTextField.setText(ci.getCustomerPhone());
+                commentTextArea.setText(ci.getComment());
+            } catch (SQLException ex) {
+                Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
             }
-            customerNameTextField.setText(ci.getCustomerName());
-            customerAddressTextField.setText(ci.getCustomerAdress());
-            customerPhoneTextField.setText(ci.getCustomerPhone());
-            commentTextArea.setText(ci.getComment());
         }
     }//GEN-LAST:event_calendarItemListValueChanged
-
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             Worksheet worksheet = (Worksheet) calendarItemList.getSelectedValue();
@@ -275,7 +277,7 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             worksheet.setCustomerName(customerNameTextField.getText());
             worksheet.setCustomerPhone(customerPhoneTextField.getText());
             worksheet.setJobDescription(descriptionTextArea.getText());
-            worksheet.setEmployee((Employee) assignedEmployee.getSelectedItem());
+
 
 //            Date date = new Date(dateTextField.getText());
 //            worksheet.setTimeOfJob(date);
@@ -285,10 +287,10 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             System.out.println("ERROR WITH SAVING" + ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
         calendarItemListModel.clear();
-
+        
         if (employeeComboBox.getSelectedItem().equals("Alle")) {
             try {
                 loadCalendarItems(dbHandler.retrieveAllWorksheets());
@@ -301,9 +303,9 @@ public class CalendarPanelTest extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 Logger.getLogger(CalendarPanelTest.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             System.out.println(employeeComboBox.getSelectedItem());
-
+            
         }
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
