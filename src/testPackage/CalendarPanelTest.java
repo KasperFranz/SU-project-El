@@ -33,10 +33,12 @@ public class CalendarPanelTest extends JPanel {
         initComponents();
         fillEmployeeCombo();
     }
-/**
- * Clear and load the worksheets!
- * @param worksheets the new worksheets we gonna add to the worksheet list.
- */
+
+    /**
+     * Clear and load the worksheets!
+     *
+     * @param worksheets the new worksheets we gonna add to the worksheet list.
+     */
     private void LoadWorksheets(ArrayList<Worksheet> worksheets) {
         int oldSelection = -1;
         try {
@@ -52,16 +54,18 @@ public class CalendarPanelTest extends JPanel {
         for (int i = 0; i < worksheets.size(); i++) {
             worksheetListModel.addElement(worksheets.get(i));
         }
-       // if the oldSelection is 0 or larger we gonna set it as the selected index.
+        // if the oldSelection is 0 or larger we gonna set it as the selected index.
         if (oldSelection >= 0) {
             System.out.println("3!");
             worksheetList.setSelectedIndex(oldSelection);
         }
     }
-/**
- * Fill the employee combo box with all employees from the database.
- * @throws SQLException throws a SQLException.
- */
+
+    /**
+     * Fill the employee combo box with all employees from the database.
+     *
+     * @throws SQLException throws a SQLException.
+     */
     private void fillEmployeeCombo() throws SQLException {
         // First we gonna remove all items from the combobox (so we allways got all the employees)
         employeeComboBox.setSelectedIndex(-1);
@@ -73,12 +77,15 @@ public class CalendarPanelTest extends JPanel {
         for (int i = 0; i < employees.size(); i++) {
             employeeComboBox.addItem(employees.get(i));
         }
+        employeeComboBox.setSelectedIndex(0);
     }
-/**
- * Fill the combobox with all the assigned Employees.
- * @param worksheet the worksheet you gonna take the employees from
- */
-    private void fillAssignedEmployeeCombo(Worksheet worksheet){
+
+    /**
+     * Fill the combobox with all the assigned Employees.
+     *
+     * @param worksheet the worksheet you gonna take the employees from
+     */
+    private void fillAssignedEmployeeCombo(Worksheet worksheet) {
         //First we gonna remove all the items (so we allways got fresh data)
         assignedEmployee.setSelectedIndex(-1);
         assignedEmployee.removeAllItems();
@@ -86,16 +93,18 @@ public class CalendarPanelTest extends JPanel {
         for (int i = 0; i < worksheet.getEmployees().size(); i++) {
             assignedEmployee.addItem(worksheet.getEmployees().get(i));
         }
-        
+
         // IF there are no employees added to the worksheet we gonna add a text to say this.
         if (worksheet.getEmployees().isEmpty()) {
             assignedEmployee.addItem("Ingen tilknyttet");
         }
     }
-/**
- * Gonna change the button/text fields to disable or enabled 
- * @param StateNow the state you want it changed to.
- */
+
+    /**
+     * Gonna change the button/text fields to disable or enabled
+     *
+     * @param StateNow the state you want it changed to.
+     */
     private void changeEmployeeButtonState(boolean StateNow) {
         dateTextField.setEditable(StateNow);
         dateTextField.setEnabled(StateNow);
@@ -108,10 +117,15 @@ public class CalendarPanelTest extends JPanel {
         customerPhoneTextField.setEditable(StateNow);
         customerPhoneTextField.setEnabled(StateNow);
         assignedEmployee.setEnabled(StateNow);
+        descriptionTextArea.setEnabled(StateNow);
+        descriptionTextArea.setEditable(StateNow);
+        commentTextArea.setEditable(StateNow);
+        commentTextArea.setEnabled(StateNow);
     }
 
     /**
-     * Removing all the text from the fields and assigning assignedEmployees to no worksheet.
+     * Removing all the text from the fields and assigning assignedEmployees to
+     * no worksheet.
      */
     private void clearFields() {
         assignedEmployee.setSelectedIndex(-1);
@@ -323,17 +337,17 @@ public class CalendarPanelTest extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void worksheetListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_worksheetListValueChanged
-        if (worksheetList.getSelectedIndex() >= 0 && worksheetList.getSelectedValue() instanceof Worksheet){
-                Worksheet ci = (Worksheet) worksheetList.getSelectedValue();
-                
-                fillAssignedEmployeeCombo(ci);
-                changeEmployeeButtonState(true);
-                // TODO here we gonna set the calendar/time picker
-                descriptionTextArea.setText(ci.getJobDescription());
-                customerNameTextField.setText(ci.getCustomerName());
-                customerAddressTextField.setText(ci.getCustomerAdress());
-                customerPhoneTextField.setText(ci.getCustomerPhone());
-                commentTextArea.setText(ci.getComment());
+        if (worksheetList.getSelectedIndex() >= 0 && worksheetList.getSelectedValue() instanceof Worksheet) {
+            Worksheet ci = (Worksheet) worksheetList.getSelectedValue();
+
+            fillAssignedEmployeeCombo(ci);
+            changeEmployeeButtonState(true);
+            // TODO here we gonna set the calendar/time picker
+            descriptionTextArea.setText(ci.getJobDescription());
+            customerNameTextField.setText(ci.getCustomerName());
+            customerAddressTextField.setText(ci.getCustomerAdress());
+            customerPhoneTextField.setText(ci.getCustomerPhone());
+            commentTextArea.setText(ci.getComment());
         }
     }//GEN-LAST:event_worksheetListValueChanged
 
@@ -357,20 +371,23 @@ public class CalendarPanelTest extends JPanel {
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void employeeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_employeeComboBoxItemStateChanged
-        worksheetListModel.clear();
-        clearFields();
-        changeEmployeeButtonState(false);
-        try{ 
-            if (employeeComboBox.getSelectedItem().equals("Alle")) {
-            
-                LoadWorksheets(dbHandler.retrieveAllWorksheets());
-            
-        } else {
-            
-                LoadWorksheets(dbHandler.retrieveWorksheets((Employee) employeeComboBox.getSelectedItem()));
-        }
-        }catch(SQLException ex){
-            System.out.println("We got a retrieve worksheet ERROR");
+        if (employeeComboBox.getSelectedIndex() >= 0) {
+            worksheetListModel.clear();
+
+            clearFields();
+            changeEmployeeButtonState(false);
+            try {
+                if (employeeComboBox.getSelectedItem().equals("Alle")) {
+
+                    LoadWorksheets(dbHandler.retrieveAllWorksheets());
+
+                } else {
+
+                    LoadWorksheets(dbHandler.retrieveWorksheets((Employee) employeeComboBox.getSelectedItem()));
+                }
+            } catch (SQLException ex) {
+                System.out.println("We got a retrieve worksheet ERROR");
+            }
         }
     }//GEN-LAST:event_employeeComboBoxItemStateChanged
 
@@ -392,7 +409,6 @@ public class CalendarPanelTest extends JPanel {
             System.out.println(ex);
         }
     }//GEN-LAST:event_deleteWorksheetActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CommentLabel;
     private javax.swing.JScrollPane CommentScroll;
