@@ -19,7 +19,7 @@ import model.Worksheet;
  * @author Kasper
  */
 public class CreateWorksheet extends javax.swing.JPanel {
-
+    
     private DBHandler dbHandler;
     private DefaultListModel assignedEmployeesList;
 
@@ -32,13 +32,17 @@ public class CreateWorksheet extends javax.swing.JPanel {
         initComponents();
         fillEmployeeCombo();
     }
-
+    
     private void fillEmployeeCombo() throws SQLException {
+        employeeComboBox.setSelectedIndex(-1);
+        employeeComboBox.removeAllItems();
+      
         employeeComboBox.addItem("Vælg medarbejder");
         ArrayList<Employee> employees = dbHandler.retrieveAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             employeeComboBox.addItem(employees.get(i));
         }
+        employeeComboBox.setSelectedIndex(0);
     }
 
     /**
@@ -115,13 +119,13 @@ public class CreateWorksheet extends javax.swing.JPanel {
             }
         });
 
-        comboxYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1013", "1014", "1015", "1016", "1017" }));
+        comboxYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2013", "2014", "2015", "2016", "2017" }));
 
         comboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         comboBoxDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
-        comboBoxTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" }));
+        comboBoxTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17" }));
 
         jLabel1.setText("År");
 
@@ -235,28 +239,44 @@ public class CreateWorksheet extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createWorksheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createWorksheetActionPerformed
-try {
+        try {
             String customerName = customerNameTextField.getText();
             String customerAddress = customerAddressTextField.getText();
             String customerPhone = customerPhoneTextField.getText();
             String description = descriptionTextArea.getText();
             String comment = commentTextArea.getText();
             Date timeOfJob = new Date(); // Fås fra kalenderen
-            timeOfJob.setDate(Integer.parseInt((String)comboBoxDay.getSelectedItem()));
-            timeOfJob.setYear(Integer.parseInt((String)comboxYear.getSelectedItem()));
-            timeOfJob.setMonth(Integer.parseInt((String)comboBoxMonth.getSelectedItem()));
-            timeOfJob.setHours(Integer.parseInt((String)comboBoxTime.getSelectedItem()));
+            timeOfJob.setDate(Integer.parseInt((String) comboBoxDay.getSelectedItem()));
+            timeOfJob.setYear(Integer.parseInt((String) comboxYear.getSelectedItem()));
+            timeOfJob.setMonth(Integer.parseInt((String) comboBoxMonth.getSelectedItem()));
+            timeOfJob.setHours(Integer.parseInt((String) comboBoxTime.getSelectedItem()));
             ArrayList<Employee> employees = new ArrayList<>();
             for (int i = 0; i < assignedEmployeesList.getSize(); i++) {
-                employees.add((Employee) assignedEmployeesList.get(i));  
+                employees.add((Employee) assignedEmployeesList.get(i));                
             }
             Worksheet worksheet = new Worksheet(timeOfJob, customerName, customerAddress, customerPhone, description, comment, employees);
-                   dbHandler.insertWorksheet(worksheet);
+            dbHandler.insertWorksheet(worksheet);
+            clearAll();
         } catch (SQLException ex) {
             Logger.getLogger(CreateWorksheet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_createWorksheetActionPerformed
-
+    
+    private void clearAll() throws SQLException {
+        comboxYear.setSelectedIndex(0);
+        comboBoxTime.setSelectedIndex(0);
+        comboBoxDay.setSelectedIndex(0);
+        comboBoxMonth.setSelectedIndex(0);
+        descriptionTextArea.setText("");
+        commentTextArea.setText("");
+        customerAddressTextField.setText("");
+        customerNameTextField.setText("");
+        customerPhoneTextField.setText("");
+        fillEmployeeCombo();
+        assignedEmployeesList.clear();
+        
+    }
+    
     private void addEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeButtonActionPerformed
         if (employeeComboBox.getSelectedItem() instanceof Employee) {
             assignedEmployeesList.addElement((Employee) employeeComboBox.getSelectedItem());
@@ -265,7 +285,6 @@ try {
             employeeComboBox.removeItemAt(temp);
         }
     }//GEN-LAST:event_addEmployeeButtonActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEmployeeButton;
     private javax.swing.JList assignedEmployees;
