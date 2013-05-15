@@ -219,7 +219,14 @@ public class DBHandler {
             String customerName = rs.getString("CustomerName");
             String customerAddress = rs.getString("CustomerAddress");
             String customerPhone = rs.getString("CustomerPhone");
-            Date timeOfJob = rs.getDate("timeOfJob");
+            Calendar calTime = Calendar.getInstance();
+            calTime.setTime(rs.getTime("timeOfJob"));
+            Calendar calDate = Calendar.getInstance();
+            calDate.setTime(rs.getDate("timeOfJob"));
+            calDate.set(Calendar.HOUR, calTime.get(Calendar.HOUR));
+            calDate.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+            Date timeOfJob = calDate.getTime();
+            
             String jobDescription = rs.getString("JobDescription");
             String comment = rs.getString("Comments");
             Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription, comment);

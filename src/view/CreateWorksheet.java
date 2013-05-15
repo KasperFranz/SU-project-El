@@ -7,6 +7,7 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -245,11 +246,15 @@ public class CreateWorksheet extends javax.swing.JPanel {
             String customerPhone = customerPhoneTextField.getText();
             String description = descriptionTextArea.getText();
             String comment = commentTextArea.getText();
-            Date timeOfJob = new Date(); // Fås fra kalenderen
-            timeOfJob.setDate(Integer.parseInt((String) comboBoxDay.getSelectedItem()));
-            timeOfJob.setYear(Integer.parseInt((String) comboxYear.getSelectedItem()));
-            timeOfJob.setMonth(Integer.parseInt((String) comboBoxMonth.getSelectedItem()));
-            timeOfJob.setHours(Integer.parseInt((String) comboBoxTime.getSelectedItem()));
+       
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt((String) comboBoxTime.getSelectedItem()));
+            cal.set(Calendar.YEAR, Integer.parseInt((String) comboxYear.getSelectedItem()));
+            cal.set(Calendar.MONTH, Integer.parseInt((String) comboBoxMonth.getSelectedItem()));
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt((String) comboBoxDay.getSelectedItem()));
+            cal.set(Calendar.SECOND, 00);
+            cal.set(Calendar.MINUTE, 00);
+            Date timeOfJob = cal.getTime(); // Fås fra kalenderen
             ArrayList<Employee> employees = new ArrayList<>();
             for (int i = 0; i < assignedEmployeesList.getSize(); i++) {
                 employees.add((Employee) assignedEmployeesList.get(i));                
