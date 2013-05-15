@@ -7,6 +7,9 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Employee;
 import model.Worksheet;
@@ -66,9 +69,9 @@ public class CreateWorksheet extends javax.swing.JPanel {
         employeeComboBox = new javax.swing.JComboBox();
         addEmployeeButton = new javax.swing.JButton();
         comboxYear = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jComboBox3 = new javax.swing.JComboBox();
-        jComboBox4 = new javax.swing.JComboBox();
+        comboBoxMonth = new javax.swing.JComboBox();
+        comboBoxDay = new javax.swing.JComboBox();
+        comboBoxTime = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -114,11 +117,11 @@ public class CreateWorksheet extends javax.swing.JPanel {
 
         comboxYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1013", "1014", "1015", "1016", "1017" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Jan", "Feb", "Mar", "Apr", "Maj", "Juni", "Juli", "Aug", "Sep", "Okt", "Nov", "Dec" }));
+        comboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        comboBoxDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" }));
+        comboBoxTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00" }));
 
         jLabel1.setText("År");
 
@@ -167,16 +170,16 @@ public class CreateWorksheet extends javax.swing.JPanel {
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(comboBoxTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(159, 159, 159))
         );
         layout.setVerticalGroup(
@@ -203,9 +206,9 @@ public class CreateWorksheet extends javax.swing.JPanel {
                         .addGap(0, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(comboxYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -232,8 +235,26 @@ public class CreateWorksheet extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createWorksheetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createWorksheetActionPerformed
-//            Worksheet worksheet = new Worksheet
-//               dbHandler.insertWorksheet(worksheet);
+try {
+            String customerName = customerNameTextField.getText();
+            String customerAddress = customerAddressTextField.getText();
+            String customerPhone = customerPhoneTextField.getText();
+            String description = descriptionTextArea.getText();
+            String comment = commentTextArea.getText();
+            Date timeOfJob = new Date(); // Fås fra kalenderen
+            timeOfJob.setDate(Integer.parseInt((String)comboBoxDay.getSelectedItem()));
+            timeOfJob.setYear(Integer.parseInt((String)comboxYear.getSelectedItem()));
+            timeOfJob.setMonth(Integer.parseInt((String)comboBoxMonth.getSelectedItem()));
+            timeOfJob.setHours(Integer.parseInt((String)comboBoxTime.getSelectedItem()));
+            ArrayList<Employee> employees = new ArrayList<>();
+            for (int i = 0; i < assignedEmployeesList.getSize(); i++) {
+                employees.add((Employee) assignedEmployeesList.get(i));  
+            }
+            Worksheet worksheet = new Worksheet(timeOfJob, customerName, customerAddress, customerPhone, description, comment, employees);
+                   dbHandler.insertWorksheet(worksheet);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateWorksheet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_createWorksheetActionPerformed
 
     private void addEmployeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmployeeButtonActionPerformed
@@ -248,6 +269,9 @@ public class CreateWorksheet extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEmployeeButton;
     private javax.swing.JList assignedEmployees;
+    private javax.swing.JComboBox comboBoxDay;
+    private javax.swing.JComboBox comboBoxMonth;
+    private javax.swing.JComboBox comboBoxTime;
     private javax.swing.JComboBox comboxYear;
     private javax.swing.JTextArea commentTextArea;
     private javax.swing.JButton createWorksheet;
@@ -256,9 +280,6 @@ public class CreateWorksheet extends javax.swing.JPanel {
     private javax.swing.JTextField customerPhoneTextField;
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JComboBox employeeComboBox;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JComboBox jComboBox3;
-    private javax.swing.JComboBox jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
