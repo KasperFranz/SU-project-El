@@ -28,40 +28,47 @@ public class CalendarPanel extends javax.swing.JPanel {
      * Creates new form CalendarPanel
      */
     public CalendarPanel() {
-        
+
         calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        
+        System.out.println(calendar.get(Calendar.WEEK_OF_YEAR));
         
         initComponents();
         generateDayBar();
         generateTopBar();
         generateContentContainer();
-        
+
         initComponents();
     }
 
-     /***************************************************************************
-    *  Generates the top panel showing the current month and year
-    ***************************************************************************/
-    private void generateTopBar(){
-        
+    /**
+     * *************************************************************************
+     * Generates the top panel showing the current month and year
+     * *************************************************************************
+     */
+    private void generateTopBar() {
+
         monthContainer.removeAll();
         monthContainer.repaint();
         JLabel monthLabel = new JLabel(monthToString(calendar.get(Calendar.MONTH)) + " - " + calendar.get(Calendar.YEAR));
-        
+
         monthLabel.setBounds(50, 2, 150, 14);
         monthContainer.add(monthLabel);
         System.out.println(monthLabel.getText());
-        
+
     }
-    
-    /***************************************************************************
-    *  Returns the parameter months name as a String
-    ***************************************************************************/  
-    private String monthToString(int monthNumber){
-        
+
+    /**
+     * *************************************************************************
+     * Returns the parameter months name as a String
+     * *************************************************************************
+     */
+    private String monthToString(int monthNumber) {
+
         String month;
-        
-        switch(monthNumber){
+
+        switch (monthNumber) {
             case 0:
                 month = "January";
                 break;
@@ -104,20 +111,22 @@ public class CalendarPanel extends javax.swing.JPanel {
         }
         return month;
     }
-  
-    /***************************************************************************
-    * GENERATES THE TOP PANEL SHOWING THE DAYS OF THE WEEK
-    ***************************************************************************/
-    private void generateDayBar(){
-        
+
+    /**
+     * *************************************************************************
+     * GENERATES THE TOP PANEL SHOWING THE DAYS OF THE WEEK
+     * *************************************************************************
+     */
+    private void generateDayBar() {
+
         int yLocation = 0;
         int xLocation = 0;
         int width = 30;
         int height = 30;
-         
-        
+
+
         for (int i = 0; i < 7; i++) {
-            
+
             JPanel dayPanel = new JPanel();
             JLabel dayLabel = new JLabel(defineDay(i));
             dayPanel.setBounds(xLocation, yLocation, width, height);
@@ -125,23 +134,26 @@ public class CalendarPanel extends javax.swing.JPanel {
             dayPanel.setBackground(new Color(102, 102, 102));
             dayPanel.add(dayLabel);
             dayContainer.add(dayPanel);
-                    
+
             xLocation += width;
         }
- 
+
     }
-    
-    /***************************************************************************
-     * A helping method for the generateDayBar method that returns a string
-     * with the name of the day to be put on the jPanel.
+
+    /**
+     * *************************************************************************
+     * A helping method for the generateDayBar method that returns a string with
+     * the name of the day to be put on the jPanel.
+     *
      * @param day
      * @return dayOfWeek
-     **************************************************************************/
-    private String defineDay(int day){
-        
+     * ************************************************************************
+     */
+    private String defineDay(int day) {
+
         String dayOfWeek;
-        
-        switch(day){
+
+        switch (day) {
             case 0:
                 dayOfWeek = "Mon";
                 break;
@@ -169,21 +181,23 @@ public class CalendarPanel extends javax.swing.JPanel {
         }
         return dayOfWeek;
     }
-    
-    /***************************************************************************
-    * GENERATES THE SIDE PANELS SHOWING THE WEEK NUMBERS
-    ***************************************************************************/
-    private void generateWeekBar(JPanel panel){
-        
+
+    /**
+     * *************************************************************************
+     * GENERATES THE SIDE PANELS SHOWING THE WEEK NUMBERS
+     * *************************************************************************
+     */
+    private void generateWeekBar(JPanel panel) {
+
         int yLocation = 0;
         int xLocation = 0;
         int width = 30;
         int height = 30;
-        
+
         Calendar calCopy = (Calendar) calendar.clone();
-        
+
         for (int i = 0; i < 5; i++) {
-            
+            System.out.println("Start of loop: " + calCopy.get(Calendar.WEEK_OF_YEAR));
             JPanel weekPanel = new JPanel();
             JLabel weekLabel = new JLabel(calCopy.get(Calendar.WEEK_OF_YEAR) + "");
             weekPanel.setBounds(xLocation, yLocation, width, height);
@@ -193,76 +207,89 @@ public class CalendarPanel extends javax.swing.JPanel {
             panel.add(weekPanel);
             
             calCopy.add(Calendar.WEEK_OF_YEAR, 1);
+            System.out.println(calCopy.get(Calendar.WEEK_OF_YEAR));
             yLocation += height;
         }
     }
-    /***************************************************************************
-    * GENERATES THE CONTAINER RESPONSIBLE FOR THE WEEKPANELS CONTAINER AND
-    * FOR THE DATE PANELS CONTAINER
-    ***************************************************************************/
-    private void generateContentContainer(){
-       contentContainer.removeAll();
-       contentContainer.validate();
-       JPanel weekContainer = new JPanel();
-       weekContainer.setLayout(null);
-       weekContainer.setBounds(0, 0, PANELS_WIDTH, PANELS_HEIGHT*5);
-       weekContainer.setVisible(true);
-       contentContainer.add(weekContainer);
-       generateWeekBar(weekContainer);
-       
-       JPanel datePanelsContainer = new JPanel();
-       datePanelsContainer.setLayout(null);
-       datePanelsContainer.setBounds(PANELS_WIDTH, 0, PANELS_WIDTH*7, PANELS_HEIGHT*5);
-       datePanelsContainer.setVisible(true);
-       contentContainer.add(datePanelsContainer);
-       generateDatePanels(datePanelsContainer);
-       contentContainer.revalidate();
-       contentContainer.repaint();
+
+    /**
+     * *************************************************************************
+     * GENERATES THE CONTAINER RESPONSIBLE FOR THE WEEKPANELS CONTAINER AND FOR
+     * THE DATE PANELS CONTAINER
+     * *************************************************************************
+     */
+    private void generateContentContainer() {
+        contentContainer.removeAll();
+        contentContainer.validate();
+        JPanel weekContainer = new JPanel();
+        weekContainer.setLayout(null);
+        weekContainer.setBounds(0, 0, PANELS_WIDTH, PANELS_HEIGHT * 5);
+        weekContainer.setVisible(true);
+        contentContainer.add(weekContainer);
+        generateWeekBar(weekContainer);
+
+        JPanel datePanelsContainer = new JPanel();
+        datePanelsContainer.setLayout(null);
+        datePanelsContainer.setBounds(PANELS_WIDTH, 0, PANELS_WIDTH * 7, PANELS_HEIGHT * 5);
+        datePanelsContainer.setVisible(true);
+        contentContainer.add(datePanelsContainer);
+        generateDatePanels(datePanelsContainer);
+        contentContainer.revalidate();
+        contentContainer.repaint();
     }
-    
-    /***************************************************************************
-    * GENERATES THE DATE PANELS FOR THE SELECTED MONTH
-    ***************************************************************************/
-    private void generateDatePanels(JPanel panel){
-        
+
+    /**
+     * *************************************************************************
+     * GENERATES THE DATE PANELS FOR THE SELECTED MONTH
+     * *************************************************************************
+     */
+    private void generateDatePanels(JPanel panel) {
+
         final int DAYS_IN_MONTH = daysInMonth(calendar.get(Calendar.MONTH));
-        
+
         Calendar calCopy = (Calendar) calendar.clone();
         calCopy.set(Calendar.DAY_OF_MONTH, 1);
-        
-        int xLocation = (firstDayInMonth()-1)*30; // The location on the x-axis of the panel, the starting location is defined by the starting day of the month
+
+        int startDay = firstDayInMonth() -1;
+        int xLocation = startDay * 30; // The location on the x-axis of the panel, the starting location is defined by the starting day of the month
         int yLocation = 0; // The location on the y-axis of the next panel
         for (int i = 0; i < DAYS_IN_MONTH; i++) {
-                datePanel datePanel = new datePanel(calCopy.getTime(), xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
-                panel.add(datePanel);
-                
-                xLocation += PANELS_WIDTH;
-                calCopy.add(Calendar.DAY_OF_YEAR, 1);
-                
-                if(xLocation == 210){
-                    xLocation = 0;
-                    yLocation += 30;
-                }
+
+
+            DatePanel datePanel = new DatePanel(calCopy.getTime(), xLocation, yLocation, PANELS_WIDTH, PANELS_HEIGHT);
+            panel.add(datePanel);
+
+            xLocation += PANELS_WIDTH;
+            calCopy.add(Calendar.DAY_OF_YEAR, 1);
+
+            if (xLocation == 210) {
+                xLocation = 0;
+                yLocation += 30;
+            }
         }
-         
+
     }
-    
-    private int firstDayInMonth(){
-        
+
+    private int firstDayInMonth() {
+
         int firstDay;
         Calendar tempCal = (Calendar) calendar.clone();
-        tempCal.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0); // Sets the Year, Month, current day of Month (0 for first day)
-        firstDay = tempCal.get(Calendar.DAY_OF_WEEK);       
+        tempCal.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0);
+        firstDay = tempCal.get(Calendar.DAY_OF_WEEK);
+        System.out.println(firstDay);
+
         return firstDay;
     }
-    
-    /***************************************************************************
-    * Returns the number of days the parameter month consists of
-    ***************************************************************************/
-    private int daysInMonth(int month){
-        
+
+    /**
+     * *************************************************************************
+     * Returns the number of days the parameter month consists of
+     * *************************************************************************
+     */
+    private int daysInMonth(int month) {
+
         int daysInMonth;
-        switch(month){
+        switch (month) {
             case 0:
                 daysInMonth = 31;
                 break;
@@ -275,7 +302,7 @@ public class CalendarPanel extends javax.swing.JPanel {
             case 3:
                 daysInMonth = 30;
                 break;
-            case 4: 
+            case 4:
                 daysInMonth = 31;
                 break;
             case 5:
@@ -303,34 +330,34 @@ public class CalendarPanel extends javax.swing.JPanel {
                 daysInMonth = 0;
                 break;
         }
-        if(month == 1 && isLeapYear(month)){
+        if (month == 1 && isLeapYear(month)) {
             daysInMonth += 1;
         }
-        
+
         return daysInMonth;
     }
-    
-    /***************************************************************************
-    * Defines whether or not the parameter year is a leap year
-    **************************************************************************/
-    private boolean isLeapYear(int year){
-        
+
+    /**
+     * *************************************************************************
+     * Defines whether or not the parameter year is a leap year
+     * ************************************************************************
+     */
+    private boolean isLeapYear(int year) {
+
         boolean leapYear;
-        
-        if(year%4 == 0){
-            if(year%100 == 0){
+
+        if (year % 4 == 0) {
+            if (year % 100 == 0) {
                 leapYear = (year % 400 == 0);
-            }
-            else{
+            } else {
                 leapYear = true;
             }
-        }
-        else{
+        } else {
             leapYear = false;
         }
         return leapYear;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

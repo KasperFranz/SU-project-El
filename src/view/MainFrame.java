@@ -42,31 +42,20 @@ public class MainFrame extends javax.swing.JFrame {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
             
+            CreateWorksheet cw = new CreateWorksheet(dbhandler);
+            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
             
             
         } else if (activeUser.getAccessLevel() == 1) {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
+            
+            CreateWorksheet cw = new CreateWorksheet(dbhandler);
+            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
 
         }
 
-
-
-
-
-
-
-        
-
-
-
-//////////////////////////// FOR TEST PURPOSES //////////////////////////////////
-        CalendarPanelTest testCalendar = new CalendarPanelTest(dbhandler);
-        mainframeTabbedPane.addTab("   Calendar test   ", testCalendar);
-        
-        CreateWorksheet testWorksheet = new CreateWorksheet(dbhandler);
-        mainframeTabbedPane.addTab("   Tilføj arbejdsseddel ", testWorksheet);
-       
+  
     }
 
     /**

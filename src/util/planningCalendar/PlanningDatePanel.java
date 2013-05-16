@@ -1,5 +1,5 @@
 
-package util;
+package util.planningCalendar;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -35,10 +35,6 @@ public class PlanningDatePanel extends JPanel implements MouseListener {
         
     }
     
-    public PlanningDatePanel(){
-        
-    }
-
     @Override
     public void mouseClicked(MouseEvent me) {
         System.out.println("Dato: " + date + " and time:" + time);
