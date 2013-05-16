@@ -42,14 +42,22 @@ public class MainFrame extends javax.swing.JFrame {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
             
+            CreateWorksheet cw = new CreateWorksheet(dbhandler);
+            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
             
             
         } else if (activeUser.getAccessLevel() == 1) {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
+            
+            CreateWorksheet cw = new CreateWorksheet(dbhandler);
+            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
 
         }
 
+<<<<<<< HEAD
+  
+=======
 
 
 
@@ -67,6 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
         CreateWorksheet testWorksheet = new CreateWorksheet(dbhandler);
         mainframeTabbedPane.addTab("   Tilføj arbejdsseddel ", testWorksheet);
        
+>>>>>>> 6c96d9a9623725d775b7f72967f91b5b1ece654d
     }
 
     /**
