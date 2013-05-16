@@ -56,7 +56,6 @@ public class Worksheet {
         String dateFormat = "dd/MM-yyyy h:mm";
         Calendar cal = Calendar.getInstance();
         cal.setTime(timeOfJob);
-        System.out.println(timeOfJob);
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         
         return sdf.format(cal.getTime());
