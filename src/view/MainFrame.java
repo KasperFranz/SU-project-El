@@ -62,7 +62,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 //////////////////////////// FOR TEST PURPOSES //////////////////////////////////
         CalendarPanelTest testCalendar = new CalendarPanelTest(dbhandler);
-        mainframeTabbedPane.addTab("   Calendar test   ", testCalendar);
+        mainframeTabbedPane.addTab("   Rediger arbejdsseddel ", testCalendar);
         
         CreateWorksheet testWorksheet = new CreateWorksheet(dbhandler);
         mainframeTabbedPane.addTab("   Tilføj arbejdsseddel ", testWorksheet);
