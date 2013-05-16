@@ -7,8 +7,7 @@ package view;
 import control.DBHandler;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import model.Employee;
@@ -86,10 +85,12 @@ public class StaffTab extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         newEmployeeUsername = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        newEmployeePassword = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         newEmployeeAccesslevelBox = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordField2 = new javax.swing.JPasswordField();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Eksisterende Brugere"));
 
@@ -194,27 +195,37 @@ public class StaffTab extends javax.swing.JPanel {
 
         newEmployeeAccesslevelBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ansat", "Overmontør", "Admin" }));
 
+        jLabel12.setText("Kodeord igen:");
+
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout newUserPanelLayout = new javax.swing.GroupLayout(newUserPanel);
         newUserPanel.setLayout(newUserPanelLayout);
         newUserPanelLayout.setHorizontalGroup(
             newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newUserPanelLayout.createSequentialGroup()
+                .addContainerGap(166, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95))
             .addGroup(newUserPanelLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
                     .addComponent(newEmployeeName, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
-                    .addGroup(newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(newEmployeePassword, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(newEmployeeUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newEmployeeUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(newEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(167, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newUserPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(95, 95, 95))
+                    .addComponent(newEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                        .addComponent(jPasswordField2, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         newUserPanelLayout.setVerticalGroup(
             newUserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,12 +241,16 @@ public class StaffTab extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(newEmployeePassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
                 .addComponent(newEmployeeAccesslevelBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addGap(14, 14, 14)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(90, Short.MAX_VALUE))
         );
@@ -304,12 +319,18 @@ public class StaffTab extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         insertUser();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList employeeList;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -319,10 +340,11 @@ public class StaffTab extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox newEmployeeAccesslevelBox;
     private javax.swing.JTextField newEmployeeName;
-    private javax.swing.JTextField newEmployeePassword;
     private javax.swing.JTextField newEmployeeUsername;
     private javax.swing.JPanel newUserPanel;
     private javax.swing.JComboBox oldEmployeeAccesslevelBox;
@@ -367,25 +389,30 @@ public class StaffTab extends javax.swing.JPanel {
     }
 
     private void insertUser() {
-        if (newEmployeePassword.getText().isEmpty() || newEmployeeName.getText().isEmpty() || newEmployeeUsername.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Udfyld alle felterne!");
-        } else {
-            try {
-                Employee newEmployee = new Employee(newEmployeeUsername.getText(), newEmployeeName.getText(), newEmployeePassword.getText(), newEmployeeAccesslevelBox.getSelectedIndex());
-                dbHandler.insertEmployee(newEmployee);
-                loadEmployee();
-                clearNewEmployee();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Indsæt kun gyldige tegn og tal!");
-                System.out.println("WE GOT A ERROR ON THE INSERT SCRIPT\n" + ex);
+        if (Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword())) {
+            if (newEmployeeName.getText().isEmpty() || newEmployeeUsername.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Udfyld alle felterne!");
+            } else {
+                try {
+                    Employee newEmployee = new Employee(newEmployeeUsername.getText(), newEmployeeName.getText(), jPasswordField1.getText(), newEmployeeAccesslevelBox.getSelectedIndex());
+                    dbHandler.insertEmployee(newEmployee);
+                    loadEmployee();
+                    clearNewEmployee();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Indsæt kun gyldige tegn og tal!");
+                    System.out.println("WE GOT A ERROR ON THE INSERT SCRIPT\n" + ex);
+                }
             }
+        }else{
+            System.out.println("password not set.");
         }
     }
 
     private void clearNewEmployee() {
         newEmployeeAccesslevelBox.setSelectedIndex(0);
         newEmployeeName.setText("");
-        newEmployeePassword.setText("");
+        jPasswordField1.setText("");
+        jPasswordField2.setText("");
         newEmployeeUsername.setText("");
     }
 }
