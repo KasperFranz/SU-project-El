@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void initiateFrames() throws SQLException {
 
-        WelcomeTab welcome = new WelcomeTab();
+        WelcomeTab welcome = new WelcomeTab(activeUser);
         mainframeTabbedPane.addTab("   Forside   ", welcome);
         
         CalendarTab calendar = new CalendarTab(dbhandler);
