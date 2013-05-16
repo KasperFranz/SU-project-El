@@ -22,17 +22,20 @@ public class StaffTab extends javax.swing.JPanel {
     private DefaultListModel employeeListModel;
     private final String UPDATEUSERBUTTONTEXT = "Opdater bruger";
     private final String SAVEUSERBUTTONTEXT = "Gem bruger";
+    private boolean editable;
 
     /**
      * Creates new form Settings
      */
-    public StaffTab(DBHandler dbHandler) throws SQLException {
+    public StaffTab(DBHandler dbHandler, boolean editable) throws SQLException {
+employeeListModel = new DefaultListModel();
+        initComponents();
         this.dbHandler = dbHandler;
-        employeeListModel = new DefaultListModel();
-
+        this.editable = editable;
+        
+        changeAllButtonState(editable);
         loadEmployee();
 
-        initComponents();
     }
 
     private void loadEmployee() throws SQLException {
@@ -414,5 +417,20 @@ public class StaffTab extends javax.swing.JPanel {
         jPasswordField1.setText("");
         jPasswordField2.setText("");
         newEmployeeUsername.setText("");
+    }
+
+    private void changeAllButtonState(boolean editable) {
+        jButton2.setEnabled(editable);
+        updateUserDetails.setEnabled(editable);
+        
+        newEmployeeAccesslevelBox.setEnabled(editable);
+        newEmployeeName.setEnabled(editable);
+        newEmployeeName.setEditable(editable);
+        newEmployeeUsername.setEnabled(editable);
+        newEmployeeUsername.setEditable(editable);
+        jPasswordField1.setEnabled(editable);
+        jPasswordField1.setEditable(editable);
+        jPasswordField2.setEnabled(editable);
+        jPasswordField2.setEditable(editable);
     }
 }

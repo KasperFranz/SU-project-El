@@ -39,7 +39,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainframeTabbedPane.addTab(" Arbejdskalender ", calendar);
 
         if (activeUser.getAccessLevel() == 1) {
-            StaffTab staff = new StaffTab(dbhandler);
+            StaffTab staff = new StaffTab(dbhandler, false);
             mainframeTabbedPane.addTab("   Personale   ", staff);
             
            CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
@@ -49,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             
         } else if (activeUser.getAccessLevel() == 2) {
-            StaffTab staff = new StaffTab(dbhandler);
+            StaffTab staff = new StaffTab(dbhandler,true);
             mainframeTabbedPane.addTab("   Personale   ", staff);
            CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
            mainframeTabbedPane.add("Rediger arbejdsseddel", tp); 
