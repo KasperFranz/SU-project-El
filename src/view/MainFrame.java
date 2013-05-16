@@ -38,18 +38,21 @@ public class MainFrame extends javax.swing.JFrame {
         CalendarTab calendar = new CalendarTab(dbhandler);
         mainframeTabbedPane.addTab(" Arbejdskalender ", calendar);
 
-        if (activeUser.getAccessLevel() == 0) {
+        if (activeUser.getAccessLevel() == 1) {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
             
+           CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
+           mainframeTabbedPane.add("Rediger arbejdsseddel", tp);
             CreateWorksheet cw = new CreateWorksheet(dbhandler);
             mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
             
             
-        } else if (activeUser.getAccessLevel() == 1) {
+        } else if (activeUser.getAccessLevel() == 2) {
             StaffTab staff = new StaffTab(dbhandler);
             mainframeTabbedPane.addTab("   Personale   ", staff);
-            
+           CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
+           mainframeTabbedPane.add("Rediger arbejdsseddel", tp); 
             CreateWorksheet cw = new CreateWorksheet(dbhandler);
             mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
 
