@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void initiateFrames() throws SQLException {
 
-        WelcomeTab welcome = new WelcomeTab();
+        WelcomeTab welcome = new WelcomeTab(activeUser);
         mainframeTabbedPane.addTab("   Forside   ", welcome);
         
         CalendarTab calendar = new CalendarTab(dbhandler);
@@ -55,7 +55,27 @@ public class MainFrame extends javax.swing.JFrame {
 
         }
 
+<<<<<<< HEAD
   
+=======
+
+
+
+
+
+
+        
+
+
+
+//////////////////////////// FOR TEST PURPOSES //////////////////////////////////
+        CalendarPanelTest testCalendar = new CalendarPanelTest(dbhandler);
+        mainframeTabbedPane.addTab("   Rediger arbejdsseddel ", testCalendar);
+        
+        CreateWorksheet testWorksheet = new CreateWorksheet(dbhandler);
+        mainframeTabbedPane.addTab("   Tilføj arbejdsseddel ", testWorksheet);
+       
+>>>>>>> 6c96d9a9623725d775b7f72967f91b5b1ece654d
     }
 
     /**

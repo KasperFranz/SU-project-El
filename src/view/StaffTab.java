@@ -91,12 +91,6 @@ public class StaffTab extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         newEmployeeAccesslevelBox = new javax.swing.JComboBox();
 
-        jLabel1.setText("BorderTestLabel");
-
-        jLabel2.setText("BorderTestLabel");
-
-        jLabel3.setText("BorderTestLabel");
-
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Eksisterende Brugere"));
 
         employeeList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -272,7 +266,7 @@ public class StaffTab extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)))

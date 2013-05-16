@@ -4,6 +4,7 @@
  */
 package view;
 
+import model.Employee;
 import util.planningCalendar.PlanningCalendarPanel;
 
 /**
@@ -15,10 +16,10 @@ public class WelcomeTab extends javax.swing.JPanel {
     /**
      * Creates new form SettingsPanel
      */
-    public WelcomeTab() {
+    public WelcomeTab(Employee employee) {
         initComponents();
         
-   
+        userLabel.setText(employee+"");
                
         
     }
@@ -38,12 +39,6 @@ public class WelcomeTab extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         userLabel = new javax.swing.JLabel();
 
-        jLabel1.setText("BorderTestLabel");
-
-        jLabel2.setText("BorderTestLabel");
-
-        jLabel3.setText("BorderTestLabel");
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel8.setText("Velkommen");
 
@@ -56,7 +51,7 @@ public class WelcomeTab extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 834, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 990, Short.MAX_VALUE)
                 .addComponent(jLabel3))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
@@ -66,7 +61,7 @@ public class WelcomeTab extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userLabel)
                     .addComponent(jLabel8))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,7 +71,7 @@ public class WelcomeTab extends javax.swing.JPanel {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 424, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 452, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)))
