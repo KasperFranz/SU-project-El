@@ -12,9 +12,12 @@ import model.SKS_Headline;
 
 /**
  *
- * @author Mikkel
+ * @author Kasper
  */
-public class SKS_Sheet extends javax.swing.JFrame {
+public class SKS_Sheet extends javax.swing.JPanel {
+
+    /**
+     * Creates new form SKS_Sheet
 
     /**
      * Creates new form SKS_Sheet
@@ -30,6 +33,7 @@ public class SKS_Sheet extends javax.swing.JFrame {
             System.out.println(headlines.size());
             System.out.println(headlines.get(i));
             SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i));
+            headlinePanel.setVisible(true);
             this.add(headlinePanel);
         }
         
@@ -46,27 +50,25 @@ public class SKS_Sheet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        textFieldInstallationInformation = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        textFieldInstallationInformation = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         textFieldEndDate = new javax.swing.JTextField();
         textFieldDoneBy = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Slutkontrol ved mindre installationer");
-
-        jLabel2.setText("Installationsoplysninger");
-
-        textFieldInstallationInformation.setText("installations adresse, indehaver mv.");
+        jLabel4.setText("Udført af");
 
         jLabel3.setText("Dato for slutkontrol");
 
-        jLabel4.setText("Udført af");
+        textFieldInstallationInformation.setText("installations adresse, indehaver mv.");
+
+        jLabel2.setText("Installationsoplysninger");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Slutkontrol ved mindre installationer");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -81,8 +83,8 @@ public class SKS_Sheet extends javax.swing.JFrame {
             .addGap(0, 298, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -100,7 +102,7 @@ public class SKS_Sheet extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(textFieldDoneBy, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,12 +125,7 @@ public class SKS_Sheet extends javax.swing.JFrame {
                     .addComponent(textFieldDoneBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-    /**
-     * @param args the command line arguments
-     */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -4,19 +4,18 @@
  */
 package view;
 
-import javax.swing.JLabel;
 import model.SKS_Headline;
 
 /**
  *
- * @author Mikkel
+ * @author Kasper
  */
-public class SKS_headlinePanel extends javax.swing.JFrame {
+public class SKS_headlinePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form SKS_headlinePanel
      */
-    public SKS_headlinePanel(SKS_Headline headline) {
+  public SKS_headlinePanel(SKS_Headline headline) {
         initComponents();
         System.out.println(headline.getHeadline());
         headlineLable.setText(headline.getHeadline());
@@ -27,6 +26,7 @@ public class SKS_headlinePanel extends javax.swing.JFrame {
         }
 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,12 +39,10 @@ public class SKS_headlinePanel extends javax.swing.JFrame {
 
         headlineLable = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         headlineLable.setText("jLabel1");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -59,14 +57,7 @@ public class SKS_headlinePanel extends javax.swing.JFrame {
                 .addComponent(headlineLable)
                 .addContainerGap(275, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headlineLable;
     // End of variables declaration//GEN-END:variables
