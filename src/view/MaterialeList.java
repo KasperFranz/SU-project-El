@@ -4,7 +4,9 @@
  */
 package view;
 
+import control.DBHandler;
 import java.awt.Color;
+import java.sql.SQLException;
 import javax.swing.JTextField;
 import model.Employee;
 
@@ -17,17 +19,18 @@ public class MaterialeList extends javax.swing.JPanel {
     /**
      * Creates new form MaterialeList
      */
-    public MaterialeList(Employee user) {
+    public MaterialeList(Employee user, DBHandler dbHandler) throws SQLException {
         initComponents();
 
-        MaterialeItem mi = new MaterialeItem();
+        System.out.println(dbHandler.getProducts().size());
 
 
         for (int i = 0; i < 10; i++) {
+            MaterialeItem mi = new MaterialeItem(dbHandler);
             int y = 15;
 
             mi.setVisible(true);
-            mi.setBounds(10, y, 500, 30);
+            mi.setBounds(10, 30*i, 500, 35);
             jPanel1.add(mi);
             System.out.println(y);
          

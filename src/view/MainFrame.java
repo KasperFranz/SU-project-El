@@ -34,7 +34,7 @@ public class MainFrame extends javax.swing.JFrame {
         SKS_Sheet sheet = new SKS_Sheet(activeUser, dbhandler);
         mainframeTabbedPane.addTab("SKS skema", sheet);
         
-         MaterialeList mi = new MaterialeList(activeUser);
+         MaterialeList mi = new MaterialeList(activeUser, dbhandler);
         mainframeTabbedPane.addTab("Materiale liste", mi);
         
         WelcomeTab welcome = new WelcomeTab(activeUser);

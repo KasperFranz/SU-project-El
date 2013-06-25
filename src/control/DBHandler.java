@@ -451,4 +451,17 @@ public class DBHandler {
         }
         return questions;
     }
+    
+    
+    public ArrayList<Product> getProducts() throws SQLException{
+        String query = "SELECT * FROM product";
+        ArrayList<Product> products = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            Product product = new Product(rs.getInt("EANNr"), rs.getString("ProductName"), rs.getString("ProductDescription"), rs.getInt("StorageCount"));
+            products.add(product);
+        }
+        return products;
+        
+    }
 }

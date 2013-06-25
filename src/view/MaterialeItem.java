@@ -4,6 +4,9 @@
  */
 package view;
 
+import control.DBHandler;
+import java.sql.SQLException;
+
 /**
  *
  * @author Mikkel
@@ -13,9 +16,10 @@ public class MaterialeItem extends javax.swing.JPanel {
     /**
      * Creates new form MaterialeItem
      */
-    public MaterialeItem() {
+    public MaterialeItem(DBHandler dbHandler) throws SQLException {
         initComponents();
         
+            
         jLabel1.setText("hello");
         
     }
