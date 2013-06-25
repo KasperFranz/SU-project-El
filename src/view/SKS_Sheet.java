@@ -19,7 +19,6 @@ public class SKS_Sheet extends javax.swing.JFrame {
     /**
      * Creates new form SKS_Sheet
      */
-    private SKS_Headline headline;
     
     public SKS_Sheet(Employee user, DBHandler dbHandler) throws SQLException {
         initComponents();
@@ -29,7 +28,8 @@ public class SKS_Sheet extends javax.swing.JFrame {
  
         for (int i = 0; i < headlines.size(); i++) {
             System.out.println(headlines.size());
-            SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headline);
+            System.out.println(headlines.get(i));
+            SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i));
             this.add(headlinePanel);
         }
         
