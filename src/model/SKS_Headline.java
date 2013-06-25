@@ -36,5 +36,9 @@ public class SKS_Headline {
     public void addQuestion(SKS_question question){
         questions.add(question);
     }
+
+    public void setQuestions(ArrayList<SKS_question> questions) {
+        this.questions = questions;
+    }
     
 }
