@@ -11,15 +11,18 @@ import java.util.ArrayList;
  * @author Kasper
  */
 public class SKS_Headline {
+    private int id;
     private ArrayList<SKS_question> questions;
     private String headline;
 
-    public SKS_Headline(ArrayList<SKS_question> questions, String headline) {
+    public SKS_Headline(int id,ArrayList<SKS_question> questions, String headline) {
+        this.id = id;
         this.questions = questions;
         this.headline = headline;
     }
 
-    public SKS_Headline(String headline) {
+    public SKS_Headline(int id, String headline) {
+        this.id = id;
         this.headline = headline;
         questions = new ArrayList<>();
     }
