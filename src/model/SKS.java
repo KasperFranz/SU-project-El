@@ -12,10 +12,10 @@ import java.util.Date;
  * @author Kasper
  */
 public class SKS {
-    ArrayList<SKS_Headline> headlines;
-    String installation;
-    Date installationDate;
-    Employee employee;
+   private ArrayList<SKS_Headline> headlines;
+   private String installation;
+    private Date installationDate;
+   private  Employee employee;
 
     public SKS(ArrayList<SKS_Headline> headlines, String installation, Date installationDate, Employee employee) {
         this.headlines = headlines;
