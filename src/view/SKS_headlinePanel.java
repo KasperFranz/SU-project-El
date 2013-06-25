@@ -16,16 +16,14 @@ public class SKS_headlinePanel extends javax.swing.JFrame {
     /**
      * Creates new form SKS_headlinePanel
      */
-    public SKS_headlinePanel() {
+    public SKS_headlinePanel(SKS_Headline headline) {
         initComponents();
-    }
-
-    public void SKS_headlinePanel(SKS_Headline headline) {
+        System.out.println(headline.getHeadline());
         headlineLable.setText(headline.getHeadline());
 
         for (int i = 0; i < headline.getQuestions().size(); i++) {
             SKS_questionPanel sksquestion = new SKS_questionPanel(headline.getQuestions().get(i));
-this.add(sksquestion);
+            this.add(sksquestion);
         }
 
     }
@@ -68,37 +66,7 @@ this.add(sksquestion);
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SKS_headlinePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SKS_headlinePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SKS_headlinePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SKS_headlinePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SKS_headlinePanel().setVisible(true);
-            }
-        });
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headlineLable;
     // End of variables declaration//GEN-END:variables

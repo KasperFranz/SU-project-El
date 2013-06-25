@@ -31,7 +31,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void initiateFrames() throws SQLException {
-
+        SKS_Sheet sheet = new SKS_Sheet(activeUser, dbhandler);
+        mainframeTabbedPane.addTab("SKS skema", sheet);
+        
         WelcomeTab welcome = new WelcomeTab(activeUser);
         mainframeTabbedPane.addTab("   Forside   ", welcome);
         

@@ -20,7 +20,7 @@ import model.*;
  * @author Marc
  */
 public class DBHandler {
-    
+
     private Connection conn;
     private Statement stmt;
     private String user;
@@ -29,7 +29,7 @@ public class DBHandler {
     private String port;
     private String dbName;
     private boolean connected;
-    
+
     public DBHandler(Connection conn, Statement stmt, String user, String pw, String host, String port, String dbName) {
         this.conn = conn;
         this.stmt = stmt;
@@ -38,9 +38,9 @@ public class DBHandler {
         this.host = host;
         this.port = port;
         this.dbName = dbName;
-        
+
     }
-    
+
     public DBHandler(String user, String pw, String host, String port, String dbName) throws SQLException {
         this.user = user;
         this.pw = pw;
@@ -48,33 +48,33 @@ public class DBHandler {
         this.port = port;
         this.dbName = dbName;
         connect();
-        
-        
+
+
     }
-    
+
     private boolean connect() throws SQLException {
-        
+
         connected = true;
         String connString = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
-        
+
         try {
             conn = (Connection) DriverManager.getConnection(connString, user, pw);
             stmt = (Statement) conn.createStatement();
-            
+
         } catch (Exception ex) {
             connected = false;
         }
         System.out.println("Connected " + connected);
         return connected;
-        
+
     }
-    
+
     public boolean isUserCorrectPassword(String username, String password) throws SQLException {
         boolean correctPassword = false;
         String query = "SELECT COUNT(*) as total FROM employee WHERE Username = \"" + username + "\" AND Password = \"" + password + "\"";
         System.out.println(query);
         ResultSet rs = stmt.executeQuery(query);
-        
+
         while (rs.next()) {
             if (rs.getInt("total") == 1) {
                 correctPassword = true;
@@ -83,60 +83,60 @@ public class DBHandler {
         rs.close();
         return correctPassword;
     }
-    
+
     public Employee retrieveEmployee(String username) throws SQLException {
         Employee user = null;
         String query = "SELECT * FROM employee WHERE Username = \"" + username + "\"";
-        
+
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             int userID = rs.getInt("UserID");
             String name = rs.getString("Fullname");
             String pass = rs.getString("password");
             int accessLevel = rs.getInt("accessLevel");
-            
+
             user = new Employee(userID, username, name, pass, accessLevel);
-            
+
         }
-        
+
         return user;
-        
+
     }
-    
+
     public Employee retrieveEmployee(int userID) throws SQLException {
         Employee user = null;
         String query = "SELECT * FROM employee WHERE UserID = \"" + userID + "\"";
-        
+
         ResultSet rs = stmt.executeQuery(query);
         if (rs.next()) {
             String name = rs.getString("Fullname");
             String pass = rs.getString("password");
             String username = rs.getString("Username");
             int accessLevel = rs.getInt("accessLevel");
-            
+
             user = new Employee(userID, username, name, pass, accessLevel);
-            
+
         }
-        
+
         return user;
-        
+
     }
-    
+
     public boolean insertEmployee(Employee employee) throws SQLException {
         boolean inserted = false;
-        
+
         String query = "Insert into employee (Username,Fullname, Accesslevel,Password)"
                 + "Values (\"" + employee.getUsername() + "\", \"" + employee.getName() + "\",\"" + employee.getAccessLevel() + "\",\"" + employee.getPassword() + "\")";
-        
+
         System.out.println(query);
-        
-        
+
+
         int result = stmt.executeUpdate(query);
         if (result != 0) {
             inserted = true;
         }
         return inserted;
-        
+
     }
 
     /**
@@ -149,15 +149,15 @@ public class DBHandler {
      */
     public boolean updateEmployee(Employee employee) throws SQLException {
         boolean updated = false;
-        
+
         String query = "Update employee SET Password = \"" + employee.getPassword() + "\", Username = \"" + employee.getUsername() + "\", Fullname = \"" + employee.getName() + "\", Accesslevel = \"" + employee.getAccessLevel() + "\" WHERE UserID = \"" + employee.getUserID() + "\"";
-        
+
         int result = stmt.executeUpdate(query);
         if (result != 0) {
             updated = true;
         }
         return updated;
-        
+
     }
 
     /**
@@ -178,28 +178,28 @@ public class DBHandler {
         cal.set(Calendar.SECOND, 00);
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        
+
         Date start = cal.getTime();
         // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
         cal.add(Calendar.DAY_OF_MONTH, 7);
         // Vi finder den sidste dag på måneden ved at finde calendarens maximum af dage og sætter min osv til maks.
         Date slut = cal.getTime();
-        
+
         String query = "SELECT * FROM worksheet WHERE "
                 + "TimeOfJob between \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", start)
                 + "\" AND \"" + dateFormatter("YYYY-MM-dd HH:mm:ss", slut) + "\"";
         System.out.println(query);
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query, true);
-        
+
         return calendarItemList;
     }
-    
+
     public ArrayList<Worksheet> retrieveAllWorksheets() throws SQLException {
-        
+
         String query = "SELECT * FROM worksheet";
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query, true);
         return calendarItemList;
-        
+
     }
 
     /**
@@ -224,11 +224,11 @@ public class DBHandler {
             calDate.set(Calendar.HOUR, calTime.get(Calendar.HOUR));
             calDate.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
             Date timeOfJob = calDate.getTime();
-            
+
             String jobDescription = rs.getString("JobDescription");
             String comment = rs.getString("Comments");
             Worksheet calendarItem = new Worksheet(orderId, timeOfJob, customerName, customerAddress, customerPhone, jobDescription, comment);
-            
+
             Worksheets.add(calendarItem);
         }
         rs.close();
@@ -250,7 +250,7 @@ public class DBHandler {
      */
     public boolean insertWorksheet(Worksheet worksheet) throws SQLException {
         boolean inserted = false;
-        
+
         String query = "Insert into worksheet "
                 + "(CustomerName,CustomerAddress, CustomerPhone,timeOfJob,JobDescription)"
                 + "Values "
@@ -261,7 +261,7 @@ public class DBHandler {
         if (rs.next()) {
             result = rs.getInt(1);
         }
-        
+
         if (result != 0) {
             inserted = true;
             System.out.println("RESULT::::" + result);
@@ -269,7 +269,7 @@ public class DBHandler {
             insertOnWorksheet(worksheet);
         }
         return inserted;
-        
+
     }
 
     /**
@@ -292,31 +292,31 @@ public class DBHandler {
                 updated = true;
             }
         }
-        
+
         return updated;
-        
+
     }
-    
+
     private void updateAssignedEmployeesOnWorksheet(Worksheet worksheet) throws SQLException {
         if (worksheet.getOrderId() != 0) {
             String query = "DELETE FROM onWorksheet WHERE OrdreNr = " + worksheet.getOrderId();
             System.out.println(query);
             stmt.executeUpdate(query);
             insertOnWorksheet(worksheet);
-            
-            
+
+
         }
-        
-        
+
+
     }
-    
+
     public ArrayList<Employee> retrieveAllEmployees() throws SQLException {
-        
+
         String query = "SELECT * FROM employee";
         ArrayList<Employee> employeeList = retriveEmployees(query);
         return employeeList;
     }
-    
+
     private ArrayList<Employee> retriveEmployees(String query) throws SQLException {
         ArrayList<Employee> employeeList = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
@@ -331,57 +331,57 @@ public class DBHandler {
         }
         return employeeList;
     }
-    
+
     private String dateFormatter(String format, Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         String rtnDate = sdf.format(date);
-        
+
         return rtnDate;
     }
-    
+
     public Connection getConn() {
         return conn;
     }
-    
+
     public void setConn(Connection conn) {
         this.conn = conn;
     }
-    
+
     public Statement getStmt() {
         return stmt;
     }
-    
+
     public void setUser(String user) {
         this.user = user;
     }
-    
+
     public void setPw(String pw) {
         this.pw = pw;
     }
-    
+
     public void setHost(String host) {
         this.host = host;
     }
-    
+
     public void setPort(String port) {
         this.port = port;
     }
-    
+
     public void setDbName(String dbName) {
         this.dbName = dbName;
     }
-    
+
     public boolean isConnected() {
         return connected;
     }
-    
+
     @Override
     public String toString() {
         return "DBHANDLER connected: " + connected;
     }
-    
+
     public ArrayList<Worksheet> retrieveWorksheets(Employee employee) throws SQLException {
-        
+
         String query = "SELECT * FROM (worksheet join onWorksheet on worksheet.OrdreNR = onWorksheet.Employee) WHERE Employee = " + employee.getUserID();
         ArrayList<Worksheet> calendarItemList = retriveWorksheets(query, false);
         for (int i = 0; i < calendarItemList.size(); i++) {
@@ -389,9 +389,9 @@ public class DBHandler {
         }
         System.out.println("I: " + calendarItemList.size() + " " + query);
         return calendarItemList;
-        
+
     }
-    
+
     private void insertOnWorksheet(Worksheet worksheet) throws SQLException {
         String query = "Insert into onWorksheet\n"
                 + "(OrdreNR, Employee)\n"
@@ -406,16 +406,16 @@ public class DBHandler {
         }
         stmt.executeUpdate(query);
     }
-    
+
     private void assignEmployeeOnWorksheet(Worksheet worksheet) throws SQLException {
-        
-        
+
+
         String query = "SELECT * FROM (employee join onWorksheet on employee.UserID = onWorksheet.Employee) WHERE onWorksheet.OrdreNr = " + worksheet.getOrderId();
         System.out.println(query);
         worksheet.setEmployee(retriveEmployees(query));
-        
+
     }
-    
+
     public void deleteWorksheet(Worksheet worksheet) throws SQLException {
         String query = "DELETE FROM onWorksheet WHERE OrdreNr = " + worksheet.getOrderId();
         System.out.println(query);
@@ -423,33 +423,31 @@ public class DBHandler {
         query = "DELETE FROM worksheet WHERE OrdreNr = " + worksheet.getOrderId();
         stmt.executeUpdate(query);
     }
-    
-    
-    public ArrayList<SKS_Headline> getSKSHeadlines() throws SQLException{
+
+    public ArrayList<SKS_Headline> getSKSHeadlines() throws SQLException {
         String query = "SELECT * FROM SKS_question_Headline";
-    ArrayList<SKS_Headline> headlines = new ArrayList<>();
+        ArrayList<SKS_Headline> headlines = new ArrayList<>();
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
-            SKS_Headline headline = new SKS_Headline(rs.getInt("headlineID"),rs.getString("headline"));
+            SKS_Headline headline = new SKS_Headline(rs.getInt("headlineID"), rs.getString("headline"));
             headlines.add(headline);
-            
-        }
+                    }
         rs.close();
         for (int i = 0; i < headlines.size(); i++) {
             headlines.get(i).setQuestions(retrieveQuestions(headlines.get(i)));
-            
+
         }
         return headlines;
     }
 
-    private ArrayList<SKS_question> retrieveQuestions(SKS_Headline headline) throws SQLException{
-        String query = "SELECT * from SKS_question where Headline ="+headline.getId();
+    private ArrayList<SKS_question> retrieveQuestions(SKS_Headline headline) throws SQLException {
+        String query = "SELECT * from SKS_question where Headline =" + headline.getId();
         ArrayList<SKS_question> questions = new ArrayList<>();
-         ResultSet rs = stmt.executeQuery(query);
+        ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             SKS_question question = new SKS_question(rs.getString("Question"));
-                    questions.add(question);
-            
+            questions.add(question);
+
         }
         return questions;
     }
