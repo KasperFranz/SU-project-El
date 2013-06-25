@@ -43,5 +43,9 @@ public class SKS_Headline {
     public void setQuestions(ArrayList<SKS_question> questions) {
         this.questions = questions;
     }
+
+    public int getId() {
+        return id;
+    }
     
 }
