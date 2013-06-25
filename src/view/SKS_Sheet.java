@@ -28,20 +28,6 @@ public class SKS_Sheet extends javax.swing.JFrame {
 
 
     }
-
-    public void SKS_headlinePanel(SKS_Headline headline) {
-        JLabel jlabel = new JLabel();
-        jlabel.setText(headline.getHeadline());
-
-        for (int i = 0; i < headline.getQuestions().size(); i++) {
-            SKS_questionPanel(null);
-        }
-        
-    }
-
-    public void SKS_questionPanel(SKS_question question) {
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
