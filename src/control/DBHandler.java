@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import model.Worksheet;
-import model.Employee;
+import model.*;
 
 /**
  *
@@ -423,5 +422,35 @@ public class DBHandler {
         stmt.executeUpdate(query);
         query = "DELETE FROM worksheet WHERE OrdreNr = " + worksheet.getOrderId();
         stmt.executeUpdate(query);
+    }
+    
+    
+    public ArrayList<SKS_Headline> getSKSHeadlines() throws SQLException{
+        String query = "SELECT * FROM SKS_question_Headline";
+    ArrayList<SKS_Headline> headlines = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            SKS_Headline headline = new SKS_Headline(rs.getInt("headlineID"),rs.getString("headline"));
+            headlines.add(headline);
+            
+        }
+        rs.close();
+        for (int i = 0; i < headlines.size(); i++) {
+            headlines.get(i).setQuestions(retrieveQuestions(headlines.get(i)));
+            
+        }
+        return headlines;
+    }
+
+    private ArrayList<SKS_question> retrieveQuestions(SKS_Headline headline) throws SQLException{
+        String query = "SELECT * from SKS_question where Headline ="+headline.getId();
+        ArrayList<SKS_question> questions = new ArrayList<>();
+         ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            SKS_question question = new SKS_question(rs.getString("Question"));
+                    questions.add(question);
+            
+        }
+        return questions;
     }
 }
