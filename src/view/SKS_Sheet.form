@@ -78,6 +78,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="textFieldInstallationInformation">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="installations adresse, indehaver mv."/>
       </Properties>
     </Component>
@@ -97,6 +98,9 @@
     <Component class="javax.swing.JTextField" name="textFieldEndDate">
     </Component>
     <Component class="javax.swing.JTextField" name="textFieldDoneBy">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <Properties>
@@ -121,12 +125,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="748" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="475" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="305" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="259" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

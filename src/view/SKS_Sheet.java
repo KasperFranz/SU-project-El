@@ -25,7 +25,8 @@ public class SKS_Sheet extends javax.swing.JPanel {
      */
     public SKS_Sheet(Employee user, DBHandler dbHandler) throws SQLException {
         initComponents();
-
+        textFieldDoneBy.setText(user.getName());
+                
         ArrayList<SKS_Headline> headlines = dbHandler.getSKSHeadlines();
 
         int i = 0;
@@ -68,12 +69,15 @@ public class SKS_Sheet extends javax.swing.JPanel {
 
         jLabel3.setText("Dato for slutkontrol");
 
+        textFieldInstallationInformation.setEditable(false);
         textFieldInstallationInformation.setText("installations adresse, indehaver mv.");
 
         jLabel2.setText("Installationsoplysninger");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Slutkontrol ved mindre installationer");
+
+        textFieldDoneBy.setEditable(false);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -85,11 +89,11 @@ public class SKS_Sheet extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 748, Short.MAX_VALUE)
+            .addGap(0, 475, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 305, Short.MAX_VALUE)
+            .addGap(0, 259, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(jPanel1);

@@ -332,7 +332,7 @@ public class DBHandler {
         return employeeList;
     }
 
-    private String dateFormatter(String format, Date date) {
+    public String dateFormatter(String format, Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         String rtnDate = sdf.format(date);
 
