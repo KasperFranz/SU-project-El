@@ -6,6 +6,7 @@ package view;
 
 import control.DBHandler;
 import java.sql.SQLException;
+import model.Product;
 
 /**
  *
@@ -16,11 +17,11 @@ public class MaterialeItem extends javax.swing.JPanel {
     /**
      * Creates new form MaterialeItem
      */
-    public MaterialeItem(DBHandler dbHandler) throws SQLException {
+    public MaterialeItem(Product product, DBHandler dbHandler) throws SQLException {
         initComponents();
         
             
-        jLabel1.setText("hello");
+        jLabel1.setText(product.getProductName());
         
     }
 

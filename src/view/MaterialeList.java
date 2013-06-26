@@ -25,20 +25,16 @@ public class MaterialeList extends javax.swing.JPanel {
         System.out.println("hvor mange produkter:" + dbHandler.getProducts().size());
 
 
-        for (int i = 0; i < 10; i++) {
-            MaterialeItem mi = new MaterialeItem(dbHandler);
-            int y = 15;
-
+        for (int i = 0; i < dbHandler.getProducts().size(); i++) {
+            MaterialeItem mi = new MaterialeItem(dbHandler.getProducts().get(i),dbHandler);
+          
             mi.setVisible(true);
             mi.setBounds(10, 30*i, 500, 35);
             jPanel1.add(mi);
-            System.out.println(y);
+
          
         }
-//        mi = new MaterialeItem();
-//        mi.setVisible(true);
-//        mi.setBounds(10, 30, 100, 100);
-//        jPanel1.add(mi);
+
     }
 
     /**
