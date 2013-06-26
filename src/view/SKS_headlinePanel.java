@@ -17,14 +17,16 @@ public class SKS_headlinePanel extends javax.swing.JPanel {
      */
   public SKS_headlinePanel(SKS_Headline headline) {
         initComponents();
-        System.out.println(headline.getHeadline());
+        System.out.println("test" +headline.getHeadline());
         headlineLable.setText(headline.getHeadline());
 
         for (int i = 0; i < headline.getQuestions().size(); i++) {
             SKS_questionPanel sksquestion = new SKS_questionPanel(headline.getQuestions().get(i));
+            sksquestion.setVisible(true);
+            sksquestion.setBounds(0, 30*i, 600, 25);
             this.add(sksquestion);
         }
-
+setSize(700, 100+25*headline.getQuestions().size());
     }
 
 
@@ -39,24 +41,12 @@ public class SKS_headlinePanel extends javax.swing.JPanel {
 
         headlineLable = new javax.swing.JLabel();
 
-        headlineLable.setText("jLabel1");
+        setPreferredSize(new java.awt.Dimension(600, 100));
+        setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(headlineLable)
-                .addContainerGap(356, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(headlineLable)
-                .addContainerGap(275, Short.MAX_VALUE))
-        );
+        headlineLable.setText("jLabel1");
+        add(headlineLable);
+        headlineLable.setBounds(0, 0, 248, 48);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headlineLable;
