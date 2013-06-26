@@ -15,7 +15,7 @@ private int height;
     /**
      * Creates new form SKS_headlinePanel
      */
-  public SKS_headlinePanel(SKS_Headline headline,int offset) {
+  public SKS_headlinePanel(SKS_Headline headline) {
         initComponents();
         headlineLable.setText(headline.getHeadline());
         height = 0;
@@ -26,10 +26,10 @@ private int height;
             System.out.println("x:"+height+"i:"+i);
             sksquestion.setBounds(0, height, 600, 25);
             add(sksquestion);
-            setSize(700, height);
+        //    setSize(700, height);
         }
         System.out.println("PanelHeight"+height+" i:"+headline.getQuestions().size());
-        setSize(700, height);
+       // setSize(700, height);
     }
   
   public int getCurrentHeight(){
@@ -60,7 +60,9 @@ private int height;
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(headlineLable, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(headlineLable, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(346, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

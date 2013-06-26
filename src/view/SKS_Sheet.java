@@ -5,6 +5,7 @@
 package view;
 
 import control.DBHandler;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Employee;
@@ -18,32 +19,30 @@ public class SKS_Sheet extends javax.swing.JPanel {
 
     /**
      * Creates new form SKS_Sheet
-
-    /**
+     *
+     * /**
      * Creates new form SKS_Sheet
      */
-    
     public SKS_Sheet(Employee user, DBHandler dbHandler) throws SQLException {
         initComponents();
-        
+
         ArrayList<SKS_Headline> headlines = dbHandler.getSKSHeadlines();
-        
-        int currheight = 0;
-        for (int i = 0; i < headlines.size(); i++) {
-            System.out.println(headlines.size());
-            System.out.println(headlines.get(i));
-            SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i),10);
-            headlinePanel.setBounds(10, currheight, 700, headlinePanel.getCurrentHeight());
-            System.out.println("headlinepanelHeight:"+currheight);
-            currheight = currheight+5+headlinePanel.getCurrentHeight();
-            headlinePanel.setVisible(true);
-            jPanel1.add(headlinePanel);
+
+        int i = 0;
+        int currHeight = 0;
+        for (i = 0; i < headlines.size(); i++) {
+            SKS_headlinePanel hp = new SKS_headlinePanel(headlines.get(i));
+            
+            hp.setVisible(true);
+            hp.setBounds(10, currHeight, 700, hp.getCurrentHeight());
+            currHeight = currHeight + hp.getCurrentHeight();
+            jPanel1.add(hp);
         }
-        jPanel1.setSize(700, currheight+50);
-        
-        
-        
-        
+        jPanel1.setPreferredSize(new Dimension(700, currHeight));
+
+
+
+
     }
 
     /**
@@ -76,8 +75,11 @@ public class SKS_Sheet extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Slutkontrol ved mindre installationer");
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setPreferredSize(new java.awt.Dimension(750, 200));
+        jPanel1.setAutoscrolls(true);
+        jPanel1.setPreferredSize(new java.awt.Dimension(750, 1440));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,7 +89,7 @@ public class SKS_Sheet extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 198, Short.MAX_VALUE)
+            .addGap(0, 305, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -123,7 +125,7 @@ public class SKS_Sheet extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textFieldInstallationInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
