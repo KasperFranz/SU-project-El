@@ -7,8 +7,10 @@ package view;
 import control.DBHandler;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JTextField;
 import model.Employee;
+import model.Product;
 
 /**
  *
@@ -24,38 +26,34 @@ public class MaterialeList extends javax.swing.JPanel {
 
         System.out.println("hvor mange produkter:" + dbHandler.getProducts().size());
 
+        ArrayList<Product> products = dbHandler.getProducts();
+        
+        for (int i = 0; i < products.size(); i++) {
 
-        for (int i = 0; i < dbHandler.getProducts().size(); i++) {
-            
-            MaterialeItem mi = new MaterialeItem(dbHandler.getProducts().get(i),dbHandler);
-          
+            MaterialeItem mi = new MaterialeItem(products.get(i));
+
             mi.setVisible(true);
-            mi.setBounds(10, 25*i, 500, 35);
+            mi.setBounds(10, 25 * i, 500, 35);
             jPanel1.add(mi);
-
-         
         }
 
         for (int i = 1; i < 10; i++) {
-            
+
             JTextField desciption = new JTextField();
-            desciption.setBounds(33, 35*i, 200, 25);
+            desciption.setBounds(33, 35 * i, 200, 25);
             desciption.setVisible(true);
             jPanel2.add(desciption);
-         
+
             JTextField EANNumber = new JTextField();
-            EANNumber.setBounds(250, 35*i, 200, 25);
+            EANNumber.setBounds(250, 35 * i, 200, 25);
             EANNumber.setVisible(true);
             jPanel2.add(EANNumber);
-         
-            
-             JTextField number = new JTextField();
-            number.setBounds(470, 35*i, 50, 25);
+
+            JTextField number = new JTextField();
+            number.setBounds(470, 35 * i, 50, 25);
             number.setVisible(true);
             jPanel2.add(number);
-            
         }
-        
     }
 
     /**
@@ -141,8 +139,9 @@ public class MaterialeList extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );

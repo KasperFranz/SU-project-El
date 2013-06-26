@@ -17,7 +17,7 @@ public class MaterialeItem extends javax.swing.JPanel {
     /**
      * Creates new form MaterialeItem
      */
-    public MaterialeItem(Product product, DBHandler dbHandler) throws SQLException {
+    public MaterialeItem(Product product) throws SQLException {
         initComponents();
         
             
@@ -38,8 +38,6 @@ public class MaterialeItem extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
 
         jLabel1.setText("jLabel1");
-
-        jTextField1.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
