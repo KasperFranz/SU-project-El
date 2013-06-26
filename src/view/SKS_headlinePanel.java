@@ -23,7 +23,7 @@ private int height;
             SKS_questionPanel sksquestion = new SKS_questionPanel(headline.getQuestions().get(i));
             sksquestion.setVisible(true);
             height = 30*(1+i)+20+offset;
-            System.out.println("Height:"+height+"i:"+i);
+            System.out.println("x:"+height+"i:"+i);
             sksquestion.setBounds(0, height, 600, 25);
             this.add(sksquestion);
         }
