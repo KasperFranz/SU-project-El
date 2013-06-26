@@ -22,10 +22,11 @@ private int height;
         for (int i = 0; i < headline.getQuestions().size(); i++) {
             SKS_questionPanel sksquestion = new SKS_questionPanel(headline.getQuestions().get(i));
             sksquestion.setVisible(true);
-            height = 30*(1+i)+20+offset;
+            height = height+35;
             System.out.println("x:"+height+"i:"+i);
             sksquestion.setBounds(0, height, 600, 25);
-            this.add(sksquestion);
+            add(sksquestion);
+            setSize(700, height);
         }
         System.out.println("PanelHeight"+height+" i:"+headline.getQuestions().size());
         setSize(700, height);
@@ -48,11 +49,19 @@ private int height;
         headlineLable = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(600, 100));
-        setLayout(null);
 
         headlineLable.setText("jLabel1");
-        add(headlineLable);
-        headlineLable.setBounds(0, 0, 248, 48);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(headlineLable, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(headlineLable, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headlineLable;

@@ -36,6 +36,8 @@ public class SKS_questionPanel extends javax.swing.JPanel {
         questionLabel = new javax.swing.JLabel();
         answerCombo = new javax.swing.JComboBox();
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         questionLabel.setText("Spørgsmål");
 
         answerCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ja", "Nej", "Ikke aktuelt" }));
@@ -47,7 +49,7 @@ public class SKS_questionPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(questionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 470, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 468, Short.MAX_VALUE)
                 .addComponent(answerCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(

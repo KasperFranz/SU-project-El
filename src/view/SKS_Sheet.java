@@ -33,12 +33,13 @@ public class SKS_Sheet extends javax.swing.JPanel {
             System.out.println(headlines.size());
             System.out.println(headlines.get(i));
             SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i),10);
-            headlinePanel.setBounds(10, 10, 700, 100);
-            currheight = currheight+headlinePanel.getCurrentHeight();
+            headlinePanel.setBounds(10, currheight, 700, headlinePanel.getCurrentHeight());
+            System.out.println("headlinepanelHeight:"+currheight);
+            currheight = currheight+5+headlinePanel.getCurrentHeight();
             headlinePanel.setVisible(true);
             jPanel1.add(headlinePanel);
         }
-        jPanel1.setSize(700, currheight);
+        jPanel1.setSize(700, currheight+50);
         
         
         
