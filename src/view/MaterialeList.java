@@ -22,7 +22,7 @@ public class MaterialeList extends javax.swing.JPanel {
     public MaterialeList(Employee user, DBHandler dbHandler) throws SQLException {
         initComponents();
 
-        System.out.println(dbHandler.getProducts().size());
+        System.out.println("hvor mange produkter:" + dbHandler.getProducts().size());
 
 
         for (int i = 0; i < 10; i++) {
