@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JTextField;
 import model.Employee;
 import model.Product;
+import model.Worksheet;
 
 /**
  *
@@ -25,7 +26,7 @@ public class MaterialeList extends javax.swing.JPanel {
         initComponents();
 
         System.out.println("hvor mange produkter:" + dbHandler.getProducts().size());
-
+        
         ArrayList<Product> products = dbHandler.getProducts();
         
         for (int i = 0; i < products.size(); i++) {
