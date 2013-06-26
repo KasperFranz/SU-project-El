@@ -28,15 +28,18 @@ public class SKS_Sheet extends javax.swing.JPanel {
         
         ArrayList<SKS_Headline> headlines = dbHandler.getSKSHeadlines();
         
- 
-        for (int i = 5; i < headlines.size(); i++) {
+        int currheight = 0;
+        for (int i = 0; i < headlines.size(); i++) {
             System.out.println(headlines.size());
             System.out.println(headlines.get(i));
-            SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i));
-            headlinePanel.setBounds(10, 10, 100, 100);
+            SKS_headlinePanel headlinePanel = new SKS_headlinePanel(headlines.get(i),10);
+            headlinePanel.setBounds(10, 10, 700, 100);
+            currheight = currheight+headlinePanel.getCurrentHeight();
             headlinePanel.setVisible(true);
-            headlinesAddHere.add(headlinePanel);
+            jPanel1.add(headlinePanel);
         }
+        jPanel1.setSize(700, currheight);
+        
         
         
         
@@ -58,8 +61,8 @@ public class SKS_Sheet extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         textFieldEndDate = new javax.swing.JTextField();
         textFieldDoneBy = new javax.swing.JTextField();
-        scrollPane1 = new java.awt.ScrollPane();
-        headlinesAddHere = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
 
         jLabel4.setText("Udført af");
 
@@ -72,18 +75,28 @@ public class SKS_Sheet extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Slutkontrol ved mindre installationer");
 
-        headlinesAddHere.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        headlinesAddHere.setMaximumSize(new java.awt.Dimension(878, 300));
-        headlinesAddHere.setMinimumSize(new java.awt.Dimension(878, 300));
-        headlinesAddHere.setLayout(null);
-        scrollPane1.add(headlinesAddHere);
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setPreferredSize(new java.awt.Dimension(750, 200));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 748, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 198, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,9 +108,9 @@ public class SKS_Sheet extends javax.swing.JPanel {
                             .addComponent(textFieldDoneBy, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(textFieldInstallationInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 781, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,9 +121,9 @@ public class SKS_Sheet extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textFieldInstallationInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
@@ -122,12 +135,12 @@ public class SKS_Sheet extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel headlinesAddHere;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private java.awt.ScrollPane scrollPane1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField textFieldDoneBy;
     private javax.swing.JTextField textFieldEndDate;
     private javax.swing.JTextField textFieldInstallationInformation;

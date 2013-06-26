@@ -12,7 +12,8 @@ public class LoginFrame extends javax.swing.JFrame {
     private DBHandler dbhandler;
 
     public LoginFrame() throws SQLException {
-        dbhandler = new DBHandler("dat11-14_su_el", "aqR5FYEtt7q8V2HV", "hd-it.dk", "3306", "dat11-14_su_el");
+        dbhandler = new DBHandler("root", "root","localhost", "3306", "dat11-14_su_el");
+        //dbhandler = new DBHandler("dat11-14_su_el", "aqR5FYEtt7q8V2HV", "hd-it.dk", "3306", "dat11-14_su_el");
         
         initComponents();
                 checkDBHandler();

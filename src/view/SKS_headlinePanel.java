@@ -11,23 +11,29 @@ import model.SKS_Headline;
  * @author Kasper
  */
 public class SKS_headlinePanel extends javax.swing.JPanel {
-
+private int height;
     /**
      * Creates new form SKS_headlinePanel
      */
-  public SKS_headlinePanel(SKS_Headline headline) {
+  public SKS_headlinePanel(SKS_Headline headline,int offset) {
         initComponents();
-        System.out.println("test" +headline.getHeadline());
         headlineLable.setText(headline.getHeadline());
-
+        height = 0;
         for (int i = 0; i < headline.getQuestions().size(); i++) {
             SKS_questionPanel sksquestion = new SKS_questionPanel(headline.getQuestions().get(i));
             sksquestion.setVisible(true);
-            sksquestion.setBounds(0, 30*i, 600, 25);
+            height = 30*(1+i)+20+offset;
+            System.out.println("Height:"+height+"i:"+i);
+            sksquestion.setBounds(0, height, 600, 25);
             this.add(sksquestion);
         }
-setSize(700, 100+25*headline.getQuestions().size());
+        System.out.println("PanelHeight"+height+" i:"+headline.getQuestions().size());
+        setSize(700, height);
     }
+  
+  public int getCurrentHeight(){
+     return height;
+  }
 
 
     /**
