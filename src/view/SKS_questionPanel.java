@@ -40,7 +40,7 @@ public class SKS_questionPanel extends javax.swing.JPanel {
 
         questionLabel.setText("Spørgsmål");
 
-        answerCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ja", "Nej", "Ikke aktuelt" }));
+        answerCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Ja", "Nej", "Ikke aktuelt" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

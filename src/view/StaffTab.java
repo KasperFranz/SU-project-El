@@ -384,6 +384,7 @@ employeeListModel = new DefaultListModel();
                 oldEmployee.setAccessLevel(oldEmployeeAccesslevelBox.getSelectedIndex());
                 oldEmployee.setUsername(oldEmployeeUsername.getText());
                 dbHandler.updateEmployee(oldEmployee);
+                System.out.println("error not yet!");
                 loadEmployee();
             } catch (SQLException ex) {
                 System.out.println("WE GOT A ERROR ON THE UPDATE SCRIPT\n" + ex);

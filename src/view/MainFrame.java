@@ -11,7 +11,6 @@ import model.Employee;
 import model.Worksheet;
 import testPackage.CalendarPanelTest;
 
-
 /**
  *
  * @author Marc
@@ -29,43 +28,43 @@ public class MainFrame extends javax.swing.JFrame {
         activeUser = user;
 
         initComponents();
-        initiateFrames();                
+        initiateFrames();
     }
 
     private void initiateFrames() throws SQLException {
-        SKS_Sheet sheet = new SKS_Sheet(activeUser, dbhandler);
-        mainframeTabbedPane.addTab("SKS skema", sheet);
-        
-         MaterialeList mi = new MaterialeList(activeUser, dbhandler);
-        mainframeTabbedPane.addTab("Materiale liste", mi);
-        
         WelcomeTab welcome = new WelcomeTab(activeUser);
         mainframeTabbedPane.addTab("   Forside   ", welcome);
-        
+
         CalendarTab calendar = new CalendarTab(dbhandler);
         mainframeTabbedPane.addTab(" Arbejdskalender ", calendar);
 
         if (activeUser.getAccessLevel() == 1) {
             StaffTab staff = new StaffTab(dbhandler, false);
             mainframeTabbedPane.addTab("   Personale   ", staff);
-            
-           CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
-           mainframeTabbedPane.add("Rediger arbejdsseddel", tp);
+
+            CalendarPanelTest tp = new CalendarPanelTest(dbhandler);
+            mainframeTabbedPane.add("Rediger arbejdsseddel", tp);
             CreateWorksheet cw = new CreateWorksheet(dbhandler);
-            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
-            
-            
+            mainframeTabbedPane.addTab("Opret arbejdsseddel", cw);
+
+
         } else if (activeUser.getAccessLevel() == 2) {
-            StaffTab staff = new StaffTab(dbhandler,true);
+            StaffTab staff = new StaffTab(dbhandler, true);
             mainframeTabbedPane.addTab("   Personale   ", staff);
-           CalendarPanelTest tp = new  CalendarPanelTest(dbhandler);
-           mainframeTabbedPane.add("Rediger arbejdsseddel", tp); 
+            CalendarPanelTest tp = new CalendarPanelTest(dbhandler);
+            mainframeTabbedPane.add("Rediger arbejdsseddel", tp);
             CreateWorksheet cw = new CreateWorksheet(dbhandler);
-            mainframeTabbedPane.addTab("Opret arbejdsseddel" , cw);
+            mainframeTabbedPane.addTab("Opret arbejdsseddel", cw);
 
         }
+        SKS_Sheet sheet = new SKS_Sheet(activeUser, dbhandler);
+        mainframeTabbedPane.addTab("SKS skema", sheet);
 
-  
+        MaterialeList mi = new MaterialeList(activeUser, dbhandler);
+        mainframeTabbedPane.addTab("Materiale liste", mi);
+
+
+
     }
 
     /**
@@ -126,7 +125,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-      dispose();
+        dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
