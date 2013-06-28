@@ -182,7 +182,7 @@ private ArrayList<Worksheet> worksheets;
             Worksheet work = worksheets.get(jComboBox1.getSelectedIndex()-1);
            installation.append(work.getCustomerName() +"\n");
            installation.append(work.getCustomerAdress()+"\n");
-           installation.append("tlf "+work.getCustomerPhone()+"\n");
+           installation.append("tlf. "+work.getCustomerPhone()+"\n");
            installation.append(work.getJobDescription() +"\n");
             
         }
